@@ -1,4 +1,4 @@
-# Learnt Front-End
+# Online Tutoring Service Front-End
 
 To build this front-end in Angular (development server only):
 
