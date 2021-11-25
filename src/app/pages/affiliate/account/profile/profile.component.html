@@ -1,0 +1,204 @@
+<div class="page-wrapper profile">
+    <div class="box-title">
+        <h3>Personal Info</h3>
+    </div>
+    <learnt-box padding="50px 0">
+        <div class="inner">
+            <div class="change-avatar" *ngIf="me">
+                <div class="avatar">
+                    <img [src]="me.avatar" alt="{{me.shortName}}'s Avatar" *ngIf="!uploading">
+                    <learnt-spinner *ngIf="uploading"></learnt-spinner>
+                </div>
+                <div class="text">
+                    <label for="avatar">
+                        <svg width="18px" height="15px" viewBox="0 0 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                          
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Account---Personal-Info" transform="translate(-547.000000, -340.000000)" fill="#F37073">
+                                    <g id="Personal-Info" transform="translate(387.000000, 242.000000)">
+                                        <g id="Photo" transform="translate(57.000000, 76.000000)">
+                                            <path
+                                                d="M109,26.1999998 C109,26.7000035 108.825001,27.1249993 108.475,27.475 C108.124997,27.8250007 107.700001,28 107.2,28 C106.699998,28 106.275002,27.8250007 105.925,27.475 C105.574999,27.1249993 105.4,26.7000035 105.4,26.1999998 C105.4,25.6999982 105.574999,25.2750023 105.925,24.9249996 C106.275002,24.5749989 106.699998,24.3999996 107.2,24.3999996 C107.700001,24.3999996 108.124997,24.5749989 108.475,24.9249996 C108.825001,25.2750023 109,25.6999982 109,26.1999998 Z M118.599998,29.8000002 L118.599998,34 L105.4,34 L105.4,32.1999998 L108.400001,29.2000008 L109.899999,30.6999993 L114.7,25.9000001 L118.599998,29.8000002 Z M119.499999,23.2000008 L104.5,23.2000008 C104.418749,23.2000008 104.348438,23.2296864 104.289062,23.2890618 C104.229687,23.3484372 104.2,23.4187494 104.2,23.5000005 L104.2,34.8999997 C104.2,34.9812502 104.229687,35.0515619 104.289062,35.1109371 C104.348438,35.1703125 104.418749,35.1999996 104.5,35.1999996 L119.499999,35.1999996 C119.581251,35.1999996 119.651561,35.1703125 119.710936,35.1109371 C119.770311,35.0515619 119.799999,34.9812502 119.799999,34.8999997 L119.799999,23.5000005 C119.799999,23.4187494 119.770311,23.3484372 119.710936,23.2890618 C119.651561,23.2296864 119.581251,23.2000008 119.499999,23.2000008 Z M121,23.5000005 L121,34.8999997 C121,35.3125016 120.853126,35.6656231 120.559374,35.9593747 C120.265622,36.253126 119.9125,36.3999996 119.499999,36.3999996 L104.5,36.3999996 C104.087498,36.3999996 103.734376,36.253126 103.440625,35.9593747 C103.146874,35.6656231 103,35.3125016 103,34.8999997 L103,23.5000005 C103,23.0874975 103.146874,22.7343763 103.440625,22.4406262 C103.734376,22.146874 104.087498,22 104.5,22 L119.499999,22 C119.9125,22 120.265622,22.146874 120.559374,22.4406262 C120.853126,22.7343763 121,23.0874975 121,23.5000005 Z"
+                                                id="Page-1"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        <strong>Change Photo</strong>
+                    </label>
+                    <input (change)="onUserAvatarSelect($event)" type="file" id="avatar"/>
+                    <p>For optimal quality, make sure it's a head shot and formatted in square ratio.</p>
+                </div>
+            </div>
+
+            <div class="form" *ngIf="me">
+                <form [formGroup]="profileForm">
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="First Name" formControlName="first_name" required tabindex="1"/>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Last Name" formControlName="last_name" required tabindex="2"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Email" formControlName="email" required tabindex="3"/>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field class="street">
+                                <input matInput placeholder="Address" formControlName="address" required tabindex="4"/>
+                            </mat-form-field>
+                            <div class="locateicon">
+                                <div *ngIf="locating">
+                                    <learnt-spinner [thickness]="1" [size]="15"></learnt-spinner>
+                                </div>
+                                <div *ngIf="!locating" class="icon" matTooltip="Autolocate my address"
+                                     (click)="autoUpdateLocation()">
+                                    <svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="z" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Desktop---01-Account-Profile" transform="translate(-1441.000000, -185.000000)" fill-rule="nonzero"
+                                               fill="#F37073">
+                                                <g id="gps" transform="translate(1441.000000, 185.000000)">
+                                                    <circle id="Oval" cx="8.5" cy="8.5" r="2.5"></circle>
+                                                    <path
+                                                        d="M16.6457898,7.79167773 L14.8331683,7.79167773 C14.5052881,4.84201172 12.1582966,2.49468359 9.20830428,2.16676953 L9.20830428,0.354177734 C9.20830428,0.158412109 9.04992568,0 8.85416044,0 L8.14583956,0 C7.95007432,0 7.79166252,0.158412109 7.79166252,0.354177734 L7.79166252,2.16676953 C4.84167023,2.49468359 2.49467872,4.84197852 2.1667985,7.79167773 L0.354177043,7.79167773 C0.1584118,7.79167773 0,7.95008984 0,8.14582227 L0,8.85414453 C0,9.04991016 0.1584118,9.20832227 0.354177043,9.20832227 L2.1667985,9.20832227 C2.49467872,12.1579883 4.84167023,14.5053164 7.79166252,14.8332305 L7.79166252,16.6458223 C7.79166252,16.8415879 7.95007432,17 8.14583956,17 L8.85416044,17 C9.04992568,17 9.20833748,16.8415879 9.20833748,16.6458223 L9.20833748,14.8332305 C12.1582966,14.5053164 14.5053213,12.1579883 14.8332015,9.20832227 L16.645823,9.20832227 C16.8415882,9.20832227 17,9.04991016 17,8.85414453 L17,8.14582227 C16.9999668,7.95008984 16.841555,7.79167773 16.6457898,7.79167773 Z M8.4999834,13.4583223 C5.76627585,13.4583223 3.54167082,11.2340449 3.54167082,8.5 C3.54167082,5.76595508 5.76627585,3.54167773 8.4999834,3.54167773 C11.2336909,3.54167773 13.458296,5.76592187 13.458296,8.5 C13.458296,11.2340781 11.2336909,13.4583223 8.4999834,13.4583223 Z"
+                                                        id="Shape"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Zip Code" formControlName="postal_code" required tabindex="5"/>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="City" formControlName="city" required tabindex="6"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="State" formControlName="state" required tabindex="7"/>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <mat-select placeholder="Timezone" tabindex="8" formControlName="timezone" required [value]="me.timezone">
+                                    <mat-option *ngFor="let t of timezones" [value]="t.zone">{{t.zone}} <em>({{t.time}})</em></mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput readonly [matDatepicker]="picker" placeholder="Date of birth" formControlName="birthday" required [min]="minDate" [max]="maxDate"
+                                       (click)="picker.open()"/>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Telephone" formControlName="telephone" required tabindex="10"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-datepicker #picker></mat-datepicker>
+                </form>
+            </div>
+        </div>
+    </learnt-box>
+
+    <div class="box-title">
+        <h3>Security</h3>
+    </div>
+    <learnt-box padding="50px 0">
+        <div class="inner">
+            <div class="form" *ngIf="me">
+                <form [formGroup]="passwordChangeForm">
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Old Password" formControlName="old" required tabindex="11" type="password"/>
+                                <mat-error *ngIf="passwordChangeForm.get('old').hasError('required')">
+                                    Old password is required.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('old').hasError('apiError')">
+                                    {{passwordChangeForm.get('old').getError('apiError')}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div layout="row" class="gap-15 input-row">
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="New Password" formControlName="new" required tabindex="12" type="password"/>
+                                <mat-error *ngIf="passwordChangeForm.get('new').hasError('required')">
+                                    New password is required.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('new').hasError('minlength')">
+                                    New password must be bigger than 8 characters.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('new').hasError('passwordValidator')">
+                                    New password must containt at least a lowercase character, an uppercase character, and a digit.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('new').hasError('apiError')">
+                                    {{passwordChangeForm.get('new').getError('apiError')}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="input-wrapper">
+                            <mat-form-field>
+                                <input matInput placeholder="Confirm New Password" formControlName="confirm" required tabindex="13" type="password"/>
+                                <mat-error *ngIf="passwordChangeForm.get('confirm').hasError('required')">
+                                    New password confirmation is required.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('confirm').hasError('confirmPassword')">
+                                    New password confimation must be identical to the new password.
+                                </mat-error>
+                                <mat-error *ngIf="passwordChangeForm.get('confirm').hasError('apiError')">
+                                    {{passwordChangeForm.get('confirm').getError('apiError')}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </learnt-box>
+
+    <div class="delete">
+        <a (click)="deleteAccount()">Delete Account</a>
+    </div>
+
+    <div class="save" *ngIf="(profileForm.dirty && profileForm.valid) || (passwordChangeForm.dirty && passwordChangeForm.valid)">
+        <button type="button" mat-raised-button color="primary" (click)="saveChanges()">
+            <learnt-spinner *ngIf="saving" class="button-spinner" [size]="13" [thickness]="1"
+                            color="#ffffff"></learnt-spinner>
+            Save Changes
+        </button>
+        <button type="button" mat-button color="primary" (click)="revert()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+:host {
+    display: block;
+    position: fixed;
+    width: 470px;
+    max-width: 100%;
+    right: 0;
+    height: 100%;
+    background: #fff;
+    transform: translate3d(0, 0, 0);
+    padding: 50px 40px;
+
+    .head {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        border-bottom: 0.5px solid #E9E9E9;
+        h3, a {
+            font-weight: 400;
+        }
+        h3 {
+            font-size: 16px;
+            color: #585858;
+        }
+        a > span {
+            font-size: 14px;
+            color: #585858;
+        }
+        mat-icon {
+            width: 8px;
+            height: 8px;
+        }
+    }
+
+    .preloader {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tzlist {
+        position: absolute;
+        overflow: auto;
+        right: 40px;
+        left: 40px;
+        top: 100px;
+        bottom: 10px;
+    }
+
+    .tz {
+        color: #999999;
+        font-size: 1.2em;
+        border-radius: 6px;
+        cursor: pointer;
+        padding: 10px 20px 10px 10px;
+        &:hover {
+            background: rgba(137, 192, 202, 0.1);
+        }
+    }
+}

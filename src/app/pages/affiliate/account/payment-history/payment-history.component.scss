@@ -1,0 +1,91 @@
+@import '../../../../../variables.scss';
+
+:host {
+    .page-wrapper.payment-history {
+        width: 65%;
+
+        .inner {
+            padding: 0 40px;
+        }
+    }
+
+    .box-title > .right > .month {
+        display: inline-block;
+        width: 120px;
+        text-align: center;
+    }
+
+    .no-transactions {
+        text-align: center;
+        font-size: 2em;
+    }
+
+    table.payments {
+        width: 100%;
+        border-spacing: 0;
+        padding: 10px 0;
+
+        thead {
+            font-size: 13px;
+            text-align: left;
+
+            tr {
+                background: #ffffff;
+            }
+        }
+
+        tbody {
+            font-size: 15px;
+            text-align: left;
+        }
+
+        tr {
+            height: 60px;
+        }
+
+        th, td {
+            padding: 0 40px;
+        }
+
+        tr:nth-child(odd) {
+            background: #FAFAFA;
+        }
+    }
+
+    .total {
+        width: 100%;
+        background: #89C0CA;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        margin-top: 70px;
+
+        p {
+            font-size: 20px;
+            font-weight: 200;
+            color: #ffffff;
+        }
+    }
+
+    .download {
+        width: 100%;
+        background: #fff;
+        height: 130px;
+        line-height: 130px;
+        text-align: center;
+
+        ::ng-deep mat-icon {
+            height: 16px;
+            width: 20px;
+            line-height: 16px;
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        .page-wrapper.payment-history {
+            width: 100%;
+        }
+    }
+}

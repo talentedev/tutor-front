@@ -1,0 +1,107 @@
+@import '../../../variables.scss';
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        background-color: #FCF5F5;
+
+        &.more-details {
+            transform: unset !important;
+
+            aside {
+                z-index: 10;
+            }
+
+            .router {
+                z-index: unset;
+            }
+        }
+
+        .router {
+            margin: 20px 0 30px 0;
+            position: relative;
+            border-radius: 0;
+            width: auto;
+            padding: 0 15px !important;
+        }
+
+        .account-menu-expended a {
+            display: block !important;
+        }
+
+        aside {
+            display: block;
+            transition: height 0.2s cubic-bezier(0, 0, 0, 1);
+            margin: 0 15px;
+
+            &.account-menu-expended {
+                height: 300px;
+
+                .icon {
+                    display: none !important;
+                }
+            }
+
+            .icons {
+                display: block;
+                width: 100%;
+                padding: 18px;
+                .avatar learnt-user-avatar{
+                    margin: 0 auto 15px !important;
+                }
+                .icon {
+                    display: inline-block;
+                    width: 16.6%;
+                    .icon-wrapper {
+                        width: 100%;
+                    }
+                }
+                .calendar::before {
+                    width: 600%;
+                    left: 0;
+                }
+            }
+
+            .items {
+                width: 100%  !important;
+                transform: none !important;
+                transition: none !important;
+                justify-content: center;
+
+                .item {
+                    width: 100%;
+                    text-align: center;
+                    line-height: 25px;
+                    padding: 18px 0px 12px 0px;
+                    position: relative;
+                }
+
+                .icon {
+                    width: 10px;
+                    height: 10px;
+                    display: inline-block;
+                    margin-left: 5px;
+                }
+
+                .item:not(.active) {
+                    display: none;
+                }
+
+                .item:not(.active) .icon {
+                    display: none;
+                }
+
+                .button {
+                    position: static;
+                    text-align: center;
+                }
+            }
+            .name{
+              display: none;
+            }
+        }
+    }
+}
+@media (max-width: $layout-breakpoint-xs){
+    .router{
+        padding:0px !important;
+    }
+}

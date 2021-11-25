@@ -1,0 +1,22 @@
+<div layout="row">
+    <h3 mat-dialog-title flex>Send Message</h3>
+    <a class="icon-button close" (click)="close()">
+        <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+        <span>Close</span>
+    </a>
+</div>
+<form layout="column" [formGroup]="sendForm" (submit)="sendMessage($event)">
+    <mat-dialog-content>
+        <div class="name">
+            To
+            <learnt-user-avatar [user]="tutor" [size]="32" [link]="false"></learnt-user-avatar>
+            {{tutor.shortName}}
+        </div>
+        <mat-form-field class="message-input" appearance="outline" [floatLabel]="'never'">
+            <textarea matInput formControlName="message" placeholder="Your message here..." (input)="onChangeMessage()"></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions layout="row" class="gap-10">
+        <button mat-raised-button type="submit" [disabled]="noMessage" color="primary" style="width: 100px;">Send</button>
+    </mat-dialog-actions>
+</form>

@@ -1,0 +1,86 @@
+@import "src/variables";
+@import "src/mixins";
+
+:host {
+    display: flex;
+    height: 100%;
+    background-color: $background-primary;
+
+    aside {
+        width: 184px;
+        border-right: 1px solid #dedede;
+
+        nav {
+
+            padding: 20px 10px;
+
+            span {
+                line-height: 28px;
+            }
+
+            a {
+                padding: 5px;
+                font-size: 1.4em;
+                display: block;
+
+                &.active {
+                    background: #F37073;
+                    color: #fff;
+                }
+            }
+
+            ul {
+                margin-left: 10px;
+                list-style-type: none;
+            }
+        }
+    }
+
+    .contents {
+        flex:1;
+        overflow: auto;
+        @include media-breakpoint-up(sm) {
+            padding: 1rem;
+        }
+        @include media-breakpoint-up(md) {
+            padding: 3rem;
+        }
+    }
+
+    ::ng-deep .inner {
+        width: 900px;
+        margin: 0 auto;
+
+        h1 {
+            margin: 30px 0;
+        }
+
+        h2 {
+            margin: 30px 0 20px 0;
+        }
+    }
+
+    ::ng-deep table {
+        width: 100%;
+        border-collapse: collapse;
+        thead {
+            th {
+                color: #F37073;
+                background: rgba(0,0,0,0.03);
+                font-weight: 600;
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    padding: 10px;
+                }
+                &:hover {
+                        background:rgba(0,0,0,0.01);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,181 @@
+@import "../../../variables";
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        .clear-filters-button {
+            display: block;
+            text-align: center;
+            justify-content: center;    
+            margin: 30px 0px;
+            font-size: 14px !important;
+
+            span {
+                text-decoration: underline;
+                float: none;
+            }
+            svg {
+                display: none;
+            }
+        }
+        nav.filters-menu {
+            font-weight: 500;
+
+            &.mobile-tabs {
+                flex-direction: column;
+                align-items: start;
+                padding: 0px 10px;
+            }
+            
+            a {
+                display: flex !important;
+                flex: 1;
+                background-image: none;
+                position: relative;
+                width: 100%;
+                padding: 0px !important;
+
+                &.filters {
+                    width: 100%;
+                    justify-content: center;
+                    margin: 10px 0px;
+                }
+
+                &:not(.filters) {
+                    &:not(.no-underline):after {
+                        content: '';
+                        position: absolute;
+                        width: calc(100% - 50px);
+                        margin: 0px 25px;
+                        height: 1px;
+                        background: white;
+                        top: 100%;
+                        left: 0;
+                    }
+
+                    .menu-filter {
+                        width: 100%;
+                    }
+                }
+
+                .menu-filter {
+                    padding: 0px 30px;
+
+                    span {
+                        margin-left: 10px;
+                    }
+
+                    &.instant-session svg {
+                        margin-bottom: -5px;
+                    }
+    
+                    learnt-checkbox {
+                        margin-left: 15px;
+                    }
+    
+                    .icon.arrow {
+                        display: block;
+                        width: 10px;
+                        height: 10px;
+                        margin-left: 10px;
+                        float: right;
+                        transform: scale(1, 1) translateY(0%);
+                        transition: transform .2s ease-in-out;
+        
+                        &.arrowUp {
+                            transform: scale(1, -1) translateY(-50%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .when, .where, .price {
+            width: 100%;
+            background: #fafafa;
+        }
+
+        .when {
+            margin-top: 0px;
+            align-items: start;
+
+            > div {
+                width: 100%;
+            }
+
+            .general-availability, .specific-availability {
+                margin: 20px 0px 0px 0px;
+            }
+
+            learnt-general-availability {
+                padding: 0px;
+            }
+
+            .availability-toggle {
+                position: initial;
+                text-align: center;
+                font-size: 16px;
+                margin: 20px 0px;
+            }
+        }
+
+        .where {
+            .checkboxes {
+                margin: 20px 0px 15px 0px;
+            }
+
+            learnt-checkbox {
+                margin: 0 10px;
+
+                ::ng-deep label {
+                    font-size: 14px;
+                }
+            }
+
+            .location {
+                margin-top: 20px;
+                padding: 0px 20px;
+
+                input {
+                    width: 100%;
+                    font-size: 1.8em;
+                    font-weight: 100;
+                }
+
+                a.icon-button {
+                    color: black;
+                    justify-content: center;
+                    font-size: 14px;
+                    font-weight: 600;
+                    margin: 20px 0px;
+                }
+            }
+        }
+
+        .online-tab {
+            white-space: nowrap;
+            span, svg {
+                float: left;
+            }
+            learnt-checkbox {
+                float: left;
+                margin-left: 10px;
+            }
+        }
+
+        .price {
+            learnt-price-interval {
+                margin: 10px 20px 20px 20px;
+            }
+
+            ::ng-deep .value {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            ::ng-deep .min, ::ng-deep .max {
+                font-size: 14px;
+                color: black;
+            }
+        }
+    }
+}

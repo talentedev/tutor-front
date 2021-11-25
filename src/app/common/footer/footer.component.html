@@ -1,0 +1,42 @@
+<button *ngIf="!alwaysOpen" mat-raised-button [ngClass]="isFooterOpen ? 'about-us-close' : 'about-us'"
+        (click)="toggleFooterButton($event)">
+    <span>{{ isFooterOpen ? 'Close' : 'About Us, T&C And More&hellip;' }}</span>
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+
+<div class="footer-wrapper" [style.display]="isFooterOpen ? 'block' : 'none'"> 
+        <div class="footer">
+            <div class="container">
+                <div class="left">
+                    <img class="logo" src="/assets/learnt-logo-tm.svg" alt="Learnt logo" title="Learnt logo"/>
+                </div>
+                <div class="text-center links">
+                    <a target="_blank" class="link link--white" [routerLink]="['/privacy-policy']">Privacy Policy</a>
+                    <a target="_blank" class="link link--white" [routerLink]="['/terms-of-use']">Terms of Use</a>
+                </div>
+
+                <div class="right">
+                    <div class="logos">
+                        <a target="_blank" href="https://www.facebook.com/learnt.io">
+                            <mat-icon svgIcon="facebook-tiny" color="learnt-white" class="facebook"></mat-icon>
+                        </a>
+                        <a target="_blank" href="https://www.instagram.com/learntinc">
+                            <mat-icon svgIcon="instagram-tiny" color="learnt-white" class="instagram"></mat-icon>
+                        </a>
+                        <a target="_blank" href="https://twitter.com/Learnt_io">
+                            <mat-icon svgIcon="twitter-tiny" color="learnt-white" class="twitter"></mat-icon>
+                        </a>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCEGLPihFsv6dfXsWDOsOotg">
+                            <mat-icon svgIcon="youtube-tiny" color="learnt-white" class="youtube"></mat-icon>
+                        </a>
+                        <a target="_blank" href="https://www.pinterest.com/learntio">
+                            <mat-icon svgIcon="pinterest-tiny" color="learnt-white" class="pinterest"></mat-icon>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="copyright">&copy; Learnt Corporation 2021</div>
+        </div>
+</div>

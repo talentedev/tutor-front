@@ -1,0 +1,85 @@
+<div class="inner">
+    <h1>{{tutor?.shortName}}</h1>
+
+    <div *ngIf="tutor?.tutoring && tutor.tutoring.degrees">
+        <h2>Education</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th align="left">Course</th>
+                    <th align="left">School</th>
+                    <th align="left">Degree</th>
+                    <th align="left">Certificate</th>
+                    <th align="left">Verification</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tutor.tutoring.degrees">
+                    <td>{{item.course}}</td>
+                    <td>{{item.university}}</td>
+                    <td>{{item.degree}}</td>
+                    <td>
+                        <div *ngIf="item.certificate">
+                            <a [attr.href]="item.certificate.href" target="_blank">{{item.certificate.name}}</a>
+                            <em>{{item.certificate.size | filesize}}</em>
+                        </div>
+                        <div *ngIf="!item.certificate">
+                            No Certificate
+                        </div>
+                    </td>
+                    <td align="right">
+                        <div *ngIf="item.verified">
+                            <button mat-raised-button disabled="true">
+                                Already Verified
+                            </button>
+                        </div>
+                        <div *ngIf="!item.verified && item.certificate">
+                            <button mat-raised-button (click)="verify(item)">
+                                Mark as Verified
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="tutor?.tutoring && tutor.tutoring.subjects">
+        <h2>Subjects</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th align="left">Subject</th>
+                    <th align="left">Certificate</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tutor.tutoring.subjects">
+                    <td>{{item.subject.name}}</td>
+                    <td>
+                        <div *ngIf="item.certificate">
+                            <a [attr.href]="item.certificate.href" target="_blank">{{item.certificate.name}}</a>
+                            <em>{{item.certificate.size | filesize}}</em>
+                        </div>
+                        <div *ngIf="!item.certificate">
+                            No Certificate
+                        </div>
+                    </td>
+                    <td align="right">
+                        <div *ngIf="item.verified">
+                            <button mat-raised-button disabled="true">
+                                Already Verified
+                            </button>
+                        </div>
+                        <div *ngIf="!item.verified && item.certificate">
+                            <button mat-raised-button (click)="verify(item)">
+                                Mark as Verified
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

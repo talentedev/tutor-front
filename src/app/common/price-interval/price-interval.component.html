@@ -1,0 +1,14 @@
+<div class="value" layout="row" layout-align="center center">
+    <span>${{value.min}}</span>
+    <span>-</span>
+    <span>${{value.max}}</span>
+</div>
+<div layout="row" layout-align="start center">
+  <div class="min">${{min}}</div>
+  <div class="container" #bar>
+    <div class="progress" #progress></div>
+    <div class="handler" data-kind="min" #handlerLeft></div>
+    <div class="handler" data-kind="max" #handlerRight></div>
+  </div>
+  <div class="max">${{max}}</div>
+</div>

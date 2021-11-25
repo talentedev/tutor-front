@@ -1,0 +1,16 @@
+:host {
+    z-index: 10;
+    position: absolute;
+    width: 200px;
+    //max-height: 200px;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    font-size: 1.4em;
+    ::ng-deep a {
+        display: block;
+        padding: 10px;
+        &:hover {
+            background: #efefef;
+        }
+    }
+}

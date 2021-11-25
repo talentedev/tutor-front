@@ -1,0 +1,297 @@
+<learnt-calendar-header [loading]="fetchingData" *ngIf="me.isTutor()" [me]="me"></learnt-calendar-header>
+
+<div *ngIf="availFormEl.shown" class="availability-wrapper" (click)="$event.preventDefault(); $event.stopPropagation();"
+[style.top.px]="availFormEl.top" [style.left.px]="availFormEl.left">
+    <!-- Left/right pointing arrow -->
+    <div class="arrow {{availFormEl.direction}}"></div>
+
+    <!-- Form containing all the data -->
+    <form [formGroup]="availForm">
+        <div class="text">
+            <label for="fromHour">
+                I'm <span class="availability-menu">available</span> between:
+            </label>
+        </div>
+
+        <div class="select-wrapper">
+            <mat-form-field>
+                <mat-select id="fromHour" [formControlName]="'from'">
+                    <mat-option *ngFor="let h of availabilityHoursFiltered.from" [value]="h">{{h}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="availForm.get('from').hasError('apiError')">{{availForm.get('from').getError('apiError')}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="text">
+            <label for="toHour">and</label>
+        </div>
+
+        <div class="select-wrapper">
+            <mat-form-field>
+                <mat-select id="toHour" [formControlName]="'to'">
+                    <mat-option *ngFor="let h of availabilityHoursFiltered.to" [value]="h">{{h}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="availForm.get('to').hasError('apiError')">{{availForm.get('to').getError('apiError')}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="recurrent">
+            <learnt-checkbox formControlName="recurrent">Apply to all {{availFormEl.date.format('dddd')}}s</learnt-checkbox>
+        </div>
+
+        <div class="button">
+            <button mat-raised-button color="primary" type="button" (click)="addAvailability()" [disabled]="availForm.invalid">Add Availability</button>
+        </div>
+    </form>
+</div>
+
+<div class="contents calendar-contents scrollableDiv" (wheel)="onScrollDiv($event)">
+    <learnt-calendar-left-side (dateChanged)="setDate($event)" [events]="dayLessons"></learnt-calendar-left-side>
+
+    <div class="calendar-wrapper">
+        <div class="weekdays-fixed">
+            <div class="circle">
+                T/D
+            </div>
+            <div class="circle"
+                 *ngFor="let day of calendarDates"
+                 [class.today]="day.isSame(today, 'day')"
+                 [class.currentday]="day.isSame(today,'day')"
+                 [class.haslessons]="(lessons && lessons.forDate(day).length)"
+                 (click)="showAddAvailForm($event, day)"
+                 [class.availability-btn]="me.isTutor()"
+                 [learntPopoverTooltip]="lessonsForDay"
+                 direction="bottom">
+                <span class="weekday">{{day.format('ddd')}}</span>
+                <span class="day-month">{{day.format('D MMM')}}</span>
+                <ng-template #lessonsForDay>
+                    <div class="tooltip class-tooltip">
+                        <div class="data">
+                            <div class="day-lessons-list" *ngIf="lessons && lessons.forDate(day).length > 0 ; else nolessons">
+
+                                <h4>Today lessons: {{lessons.forDate(day).length}}</h4>
+                                <div class="lesson-row" *ngFor="let dayLesson of lessons.forDate(day)">
+                                    {{dayLesson.starts_at.format('hh:mm A')}} - {{dayLesson.ends_at.format('hh:mm A')}}
+                                    <span class="lesson-row-text">with</span> {{me.isTutor()? dayLesson.students[0].name : dayLesson.tutor.name}}
+                                </div>
+                            </div>
+                            <ng-template #nolessons>
+                                <div layout="column" class="nolessons">
+                                    <h3>No lessons this day</h3>
+                                    <p>Click to specify availability</p>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
+        <div id="calendar-scroller" class="calendar-flex">
+
+            <!-- Time row start -->
+            <div class="day time-row" #timeRow>
+                <div *ngFor="let time of calendarHours" class="row hour">
+                    <span [class.scrollHere]="time.format('h:00 A') == '6:00 AM'">{{ time.format('h:00 A') }}</span>
+                </div>
+            </div>
+            <!-- Time row end -->
+
+            <ng-template #availabilityEditMenu let-data>
+                <div class="edit-menu">
+                    <p>
+                        Availability set on
+                        <em>{{data.from.format('ddd, MMMM Do')}}</em>
+                        from
+                        <em>{{data.from.format('h:mma')}}</em>
+                        to
+                        <em>{{data.to.format('h:mma')}}</em>
+                    </p>
+
+                    <div class="buttons">
+                        <button *ngIf="data.recurrent" mat-raised-button color="primary" (click)="stopAvailabilityRecurrency(data.id)">Stop recurrency</button>
+                        <button mat-raised-button color="primary" (click)="deleteAvailability(data.id)">Delete availability</button>
+                    </div>
+                </div>
+            </ng-template>
+
+            <!-- Day row start -->
+            <div *ngFor="let day of calendarDates; index as i; last as isLast;" class="day" [class.currentday]="day.isSame(today,'day')" [class.last]="isLast">
+
+                <!-- AVAILABILITY -->
+                <div class="availabilities" *ngIf="availability">
+                    <div
+                        *ngFor="let av of availability.forDateSpecific(day, false)"
+                        [attr.data-range]="av.toString()"
+                        [style.height.px]="getAvailHeight(av)"
+                        [style.top.px]="getHourTopPosition(av.from)"
+                        class="available"
+                        (contextmenu)="openAvailabilityMenu($event, av)"
+                    ></div>
+                    <!-- RECURRENT -->
+                    <div
+                        *ngFor="let av of availability.forDateSpecific(day, true)"
+                        [attr.data-range]="av.toString()"
+                        [style.height.px]="getAvailHeight(av)"
+                        [style.top.px]="getHourTopPosition(av.from)"
+                        class="available-recurrent"
+                        (contextmenu)="openAvailabilityMenu($event, av, true)"
+                    ></div>
+                </div>
+                <!-- AVAILABILITY -->
+
+                <div class="lessons" *ngIf="lessons">
+                    <div *ngFor="let le of lessons.forDate(day); let li = index;" class="lesson">
+                        <div class="booked color-{{(li+i)%3}}" [ngClass]="{instant: le.duration < 30, small: le.duration < 35, big: le.duration > 60}"
+                             [style.height.px]="getLessonHeight(le)" [style.top.px]="getLessonTop(le)">
+
+                            <div class="class-wrapper" [learntPopoverTooltip]="detailsPreview" [direction]="getDirection(i)" [autoclose]="false"
+                            [autocloseTimeout]="mobile ? 0 : 100" [offsetX]="getOffset(i, 'x')" [offsetY]="getOffset(i, 'y')"
+                                 [popoverSettings]="{width: 330, height: 290}" [hider]="hider" [show-event]="mobile ? 'touchstart' : 'mouseenter'">
+
+                                <img [src]="otherFor(le).avatar" alt="{{otherFor(le).shortName}}'s Profile Photo">
+
+                                <div class="text">
+                                    <span class="name">{{otherFor(le).shortName}}</span>
+                                    <span class="class" [class.cancelled]="le.state === 4">{{le.subject.name}}</span>
+                                </div>
+                            </div>
+
+                            <ng-template #detailsPreview>
+                                <div class="tooltip class-tooltip">
+                                    <div class="data">
+                                        <div class="d-flex flex-row mb-4">
+                                            <div class="avatar">
+                                                <img [src]="otherFor(le).avatar" alt="{{otherFor(le).shortName}}'s Profile Photo">
+                                                <div *ngIf="le.Online" class="status">
+                                                    <div></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p class="subject">{{le.subject.name}}</p>
+                                                <p class="name">{{otherFor(le).shortName}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row">
+                                            <mat-icon svgIcon="time-icon"></mat-icon>
+                                            <div>
+                                                <p class="subject">{{le.starts_at.format('h:mma')}} - {{le.ends_at.format('h:mma')}}</p>
+                                                <p>{{le.starts_at.format('dddd, D MMMM')}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row">
+                                            <mat-icon svgIcon="link-icon"></mat-icon>
+                                            <div class="overflow-hidden">
+                                                <p class="subject">Link</p>
+                                                <p>{{host}}/main/class/{{le.room}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="buttons">
+                                        <button mat-raised-button color="primary" routerLink="/main/class/{{le.room}}" [disabled]="le.Offline">
+                                            Join Lesson
+                                        </button>
+                                    </div>
+
+                                        <!-- <div class="info">
+                                            <div class="name">
+                                                <p>{{otherFor(le).shortName}}</p>
+                                            </div>
+                                            <p>{{le.starts_at.format('ddd D MMMM')}}</p>
+                                            <p>{{le.starts_at.format('h:mma')}} - {{le.ends_at.format('h:mma')}}</p>
+                                            <p>{{le.subject.name}}</p>
+
+                                            <p *ngIf="le.Online">
+                                                Online
+                                                <mat-icon svgIcon="video-camera" class="vcr-icon"></mat-icon>
+                                            </p>
+
+                                            <p *ngIf="le.Offline" class="location">
+                                                <mat-icon svgIcon="mapmarker" class="location-icon"></mat-icon>
+                                                {{le.location}}
+                                            </p>
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="buttons">
+                                        <button mat-raised-button color="primary" routerLink="/main/account/calendar/details/{{le._id}}" (click)="hider.next(true)">
+                                            More Details
+                                        </button>
+                                    </div> -->
+                                </div>
+                            </ng-template>
+
+                            <ng-template #recurringLesson>
+                                <div class="tooltip">
+                                    <strong>Recurring Lesson</strong>
+                                    <p>
+                                        This symbol means this class will repeat weekly every
+                                        {{le.starts_at.format('dddd')}}
+                                        from
+                                        {{le.starts_at.format('H:mma')}}
+                                        to
+                                        {{le.ends_at.format('H:mma')}}.
+                                    </p>
+                                </div>
+                            </ng-template>
+
+                            <div *ngIf="le.recurrent" class="recurring" [learntPopoverTooltip]="recurringLesson" direction="top" [offsetY]="-5">
+                                <mat-icon svgIcon="refresh"></mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div *ngFor="let is of []" class="lesson">
+                        <div class="booked instant" [style.height.px]="getLessonHeight(is)" [style.top.px]="getInstantTop(is)">
+                            <div class="class-wrapper" [class.clickable]="mobile ? true : is.duration < 10"
+                            [learntPopoverTooltip]="instantPreview" [direction]="getDirection(i)" [autoclose]="false"
+                                 [autocloseTimeout]="0" [offsetX]="getOffset(i, 'x')" [offsetY]="getOffset(i, 'y')"
+                                 [popoverSettings]="{width: 300, height: 220}" [hider]="hider"
+                                 [show-event]="mobile ? 'touchstart' : (is.duration < 10 ? 'click' : 'mouseenter')" (click)="hider.next(true)">
+                                <mat-icon svgIcon="thunder" color="learnt-yellow"></mat-icon>
+                            </div>
+                        </div>
+
+                        <ng-template #instantPreview>
+                            <div class="tooltip class-tooltip">
+                                <div class="data">
+                                    <div class="avatar">
+                                        <img [src]="otherFor(is).avatar" alt="{{otherFor(is).shortName}}'s Profile Photo">
+                                    </div>
+
+                                    <div class="info">
+                                        <div class="name">
+                                            <p>{{otherFor(is).shortName}}</p>
+                                        </div>
+                                        <p>{{is.starts_at.format('ddd D MMMM')}}</p>
+                                        <p>{{is.starts_at.format('h:mma')}} - {{is.ended_at.format('h:mma')}}</p>
+                                    </div>
+                                </div>
+                                <div class="buttons">
+                                    <button mat-raised-button color="primary" routerLink="/main/account/calendar/details/{{is.id}}"
+                                    [queryParams]="{instant: true}" (click)="hider.next(true)">
+                                        More Details
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                    -->
+                </div>
+
+                <div *ngFor="let hour of dayHours" class="row grid-cell">
+                    <!-- Hours listing -->
+                    <div class="half-row {{hour}}" (click)="showAddAvailForm($event, day, hour)"></div>
+                    <div class="half-row {{hour}}" (click)="showAddAvailForm($event, day, hour, true)"></div>
+                </div>
+            </div>
+
+            <div id="calendar-now" *ngIf="isToday()" class="now" [style.top.px]="getHourTopPosition(today)">
+                <span>{{today.format('HH:mm')}}</span>
+            </div>
+
+        </div>
+        <!-- Day row end -->
+    </div>
+</div>

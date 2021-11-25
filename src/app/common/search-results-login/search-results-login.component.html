@@ -1,0 +1,22 @@
+<h1>Login</h1>
+<p>You need to connect to your account in order to proceed</p>
+<learnt-social-login></learnt-social-login>
+<form [formGroup]="form" layout="column" class="mat-large">
+    <div layout="row" class="gap-20">
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="your email" formControlName="email" type="email"/>
+        </mat-form-field>
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="your password" formControlName="password" type="password"/>
+        </mat-form-field>
+    </div>
+    <div layout="row" layout-align="start center" class="form-actions gap-20">
+        <button (click)="login()" mat-raised-button color="primary" [disabled]="!form.valid || working">
+            {{working ? 'Logging in...': 'Login'}}
+        </button>
+        <div layout="row" class="gap-10 links">
+            <a (click)="results.setExpandView('recover-password')">Forgot Password?</a>
+            <a (click)="results.setExpandView('register')">Sign Up</a>
+        </div>
+    </div>
+</form>

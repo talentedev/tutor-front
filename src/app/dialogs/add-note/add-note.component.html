@@ -1,0 +1,16 @@
+<div mat-dialog-title>Add note</div>
+<div mat-dialog-content>
+    <form [formGroup]="form" flex layout="column">
+        <mat-form-field>
+            <mat-label>Type:</mat-label>
+            <input matInput type="text" formControlName="type" placeholder="Type">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Note:</mat-label>
+            <input matInput type="text" formControlName="note" placeholder="Note">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="form.invalid">Save</button>
+</div>

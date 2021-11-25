@@ -1,0 +1,41 @@
+<header>
+  <div class="left" flex>
+    <div class="logo" routerLink="/">
+      <img src="/assets/logo.svg" />
+    </div>
+    <div flex class="gap"></div>
+    <img *ngIf="!isHomepage && !mobile" src="/assets/learnt-logo.svg" alt="Learnt logo" title="Learnt logo" class="logo-tiny" />
+  </div>
+  <div class="right right-states">
+    <nav class="head-links" layout="row">
+      <div *ngIf="!mobile">
+        <button mat-button *ngIf="!me" [routerLink]="['/start/register/affiliate']">
+          <img src="/assets/affiliate.svg" />
+          Become an Affiliate {{ me?.name}}
+        </button>
+        <button mat-button [routerLink]="['/start/apply']">
+          <img src="/assets/tutor.svg" />
+          Become a Tutor
+        </button>
+        <button mat-raised-button style="width: 120px;" [routerLink]="['/start/login']">
+          <img src="/assets/user-red.svg"/>
+          Login
+        </button>
+      </div>
+      <div *ngIf="mobile">
+        <button mat-button *ngIf="!me" [routerLink]="['/start/register/affiliate']">
+          <img src="/assets/affiliate.svg" />
+          Affiliate
+        </button>
+        <button mat-button [routerLink]="['/start/apply']">
+          <img src="/assets/tutor.svg" />
+          Tutor
+        </button>
+        <button mat-raised-button [routerLink]="['/start/login']">
+          <img src="/assets/user-red.svg"/>
+          Login
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>

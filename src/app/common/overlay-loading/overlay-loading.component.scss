@@ -1,0 +1,15 @@
+:host{
+    
+    display: block;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    
+    ::ng-deep .startup-screen {
+        position:absolute;
+        .spinner {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 1);
+        }
+    }
+}

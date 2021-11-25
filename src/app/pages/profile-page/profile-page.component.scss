@@ -1,0 +1,151 @@
+:host {
+    display: block;
+    background: #F3F3F3;
+    padding-bottom: 50px;
+
+    .back {
+        background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        .mat-icon {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+            margin-right: 10px;
+        }
+    }
+
+    .map {
+        height: 150px;
+        background: #ddd;
+        learnt-map {
+            height: 150px;
+        }
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        padding-bottom: 20px;
+        box-shadow: 0 1px 1px 0 rgba(0,0,0,0.10), 0 1px 2px 0 rgba(0,0,0,0.05);
+
+        h1 {
+            font-size: 4em;
+            color: #222222;
+            letter-spacing: -0.8px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            margin-top: -30px;
+        }
+
+        .rating {
+            font-size: 12px;
+            .num {
+                margin-left: 10px;
+            }
+        }
+
+        .meetkind {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            > div {
+                padding: 5px;
+                border: 1px solid #89C0CA;
+                border-radius: 100px;
+                &:first-child {
+                    margin-right: 5px;
+                }
+                svg {
+                    margin: 2px 3px;
+                }
+            }
+        }
+
+        .about {
+            margin: 0 0 40px 0;
+        }
+
+        .sharebut {
+            min-width: 46px;
+            width: 46px;
+        }
+    }
+
+    ::ng-deep .inner {
+        display: flex;
+        flex-direction: column;
+        width: 780px;
+        height: 100%;
+        margin: 0 auto;
+        &.center {
+            align-items: center;
+        }
+    }
+
+    .average-ratings {
+        margin: 20px 0;
+    }
+
+    .overall {
+        font-size: 1.2em;
+    }
+
+    .average-rating {
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        .mat-icon {
+            width: 14px;
+            height: 14px;
+            margin: 0 5px;
+        }
+    }
+
+    .loadmore {
+        margin-top: 20px;
+    }
+
+    .review {
+        color: #444444;
+        background: #FAFAFA;
+        padding: 20px;
+        position: relative;
+        margin-bottom: 10px;
+
+        .info {
+            margin-left: 10px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .time {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #DDD;
+        }
+    }
+
+    .no-results {
+        text-align: center;
+        min-height: 222px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8em;
+    }
+
+    .status.pending, .status.approved {
+        display: inline-flex;
+    }
+}

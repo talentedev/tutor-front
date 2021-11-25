@@ -1,0 +1,241 @@
+<ng-template #socials>
+    <div fxLayout="column" fxLayout.gt-sm="row nowrap" fxLayoutAlign="center center" fxLayoutGap="10px" class="w-100">
+        <learnt-social-button [social]="'google'" [action]="'login'" (clicked)="signInSocial('google')" [disabled]="working"></learnt-social-button>
+        <learnt-social-button [social]="'facebook'" [action]="'login'" (clicked)="signInSocial('facebook')" [disabled]="working">
+        </learnt-social-button>
+    </div>
+</ng-template>
+
+<ng-template #socialsSignup>
+    <div fxLayout="column" fxLayout.gt-sm="row nowrap" fxLayoutAlign="center center" fxLayoutGap="10px" class="w-100">
+        <learnt-social-button [social]="'google'" (clicked)="signUpSocial('google')" [disabled]="working"></learnt-social-button>
+        <learnt-social-button [social]="'facebook'" (clicked)="signUpSocial('facebook')" [disabled]="working"></learnt-social-button>
+    </div>
+</ng-template>
+
+<div fxLayout="row" fxLayoutAlign="center center" [ngSwitch]="mode" class="container">
+    <!-- LOGIN MODE -->
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap.gt-sm="10px" *ngSwitchCase="'login'"
+         [@enterTrigger]="'fadeIn'" class="login w-100">
+        <h3 fxHide.gt-sm>Login</h3>
+        <h1 fxHide.lt-md>Login</h1>
+
+        <form fxLayout="column" [formGroup]="loginForm" (submit)="submitLoginForm($event)" class="w-100">
+            <mat-form-field appearance="outline">
+                <mat-label><label for="login-email">Your email</label></mat-label>
+                <input id="login-email" matInput placeholder="Your Email" formControlName="email"
+                       required type="email"/>
+                <mat-error *ngIf="loginForm.get('email').hasError('required')">
+                    Email is required.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('email').hasError('email')">
+                    Email is invalid.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label><label for="password">Password</label></mat-label>
+                <input id="password" name="password" matInput type="password" formControlName="password"
+                       required placeholder="Password">
+                <a class="link link--red link--nowrap" matSuffix
+                   [routerLink]="'/start/recover-password'">Forgot password?</a>
+                <mat-error *ngIf="loginForm.get('password').hasError('required')">
+                    Password is required.
+                </mat-error>
+            </mat-form-field>
+
+            <div layout="row" layout-align="center center" class="form-actions">
+                <button learnt-button="red" [size]="'lg'" type="submit" [disabled]="!loginForm.valid || working">
+                    {{working ? 'Logging in...' : 'Login'}}
+                </button>
+            </div>
+        </form>
+
+        <div class="footer" fxFlexOffset="1rem">
+            <p>Don't have an account? <a class="link link--red link--inherit" [routerLink]='["../register"]'>Sign up
+                for free</a>.
+                <br>No credit card required.
+            </p>
+        </div>
+        <ng-container *ngTemplateOutlet="socials"></ng-container>
+    </div>
+    <!-- LOGIN MODE -->
+
+    <!-- RECOVER PASSWORD MODE -->
+    <div [attr.class]="state" *ngSwitchCase="'recover-password'" [@enterTrigger]="'fadeIn'" fxLayout="column" fxLayoutAlign="start center">
+        <h1 fxHide fxShow.gt-sm="true">Forgot Password</h1>
+        <h3 fxHide.gt-sm>Forgot Password</h3>
+        <p class="text-center">Tell us your email and we’ll send you the instructions to reset your password.</p>
+        <form layout="column" [formGroup]="recoverPasswordForm" (submit)="submitForgotPasswordForm()"
+              class="short-form" fxLayout="column" fxLayoutAlign="start center" fxFill>
+            <mat-form-field appearance="outline">
+                <mat-label><label for="email">Your email</label></mat-label>
+                <input matInput id="email" name="email" required placeholder="Your Email" formControlName="email" type="email"/>
+                <mat-error *ngIf="recoverPasswordForm.get('email').hasError('required')">
+                    Email is required.
+                </mat-error>
+                <mat-error *ngIf="recoverPasswordForm.get('email').hasError('email')">
+                    Email is invalid.
+                </mat-error>
+            </mat-form-field>
+
+            <div class="form-actions" fxLayout="row" fxLayoutGap="10px">
+                <button learnt-button="red" type="submit" color="primary" [disabled]="!recoverPasswordForm.valid">
+                    Recover password
+                </button>
+                <button learnt-button [routerLink]="[routeLogin]">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <!-- RECOVER PASSWORD MODE -->
+
+    <!-- CHANGE PASSWORD MODE -->
+    <div [attr.class]="state" *ngSwitchCase="'change-password'" [@enterTrigger]="'fadeIn'">
+        <h1>Change Password</h1>
+        <p>Enter a secure, new password</p>
+        <form layout="column" [formGroup]="passwordChangeForm" (submit)="submitChangePasswordForm()"
+              class="short-form change-password">
+            <div class="input-wrapper">
+                <mat-form-field>
+                    <input matInput placeholder="New password" formControlName="password" type="password"/>
+                    <mat-error *ngIf="passwordChangeForm.get('password').hasError('minlength')">
+                        The password must be bigger than 8 characters.
+                    </mat-error>
+                    <mat-error *ngIf="passwordChangeForm.get('password').hasError('passwordValidator')">
+                        The password must contain at least a lowercase character, an uppercase character, and a
+                        digit.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-wrapper">
+                <mat-form-field>
+                    <input matInput placeholder="Confirm new password" formControlName="confirmPassword"
+                           type="password"/>
+                    <mat-error *ngIf="passwordChangeForm.get('confirmPassword').hasError('required')">
+                        The confirmation password is required.
+                    </mat-error>
+                    <mat-error *ngIf="passwordChangeForm.get('confirmPassword').hasError('confirmPassword')">
+                        The confirmation password must be identical with the password.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="form-actions gap-10" layout="row">
+                <button mat-raised-button color="primary" [disabled]="!passwordChangeForm.valid">Change</button>
+                <button mat-raised-button routerLink="/login">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <!-- CHANGE PASSWORD MODE -->
+
+    <!-- SIGNUP MODE -->
+    <div *ngSwitchCase="'register'" [@enterTrigger]="'fadeIn'" class="register" fxFill fxLayoutAlign="start center" fxLayout="column">
+
+        <div [ngSwitch]="isAffiliate" class="title">
+            <ng-container *ngSwitchCase="true">
+                <h3 fxHide.gt-sm>Join our affiliate program</h3>
+                <h1 fxHide.lt-md>Join our affiliate program</h1> 
+            </ng-container>
+            <ng-container *ngSwitchCase="false">
+                <h3 fxHide.gt-sm>Student Sign Up</h3>
+                <h1 fxHide.lt-md>Student Sign Up</h1>
+            </ng-container>
+        </div>
+
+        <p class="register-subtitle">
+            Please create an account in order to proceed.
+        </p>
+
+        <form [formGroup]="registerForm" (submit)="submitRegisterForm($event)" class="register-form" fxLayout="column">
+            <div fxLayout="column" fxLayout.gt-sm="row nowrap" fxLayoutGap.gt-sm="10px">
+                <mat-form-field appearance="outline">
+                    <mat-label><label for="first-name">Your first name</label></mat-label>
+                    <input required matInput id="first-name" type="text" placeholder="Your first name"
+                           formControlName="firstName"/>
+                    <mat-error *ngIf="signUpField('firstName').hasError('required')">
+                        First name is required.
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Your last name</mat-label>
+                    <input required type="text" matInput placeholder="Your last name" formControlName="lastName"/>
+                    <mat-error *ngIf="signUpField('lastName').hasError('required')">
+                        Last name is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column">
+                <mat-form-field appearance="outline">
+                    <mat-label>Your email</mat-label>
+                    <input required type="email" matInput placeholder="Your email" formControlName="email"/>
+                    <mat-error *ngIf="signUpField('email').hasError('required')">
+                        Email address is required.
+                    </mat-error>
+                    <mat-error *ngIf="signUpField('email').hasError('email')">
+                        Email address is invalid.
+                    </mat-error>
+                    <mat-error *ngIf="signUpField('email').hasError('apiError')">
+                        {{signUpField('email').getError('apiError')}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayout.gt-sm="row nowrap" fxLayoutGap.gt-sm="10px">
+                <mat-form-field appearance="outline" class="password">
+                    <mat-label>Password</mat-label>
+                    <input required type="password" matInput placeholder="Your password" formControlName="password"
+                           [matTooltipPosition]="'above'"
+                           [matTooltip]="'Password must be at least 8 characters and contain at least a lowercase and uppercase character, and a digit.'"/>
+                    <mat-error *ngIf="passwordField.hasError('minlength')">
+                        The password must be at least 8 characters.
+                    </mat-error>
+                    <mat-error *ngIf="passwordField.hasError('hasLowercase')">
+                        {{ passwordField.getError('hasLowercase') }}
+                    </mat-error>
+                    <mat-error *ngIf="passwordField.hasError('hasUppercase')">
+                        {{ passwordField.getError('hasUppercase') }}
+                    </mat-error>
+                    <mat-error *ngIf="passwordField.hasError('hasDigit')">
+                        {{ passwordField.getError('hasDigit') }}
+                    </mat-error>
+                    <mat-error *ngIf="passwordField.hasError('apiError')">
+                        {{signUpField('password').getError('apiError')}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="password confirmation">
+                    <mat-label>Password confirmation</mat-label>
+                    <input required type="password" matInput placeholder="Password confirmation"
+                           formControlName="confirmPassword"/>
+                    <mat-error *ngIf="signUpField('confirmPassword').hasError('required')">
+                        The password confirmation is required.
+                    </mat-error>
+                    <mat-error *ngIf="signUpField('confirmPassword').hasError('confirmPassword')">
+                        The confirmation password must be identical with the password.
+                    </mat-error>
+                    <mat-error *ngIf="signUpField('confirmPassword').hasError('apiError')">
+                        The confirmation password must be identical with the password.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" class="input-wrapper" *ngIf="!isAffiliate">
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="referrerCode" placeholder="Referral code" type="text"/>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center">
+                <button learnt-button="red" type="submit" [disabled]="!registerForm.valid || working" class="btn-sign-up">
+                    {{working ? 'Signing Up...' : 'Sign Up'}}
+                </button>
+            </div>
+            
+            <div fxLayout="row" fxFlexOffset="1rem" fxLayoutAlign="center">
+                <p>Already have an account? <a routerLink="/start/login" class="link link--inherit link--red">Sign in</a></p>
+            </div>
+        </form>
+
+        <ng-container *ngIf="!isAffiliate">
+            <ng-container *ngTemplateOutlet="socialsSignup"></ng-container> 
+        </ng-container>
+
+    </div>
+    <!-- SIGNUP MODE -->
+</div>

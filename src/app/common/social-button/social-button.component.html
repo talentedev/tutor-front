@@ -1,0 +1,5 @@
+<button class="btn btn--social" [disabled]="disabled" routerLink="/start/register" [queryParams]="{social: social}" #button fxFlexFill fxLayout="row"
+        (click)="onClick($event)">
+    <mat-icon [svgIcon]="getIcon()"></mat-icon>
+    <span class="btn__text">{{ getTextContent() }}</span>
+</button>

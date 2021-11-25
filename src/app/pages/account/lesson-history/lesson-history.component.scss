@@ -1,0 +1,112 @@
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > .contents {
+        flex: 1;
+    }
+
+    .navigate {
+        mat-icon {
+            width: 11px;
+            height: 11px;
+        }
+        div {
+            font-size: 14px;
+            padding: 2px 20px;
+            width: 150px;
+            text-align: center;
+        }
+    }
+
+    .inner-contents {
+        .inner {
+            width: 85%;
+        }
+    }
+
+    .header {
+        .title {
+            a {
+                font-size: 12px;
+            }
+
+            .mat-icon {
+                height: 8px;
+            }
+        }
+    }
+
+    table > thead > tr > th {
+        text-align: left;
+    }
+
+    .no-results {
+        height: 300px;
+        font-size: 26px;
+    }
+
+    .icon-wrapper {
+        border-radius: 30px;
+        font-size: 0.8em;
+        padding: 4px 10px;
+        white-space: nowrap;
+        display: inline-flex;
+        position: relative;
+
+        text-align: left;
+        width: 90px;
+
+        div {
+            float: right;
+            margin-left: 4px;
+        }
+
+        mat-icon {
+            padding-top: 1px;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        &.pending {
+            color: #444444;
+            background: #F8EB76;
+            ::ng-deep .mat-icon {
+                width: 14px;
+                height: 14px;
+                path {
+                    fill: #222;
+                }
+            }
+        }
+
+        &.approved {
+            color: #ffffff;
+            background: #89C0CA;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+
+        &.cancelled {
+            color: #ffffff;
+            background: #F37073;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+    }
+}

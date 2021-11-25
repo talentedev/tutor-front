@@ -1,0 +1,43 @@
+:host {
+    display: block;
+    position: relative;
+
+    .record-btn {
+        .mat-icon {
+            max-width: 12px;
+            max-height: 1em;
+        }
+    }
+
+    .video__container {
+        position: relative;
+        max-width: 100%;
+        background: #000;
+
+        .video__controls {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 5px;
+        }
+    }
+
+    video {
+        width: 100%;
+        max-height: 300px;
+    }
+
+    .duration {
+        text-shadow: 1px 1px 1px white;
+        font-size: 1rem;
+        background-color: rgba(255,255,255,0.1);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .controls {
+        width: 100%;
+    }
+}

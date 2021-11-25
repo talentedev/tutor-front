@@ -1,0 +1,8 @@
+<nav class="mainnav" #menu layout="column" layout-gt-sm="row" layout-align="center center" [class.mobile-menu-expanded]="menuExpanded" (click)="expand($event)">
+    <a routerLink="/main/profile/edit" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Personal info<mat-icon  class="icon arrow" svgIcon="arrow-down" color="learnt-yellow"></mat-icon></a>
+    <a routerLink="/main/account/payment" routerLinkActive="active">Payment Preferences<mat-icon  class="icon arrow" svgIcon="arrow-down" color="learnt-yellow"></mat-icon></a>
+    <a routerLink="/main/account/payment" routerLinkActive="active">Payment History<mat-icon  class="icon arrow" svgIcon="arrow-down" color="learnt-yellow"></mat-icon></a>
+    <a routerLink="/main/account/lessons" routerLinkActive="active">Lessons<mat-icon  class="icon arrow" svgIcon="arrow-down" color="learnt-yellow"></mat-icon></a>
+</nav>
+
+<router-outlet></router-outlet>

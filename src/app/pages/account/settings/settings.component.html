@@ -1,0 +1,92 @@
+<div class="content">
+    <learnt-account-box>
+        <div class="header">
+            <div class="title">Security</div>
+        </div>
+        <div class="contents">
+            <form [formGroup]="form">
+                <div class="d-flex flex-wrap">
+                    <div class="input-wrapper">
+                        <p class="m-0">Old password</p>
+                        <input type="password" class="border-0" placeholder="****" formControlName="old" required>
+                        <div class="error" *ngIf="form.get('old').hasError('required')">
+                            Old password is required.
+                        </div>
+                        <div class="error" *ngIf="form.get('old').hasError('apiError')">
+                            {{form.get('old').getError('apiError')}}
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <p class="m-0">New Password</p>
+                        <input type="password" class="border-0" placeholder="****" formControlName="new" required>
+                        <div class="error" *ngIf="!mobile && form.get('new').hasError('required')">
+                            New password is required.
+                        </div>
+                        <div class="error" *ngIf="!mobile && form.get('new').hasError('minlength')">
+                            New password must be bigger than 8 characters.
+                        </div>
+                        <div class="error" *ngIf="!mobile && form.get('new').hasError('passwordValidator')">
+                            New password must containt at least a lowercase character, an uppercase character, and a digit.
+                        </div>
+                        <div class="error" *ngIf="!mobile && form.get('new').hasError('apiError')">
+                            {{form.get('new').getError('apiError')}}
+                        </div>
+                    </div>
+                    <div class="mobile-error" *ngIf="mobile && form.get('new').hasError('required')">
+                        New password is required.
+                    </div>
+                    <div class="mobile-error" *ngIf="mobile && form.get('new').hasError('minlength')">
+                        New password must be bigger than 8 characters.
+                    </div>
+                    <div class="mobile-error" *ngIf="mobile && form.get('new').hasError('passwordValidator')">
+                        New password must containt at least a lowercase character, an uppercase character, and a digit.
+                    </div>
+                    <div class="mobile-error" *ngIf="mobile && form.get('new').hasError('apiError')">
+                        {{form.get('new').getError('apiError')}}
+                    </div>
+                    <div class="input-wrapper">
+                        <p class="m-0">Confirm password</p>
+                        <input type="password" class="border-0" placeholder="****" formControlName="confirm" required>
+                        <div class="error" *ngIf="form.get('confirm').hasError('required')">
+                            New password confirmation is required.
+                        </div>
+                        <div class="error" *ngIf="form.get('confirm').hasError('confirmPassword')">
+                            New password confimation must be identical to the new password.
+                        </div>
+                        <div class="error" *ngIf="form.get('confirm').hasError('apiError')">
+                            {{form.get('confirm').getError('apiError')}}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </learnt-account-box>
+
+    <div class="header">
+        <div class="title">Notifications</div>
+    </div>
+    <div>
+        <div *ngIf="disabledNotif">
+            <p class="notification-warning check-title">You will not be able to receive any notifications, and may miss important alerts.</p>
+        </div>        
+        <p class="check-title">I want to receive reminders, notifications, and updates from Learnt.</p>
+        <div class="d-flex">
+            <div class="toggle-btn" >
+                <mat-slide-toggle (change)="onSMSNotificationChange($event)" [checked]="me.preferences.receive_sms_updates">SMS</mat-slide-toggle>
+            </div>
+            <div class="toggle-btn" >
+                <mat-slide-toggle (change)="onNotificationChange($event)" [checked]="me.preferences.receive_updates">Email</mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer" *ngIf="form.dirty && form.valid">
+    <div class="inner center gap-15" layout="row" layout-align="center center">
+        <button type="submit" mat-raised-button color="primary" (click)="save()">
+            <learnt-spinner *ngIf="saving" class="button-spinner" [size]="13" [thickness]="1" color="#ffffff"></learnt-spinner>
+            Save Changes
+        </button>
+        <button mat-raised-button (click)="revert()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+@media (min-width: 960px) {
+    :host {
+        aside {
+            padding: 60px 100px 0;
+            width: 400px;
+            flex-direction: column;
+            h1 {
+                margin-top: 12px;
+            }
+            button {
+                margin-top: 20px;
+            }
+            .nav {
+                margin-top: 80px;
+                a {
+                    display: inline-block;
+                    line-height: 27px;
+                    border-bottom: 5px solid transparent;
+                    margin-bottom: 25px;
+                    &.active {
+                        border-bottom: 5px solid #89C0CA;
+                    }
+                }
+            }
+        }
+    }
+}

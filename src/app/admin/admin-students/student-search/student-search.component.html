@@ -1,0 +1,54 @@
+<mat-form-field>
+    <input matInput type="text" placeholder="Search name or email" [formControl]="queryControl">
+</mat-form-field>
+<table mat-table [dataSource]="dataSource" #matTable>
+    <!-- first name -->
+    <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{ user.profile.first_name }}</mat-cell>
+    </ng-container>
+
+    <!-- last name -->
+    <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{ user.profile.last_name }}</mat-cell>
+    </ng-container>
+
+    <!-- username -->
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <a [routerLink]="['/admin/students/', user._id]" matTooltip="View profile">{{ user.username }}</a></mat-cell>
+    </ng-container>
+
+    <!-- action -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let user" class="actions">
+            <a mat-icon-button color="primary" [routerLink]="['/admin/students/', user._id]" (click)="studentService.editMode = true" class="link">
+                <mat-icon [matTooltip]="'Edit profile'">edit</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="messageStudent($event, user)" *ngIf="user.intercom">
+                <mat-icon [matTooltip]="'Message student via intercom'">mail</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="grantCreditsDialog(user)">
+                <mat-icon [matTooltip]="'Grant credits'">payment</mat-icon>
+            </a>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="notFound">
+        <mat-footer-cell *matFooterCellDef>No results</mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;" [class.loading]="loading"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay" [class.hidden]="footerToDisplay.length < 1"></mat-footer-row>
+</table>
+<mat-paginator
+    #MatPaginator
+    [pageSizeOptions]="[10, 50, 100]"
+    [pageSize]="studentService.pageSize"
+    [pageIndex]="studentService.pageIndex"
+    [length]="count"
+    showFirstLastButtons></mat-paginator>

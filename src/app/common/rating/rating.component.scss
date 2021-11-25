@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-wrap: nowrap;
+    .star {
+        width: 13px;
+        height: 13px;
+        float: left;
+        padding: 1px;
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}

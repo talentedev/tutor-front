@@ -1,0 +1,22 @@
+:host {
+    display: flex;
+    &.highlight {
+        > div {
+            transition: opacity 300ms linear;
+            margin-right: 4px;
+        }
+        &.matched {
+            > div:not(.matched) {
+                opacity: 0.2;
+            }
+        }
+    }
+    &.only {
+        > div {
+            display: none;
+        }
+        .matched {
+            display: block;
+        }
+    }
+}

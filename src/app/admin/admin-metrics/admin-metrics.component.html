@@ -1,0 +1,99 @@
+<div class="inner-metric">
+	<div layout-align="start center" class="header">
+        <h1>Metrics</h1>
+    </div>
+	<div class="hourly">
+		<div layout-align="start center" class="header">
+    		<h2>HOURLY</h2>
+    	</div>
+		<div class="metric-radio" layout="row" layout-align="start center">
+			<mat-radio-group  aria-label="metric-hourly">
+			  <mat-radio-button name="hourly" value="Sessions" checked="checked" (click)=hourlyLessonMetric($event)>Sessions</mat-radio-button>
+			  <mat-radio-button name="hourly" value="Instant Sessions" (click)=hourlyInstantLessonMetric($event)>Instant Sessions</mat-radio-button>
+			</mat-radio-group>
+
+		</div>
+		<div class="picker" layout-align="start center">
+			<label for="picker-hourly"><b>Date Range: </b></label>
+			<input type="text" matInput
+			    ngxDaterangepickerMd
+			    [locale]="{applyLabel: 'ok', format: 'MM-DD-YYYY'}"
+			    [customRangeDirection]="false"
+			    startKey="startDate"
+			    endKey="endDate"
+			    [(ngModel)]="selectedHourly"
+			    name="daterange-hourly" (change)="changeHourly($event)" [showCancel]="true" [showDropdowns]="true" placeholder="Choose date" id="picker-hourly" class="form-control"/>
+		</div>
+		<div class="toolbar">
+          <button id="1d" [ngClass]="{'active': tabIndex === 1}" (click)="onTabClick(1)">
+            Last 1 Day
+          </button>
+          <button id="2d" [ngClass]="{'active': tabIndex === 2}" (click)="onTabClick(2)">
+            Last 2 Days
+          </button>
+          <button id="4d" [ngClass]="{'active': tabIndex === 4}" (click)="onTabClick(4)">
+            Last 4 Days
+          </button>
+          <button id="7d" [ngClass]="{'active': tabIndex === 7}" (click)="onTabClick(7)">
+            Last 7 Days
+          </button>
+          <button id="all" [ngClass]="{'active': tabIndex === -1}" (click)="onTabClick(-1)">
+            ALL
+          </button>
+        </div>
+		<div class="metric-chart-hourly" align="center">
+			<apx-chart
+			  [colors]="commonOptions.colors"
+			  [series]="chart2options.series"
+			  [chart]="chart2options.chart"
+			  [dataLabels]="commonOptions.dataLabels"
+			  [markers]="chart2options.markers"
+			  [title]="chart2options.title"
+			  [fill]="commonOptions.fill"
+			  [yaxis]="commonOptions.yaxis"
+			  [xaxis]="chart2options.xaxis"
+			  [tooltip]="commonOptions.tooltip"
+			  [autoUpdateSeries]="true"
+			></apx-chart>
+		</div>
+	</div>
+    <div class="daily">
+    	<div layout-align="start center" class="header">
+    		<h2>DAILY</h2>
+    	</div>
+		<div class="metric-radio" layout="row" layout-align="start center">
+			<mat-radio-group  aria-label="metric">
+			  <mat-radio-button name="daily" value="Sessions" checked="checked" (click)=lessonMetric($event)>Sessions</mat-radio-button>
+			  <mat-radio-button name="daily" value="Instant Sessions" (click)=instantLessonMetric($event)>Instant Sessions</mat-radio-button>
+			</mat-radio-group>
+
+		</div>
+		<div class="picker" layout-align="start center">
+			<label for="picker"><b>Date Range: </b></label>
+			<input type="text" matInput
+			    ngxDaterangepickerMd
+			    [locale]="{applyLabel: 'ok', format: 'MM-DD-YYYY'}"
+			    [customRangeDirection]="false"
+			    startKey="startDate"
+			    endKey="endDate"
+			    [(ngModel)]="selected"
+			    name="daterange" (change)="change($event)" [showCancel]="true" [showDropdowns]="true" placeholder="Choose date" id="picker" class="form-control"/>
+		</div>
+		<div class="metric-chart" align="center">
+			<apx-chart
+			  [colors]="commonOptions.colors"
+			  [series]="chart1options.series"
+			  [chart]="chart1options.chart"
+			  [dataLabels]="commonOptions.dataLabels"
+			  [markers]="chart1options.markers"
+			  [title]="chart1options.title"
+			  [fill]="commonOptions.fill"
+			  [yaxis]="commonOptions.yaxis"
+			  [xaxis]="chart1options.xaxis"
+			  [tooltip]="commonOptions.tooltip"
+			  [autoUpdateSeries]="true"
+			></apx-chart>
+		</div>
+	</div>
+	
+</div>

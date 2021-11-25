@@ -1,0 +1,62 @@
+<div class="inner-contents">
+    <div class="inner" layout="column">
+        <learnt-account-box>
+            <div class="header">
+                <div class="title">
+                    Lesson History
+                    <ng-container *ngIf="other">
+                        - classes with {{other.shortName}}
+
+                        <a (click)="withUser(null)">
+                            <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+                        </a>
+                    </ng-container>
+                </div>
+                <div flex></div>
+                <div layout="row" class="navigate">
+                    <a (click)="navigate(-1)">
+                        <mat-icon svgIcon="arrow-left"></mat-icon>
+                    </a>
+                    <div class="date">{{offset.format('MMMM YYYY')}}</div>
+                    <a (click)="navigate(1)">
+                        <mat-icon svgIcon="arrow-right"></mat-icon>
+                    </a>
+                </div>
+            </div>
+            <div class="contents">
+                <div *ngIf="working" layout="row" layout-align="center center">
+                    <learnt-spinner></learnt-spinner>
+                </div>
+                <div class="no-results" *ngIf="!working && lessons.length === 0" layout="row" layout-align="center center">
+                    There are no lessons for {{offset.format('MMMM YYYY')}}
+                </div>
+                <table *ngIf="!working && lessons.length > 0">
+                    <thead>
+                    <tr>
+                        <th>Tutor</th>
+                        <th>Subject</th>
+                        <th>Location</th>
+                        <th>Starts At</th>
+                        <th>Ends At</th>
+                        <th>State</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let l of lessons">
+                        <td>
+                            <a (click)="withUser(l.tutor)">{{l.tutor.shortName}}</a></td>
+                        <td>{{l.subject.name}}</td>
+                        <td>
+                            <ng-container *ngIf="l.Online; else offline">Online</ng-container>
+                            <ng-template #offline>{{l.location}}</ng-template>
+                        </td>
+                        <td>{{l.starts_at.format('dddd, MMM Do, h:mm a')}}</td>
+                        <td>{{l.ends_at.format('dddd, MMM Do, h:mm a')}}</td>
+                        <td>{{l.State}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </learnt-account-box>
+    </div>
+</div>

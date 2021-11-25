@@ -1,0 +1,179 @@
+@import "../../../variables";
+@import "src/mixins";
+
+:host {
+    @include media-breakpoint-up(sm) {
+        .search-result-overlay.show {
+            opacity: 1;
+        }
+
+        .results-container {
+            height: 100%;
+            flex: 1;
+            overflow-y: scroll;
+            padding: 0px 30px;
+            justify-content: center;
+            position: relative;
+
+            > div {
+                padding: 15px 30px;
+            }
+        }
+
+        .tried-online {
+            font-size: 16px;
+            color: #444444;
+        }
+
+        .results {
+            height: 100%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+
+            .tutors-wrapper {
+                learnt-search-result-tutor {
+                    display: inline-block;
+                    margin: 10px;
+                }
+
+                .tutors-bottom-spacer {
+                    height: 50px;
+                }
+
+                &.columns-3 {
+                    max-width: calc(250px * 3 + 10px * (3 * 2));
+                }
+
+                &.columns-4 {
+                    max-width: calc(250px * 4 + 10px * (4 * 2));
+                }
+            }
+        }
+    }
+
+    position: relative;
+    background: #F3F3F3;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 8rem;
+
+    .search-result-overlay {
+        position: fixed; /* Positioning and size */
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 10;
+        background-color: rgba(139, 141, 139, 0.46); /* color */
+        opacity: 0; /* making it hidden by default */
+        pointer-events: none;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .result {
+        display: block;
+        @include media-breakpoint-up(sm) {
+            display: inline-block;
+        }
+    }
+
+    .no-results {        
+        height: fit-content;
+
+        .message {
+            font-size: 2em;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+    }
+
+    .fetching {
+        margin: 50px;
+        font-size: 1.4em;
+    }
+
+    .map-toggle {
+        position: absolute;
+        z-index: 10;
+        right: 20px;
+        top: 70px;
+        opacity: 0.4;
+        width: 40px;
+        height: 40px;
+        background: rgba(243, 112, 115, 0.8%);
+        border: 1px solid #F37073;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    ::ng-deep .map-user-marker {
+        div {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.4);
+            img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+
+    .you-are-searching-for {
+        height: 14px;
+        font-family: 'proximasoft-regular', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #89c0ca;
+        margin-right: 5px;
+        opacity: 0.75;
+    }
+
+    .chosen-filter-button {
+        height: 21px;
+        border-radius: 10.5px;
+        border: solid 1px #f37073;
+        font-family: 'proximasoft-regular', sans-serif;
+        transition: all ease 0.3s;
+        transform: scale(1.0);
+        outline: none;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 21px;
+        letter-spacing: normal;
+        color: #f37073;
+        margin-right: 5px;
+        padding: 0 15px;
+        background-color: transparent;
+        opacity: 0.75;
+    }
+
+    .chosen-filter-button:hover {
+        transform: scale(1.0);
+    }
+
+    .chosen-filter-button-clickable {
+        cursor: pointer;
+    }
+}
+
+::ng-deep .notifications {
+    z-index: 1001;
+}

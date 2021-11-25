@@ -1,0 +1,19 @@
+<aside>
+    <nav>
+        <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/main/dashboard">< Back</a>
+        <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/admin">Dashboard</a>
+        <a routerLinkActive="active" routerLink="/admin/tutors">Tutors</a>
+        <a routerLinkActive="active" routerLink="/admin/students">Students</a>
+        <a routerLinkActive="active" routerLink="/admin/settings">Platform settings</a>
+        <a routerLinkActive="active" routerLink="/admin/footer-links">Footer Links</a>
+        <a routerLinkActive="active" routerLink="/admin/pages">Pages</a>
+        <a routerLinkActive="active" routerLink="/admin/posts">Posts</a>
+        <a routerLinkActive="active" routerLink="/admin/online">Online</a>
+        <a routerLinkActive="active" routerLink="/admin/subjects">Subjects</a>
+        <a routerLinkActive="active" routerLink="/admin/metrics">Metrics</a>
+        <a routerLinkActive="active" routerLink="/admin/credits-summary">Credits Report</a>
+    </nav>
+</aside>
+<div class="contents">
+    <router-outlet></router-outlet>
+</div>

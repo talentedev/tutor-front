@@ -1,0 +1,87 @@
+@import '../../../variables.scss';
+
+:host {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+
+    .label {
+        font-size: 1.4em;
+        color: #444444;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .toggle {
+        width: 64px;
+        height: 31px;
+        background:#FFF3F3;
+        border-radius: 100px;
+        position: relative;
+        display: flex;
+        .circle {
+            width: 17px;
+            height: 17px;
+            background: #89C0CA;
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+        }
+
+        .on,.off {
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            letter-spacing: -0.24px;
+            position:absolute;
+            width: 48px;
+            top: 11px;
+            flex: 1;
+            color: #444444;
+        }
+
+        .off { right: 0; }
+
+        .on { left: 0; }
+    }
+
+    &.active .toggle {
+        background: #EFFDFF;
+    }
+
+    &:focus {
+        .toggle {
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+
+@media(max-width: $layout-breakpoint-xs) {
+    :host {
+        margin: 0 3px !important;
+        .label {
+            margin-right: 0 !important;
+        }
+        .toggle {
+            .on,.off {
+                top: 8px;
+            }
+            .off {
+                height: 56%;
+                font-weight: bolder;
+                letter-spacing: 1px;
+            }
+            .on {
+                height: 56%;
+                font-weight: bolder;
+                letter-spacing: 1px;                
+            }
+        }                             
+    }
+}
+

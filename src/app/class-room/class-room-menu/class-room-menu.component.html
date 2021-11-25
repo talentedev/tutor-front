@@ -1,0 +1,12 @@
+<ul>
+    <li *ngFor="let menu of root"
+        [attr.index]="menu.index" [class.expanded]="menu.__hover" (mouseenter)="onMouseOver($event, menu)" (mouseleave)="onMouseOut($event, menu)">
+        <span>{{getLabelOf(menu)}}</span>
+        <ul *ngIf="menu.children">
+            <li *ngFor="let submenu of menu.children"
+                [attr.index]="submenu.index" [class.disabled]="isDisabled(submenu)" (click)="onClick($event, submenu, menu)">
+                <span>{{getLabelOf(submenu)}}</span>
+            </li>
+        </ul>
+    </li>
+</ul>

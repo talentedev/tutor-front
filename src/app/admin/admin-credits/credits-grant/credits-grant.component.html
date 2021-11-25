@@ -1,0 +1,42 @@
+<div layout="row">
+    <h3 mat-dialog-title flex>Grant Credits</h3>
+    <a class="icon-button close" (click)="close()">
+        <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+        <span>Close</span>
+    </a>
+</div>
+<form layout="column" [formGroup]="grantCreditsForm" (submit)="grantCredits(user, $event)">
+    
+    <mat-dialog-content>
+        <div class="name">
+            To
+            <learnt-user-avatar [user]="user" [size]="32" [link]="false"></learnt-user-avatar>
+            {{user.name}}
+        </div>
+
+        <mat-form-field class="input" appearance="standard">
+            <mat-label>Amount</mat-label>
+            <input type="number" min="0" step="any" oninput="validity.valid||(value='');" matInput placeholder="123" formControlName="amount">
+            <mat-error *ngIf="grantCreditsForm.get('amount').invalid">You must enter an amount</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="input" appearance="standard">
+            <mat-label>Select a reason</mat-label>
+            <mat-select formControlName="reason">
+                <mat-option value="gift">Gift</mat-option>
+                <mat-option value="refund">Refund</mat-option>
+                <mat-option value="others">Others</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="input" appearance="standard">
+            <mat-label>Notes</mat-label>
+            <textarea matInput formControlName="notes"></textarea>
+          </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions layout="row" class="gap-10">
+        <button mat-raised-button type="submit" [disabled]="grantCreditsForm.invalid" color="primary" style="width: 100px;">OK</button>
+    </mat-dialog-actions>
+
+</form>

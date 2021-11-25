@@ -1,0 +1,126 @@
+:host {
+
+    display: block;
+    padding: 0 10px;
+
+    .popover-container {
+        margin-left: -5px;
+        margin-top: 5px;
+    }
+}
+
+.header-popoverview-inbox {
+    height: 100%;
+    .header {
+        font-size: 12px;
+        border-bottom: 0.5px solid #E9E9E9;
+        padding: 15px;
+        span:first-child {
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 20px;
+            color: #3E1011;
+        }
+        a {
+            color: #78C7D6;
+        }
+    }
+
+    .no-results {
+        display: block;
+
+        text-align: center;
+        margin: 15px;
+
+        .inbox-icon {
+            margin: 50px 0 25px;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+
+        p {
+            font-size: 1.4em;
+            line-height: 26px;
+            margin: 20px 0;
+
+            span {
+                display: block;
+            }
+        }
+
+        button {
+            margin: 0 auto;
+        }
+    }
+
+    ul {
+        padding: 15px 10px;
+        height: calc(100% - 70px);
+        overflow: auto;
+
+        li:not(:last-child) {
+            border-bottom: 0.5px solid #E9E9E9;
+        }  
+        li {
+            align-items: flex-start;
+            padding: 15px 10px;
+
+            &:hover:not(.loadingmore) {
+                cursor: pointer;
+                background: rgba(230, 241, 244, 0.4);
+            }
+
+            .texts {
+                .other {
+                    justify-content: space-between;
+                    .name {
+                        font-size: 1.4em;
+                        flex-shrink: 0;
+                    }
+
+                    .time {
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 15px;
+                        color: #8F7677;
+                    }
+                }
+
+                .message {
+                    font-family: Quicksand;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 190%;
+                    color: #3E1011;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+
+            .flag {
+                svg {
+                    opacity: 0.5;
+                }
+                &:hover {
+                    svg {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &.loadingmore {
+                display: none;
+            }
+
+            .avoidOverlappingText{
+                position: absolute;
+                z-index: 1;
+            }
+        }
+    }
+}

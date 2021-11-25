@@ -1,0 +1,71 @@
+<div class="credits" *ngIf="!mustLogin && !inviteDone">
+    <div class="inner">
+        <div class="title">
+            Import your connections from {{provider.Name}}
+        </div>
+
+        <learnt-spinner *ngIf="loading"></learnt-spinner>
+
+        <div *ngIf="!loading">
+            <div *ngIf="peopleLength > 0">
+                <learnt-checkbox [checked]="getChecked() === peopleLength" (change)="deselectAll()">
+                    Deselect all ({{peopleLength}})
+                </learnt-checkbox>
+                <button type="button" class="import-contacts-button" mat-raised-button color="primary" (click)="importContacts()">Import Contacts</button>
+
+                <form [formGroup]="form">
+                    <ul>
+                        <li *ngFor="let p of people; let i = index;">
+                            <input class="check" type="checkbox" [checked]="p.check" (change)="toggleCheck(i)" title="Invite"/>
+                            <div (click)="toggleCheck(i)">
+                                <svg *ngIf="p.check" width="7px" height="7px" viewBox="0 0 7 7">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(-7.000000, -7.000000)" fill="#444444">
+                                            <path
+                                                d="M13.6361887,7.12761906 C13.7799732,7.23822256 13.8684553,7.38477084 13.9016363,7.56726709 C13.9348172,7.74976228 13.8961065,7.91843084 13.785503,8.07327595 L10.3512753,13.0835984 C10.2406718,13.2273832 10.0996544,13.3158649 9.92821774,13.349046 C9.75678216,13.3822271 9.59917427,13.3435164 9.45538982,13.2329127 C9.3669066,13.1665505 9.13464212,12.9315211 8.75859001,12.5278176 C8.3825379,12.1241138 8.02861095,11.7342415 7.69679981,11.3581894 L7.18249519,10.7941133 C7.06083112,10.6613885 7,10.5010157 7,10.3129896 C7,10.1249636 7.06636123,9.96459079 7.19908566,9.83186596 C7.33181007,9.69914112 7.48665295,9.6355452 7.66361887,9.641075 C7.84058479,9.64660587 7.98989755,9.72126246 8.11156161,9.8650469 L9.75401832,11.6402274 L12.7403032,7.2769333 C12.8509067,7.13314886 12.9919242,7.0446667 13.1633608,7.01148575 C13.3347964,6.97830481 13.4924043,7.01701556 13.6361887,7.12761906 Z"
+                                                id="Page-1"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <img [attr.src]="p.avatar" title="{{p.email}}'s Avatar"/>
+                            <div class="line">
+                                <span>{{p.name}}</span>
+                                <a class="contact-email" [href]="'mailto:' + p.email">{{p.email}}</a>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+
+            <div class="no-invites" *ngIf="peopleLength === 0">
+                <img src="/assets/empty-invites.svg" alt="No Invites"/>
+                <h3>There are no contacts to import</h3>
+                <button mat-raised-button color="primary"
+                        [routerLink]="me.isAffiliate() ? '/main/dashboard' : '/referrals'">
+                    Invite People
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="credits" *ngIf="!mustLogin && inviteDone">
+    <div class="inner">
+        <div class="title">
+            <p>You've imported {{imported}} people to Learnt</p>
+            <p style="margin-top: 35px; margin-bottom: 35px; font-size: 18px;">
+                You can manage your invitations any time. Try adding contacts from another
+                email address to find more connections.
+            </p>
+
+            <p style="margin-bottom: 35px;">
+                <a mat-raised-button color="primary" routerLink="/referrals/management">Manage invitations</a>
+                <a mat-raised-button color="primary" routerLink="/referrals">Try another email</a>
+            </p>
+            <p style="font-size: 15px;">
+                <a routerLink="/referrals">Done for now</a>
+            </p>
+        </div>
+    </div>
+</div>

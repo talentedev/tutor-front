@@ -1,0 +1,38 @@
+<div class="inner" *ngIf="form">
+    <div layout="row" layout-align="center center">
+        <h1>Platform Settings</h1>
+        <input class="search" placeholder="Search setting" [(ngModel)]="keyword"/>
+        <span flex></span>
+        <div class="notices" layout="row" layout-align="end center">
+            <div>Variables that will be public to the UI. <strong>Don't put sensible data!</strong></div>
+            <div class="uivar">UI</div>
+        </div>
+    </div>
+    <div class="settings">
+        <form [formGroup]="form">
+            <div class="setting" *ngFor="let setting of filter(settings)" layout="row">
+                <div class="info" flex>
+                    <div class="prop">
+                        <span>{{setting.name}}</span>
+                        <span *ngIf="setting.ui" class="uivar">UI</span>
+                    </div>
+                    <div class="description">{{setting.description}}</div>
+                </div>
+                <div class="value" [ngSwitch]="typeofValue(setting.value)">
+                    
+                    <div *ngSwitchCase="'number'">
+                        <input [formControlName]="setting.name" type="number" [attr.value]="setting.value"/>
+                    </div>
+
+                    <div *ngSwitchCase="'string'">
+                        <input [formControlName]="setting.name" [attr.value]="setting.value"/>
+                    </div>
+
+                    <div *ngSwitchCase="'boolean'">
+                        <learnt-checkbox [formControlName]="setting.name" [value]="setting.value"></learnt-checkbox>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

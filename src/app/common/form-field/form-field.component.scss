@@ -1,0 +1,24 @@
+:host {
+    $errorHeight: 24px;
+    .form-field__container {
+        display: flex;
+        position: relative;
+        padding-bottom: $errorHeight;
+        ::ng-deep {
+            .learnt-input {
+                width: 100%;
+            }
+        }
+    }
+    .errors__wrapper {
+        height: $errorHeight;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        ::ng-deep {
+            .learnt-error {
+            }
+        }
+    }
+}

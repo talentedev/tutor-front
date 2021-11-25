@@ -1,0 +1,17 @@
+<div class="arrow" *ngIf="arrow">
+    <div class="bottom"></div>
+    <div class="top"></div>
+</div>
+<div [ngClass]="{'contents': true, 'borderRadius': arrow, 'borderbottom': !arrow}" #container [ngStyle]="{'width.px': width, 'height.px': height, 'padding.px': padding}">
+    <ng-content *ngIf="!loading"></ng-content>
+    <div #content></div>
+    <learnt-spinner *ngIf="loading"></learnt-spinner>
+</div>
+<!-- 
+<ng-template #nonborder>
+    <div class="contents" #container [ngStyle]="{'width.px': width, 'height.px': height, 'padding.px': padding}">
+        <ng-content *ngIf="!loading"></ng-content>
+        <div #content></div>
+        <learnt-spinner *ngIf="loading"></learnt-spinner>
+    </div>
+</ng-template> -->

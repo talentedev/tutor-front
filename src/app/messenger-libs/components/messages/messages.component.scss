@@ -1,0 +1,117 @@
+@import '../../../../variables';
+
+@media (max-width: $layout-breakpoint-sm) {
+    .scrollarea {
+        overflow: auto;
+        height: calc(100% - 100px);
+    }
+    .scroller {
+        height: 100%;
+        .nomessages {
+            border-radius: 15px;
+            background-color: #FCEBEB;
+            position: relative;
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 22px;
+            text-align: center;
+            padding: 30px;
+            color: #3E1011;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .triple{
+                position: absolute;
+                left: 24%;
+                top: 35%;
+            }
+            .double1{
+                position: absolute;
+                right: 22%;
+                top: 39%;
+            }
+            .double2{
+                position: absolute;
+                left: 16%;
+                top: 55%;
+            }
+            .paperplane{
+                position: absolute;
+                right: 20%;
+                top: 60%;
+            }
+        }
+    }
+}
+
+@media (min-width: 960px) {
+    :host {
+        .scrollarea {
+            position:relative;
+            display: block;
+            height: 100%;
+
+            .scroller {
+                overflow: auto;
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                .list {
+                    margin-top: 106px;
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                    margin: 10px 20px 10px 20px;
+                }
+            }
+        }
+
+        .nomessages {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            background-color: #FCEBEB;
+            position: relative;
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 22px;
+            text-align: center;
+            padding: 30px;
+            color: #3E1011;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .triple{
+                position: absolute;
+                left: 38%;
+                top: 33%;
+            }
+            .double1{
+                position: absolute;
+                left: 63%;
+                top: 38%;
+            }
+            .double2{
+                position: absolute;
+                left: 35%;
+                top: 55%;
+            }
+            .paperplane{
+                position: absolute;
+                left: 65%;
+                top: 60%;
+            }
+        }
+
+        .loading {
+            padding: 20px;
+        }
+
+    }
+}

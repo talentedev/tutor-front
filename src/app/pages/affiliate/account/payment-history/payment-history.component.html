@@ -1,0 +1,76 @@
+<div class="page-wrapper payment-history">
+    <div class="box-title">
+        <div class="left">
+            <h3>Payment History</h3>
+        </div>
+        <span flex></span>
+        <div class="right">
+            <a (click)="setMonth(-1)">
+                <mat-icon svgIcon="arrow-left"></mat-icon>
+            </a>
+            <h3 class="month">{{currDate | date:'MMMM yyyy'}}</h3>
+            <a (click)="setMonth(1)">
+                <mat-icon svgIcon="arrow-right"></mat-icon>
+            </a>
+        </div>
+    </div>
+    <learnt-box padding="20px 0 35px">
+        <div class="inner">
+            <p *ngIf="!transactions || transactions.length === 0" class="no-transactions">
+                No transactions for the selected time frame.
+            </p>
+
+            <table class="payments" *ngIf="transactions && transactions.length > 0">
+                <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Details</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let t of transactions">
+                    <td>{{t.reference}}</td>
+                    <td>{{t.details}}</td>
+                    <td>{{t.time.format('MM-DD-YYYY')}}</td>
+                    <td>{{t.amount | currency:'USD':'symbol'}}</td>
+                    <td [ngSwitch]="t.state">
+                        <div class="icon-wrapper approved" *ngSwitchCase="t.getState('approved')">
+                            <mat-icon svgIcon="tick"></mat-icon>
+                            <div>Approved</div>
+                        </div>
+
+                        <div class="icon-wrapper pending" *ngSwitchCase="t.getState('pending')">
+                            <mat-icon svgIcon="time"></mat-icon>
+                            <div>Pending</div>
+                        </div>
+
+                        <div class="icon-wrapper cancelled" *ngSwitchCase="t.getState('cancelled')">
+                            <mat-icon svgIcon="close"></mat-icon>
+                            <div>Cancelled</div>
+                        </div>
+
+                        <div class="icon-wrapper pending" *ngSwitchCase="t.getState('sent')">
+                            <mat-icon svgIcon="time"></mat-icon>
+                            <div>Sent</div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </learnt-box>
+</div>
+
+<div class="total" *ngIf="earnings > 0">
+    <p>Total Paid {{currDate | date:'MMMM yyyy'}}: {{earnings | currency:'USD':'symbol'}}</p>
+</div>
+
+<div class="download" *ngIf="transactions && transactions.length > 0">
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">
+        <mat-icon svgIcon="download" color="learnt-yellow"></mat-icon>
+        Download as PDF
+    </button>
+</div>

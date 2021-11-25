@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico|VT323|Quicksand|Inconsolata');
+
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+
+    .header {
+        display: flex;
+        .title {
+            flex: 1;
+            font-size: 1.2em;
+            color: #fff;
+            font-weight: bold;
+            max-width: 127px;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .toolbar {
+            padding-left: 10px;
+            z-index: 2;
+            .gap {
+                width: 10px;
+                height: 60px;
+                margin-right: 10px;
+                border-right: 0.5px solid rgba(0, 0, 0, 0.34);
+            }
+        }
+    }
+
+    ::ng-deep .submenu-list {
+        list-style-type: none;
+        li {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            svg {
+                width: 18px;
+                height: 13px;
+            }
+
+            &:hover {
+                background: #eee;
+            }
+        }
+    }
+
+    ::ng-deep .border-size, ::ng-deep .border-style {
+        justify-content: center;
+        align-items: center;
+        .line {
+            flex: 1;
+            margin: 0 10px;
+            border: solid #000;
+            border-bottom-width: 0;
+        }
+
+        .text {
+            font-weight: bold;
+        }
+    }
+
+    ::ng-deep .border-style li {
+        height: 40px;
+    }
+
+    ::ng-deep learnt-whiteboard-color-picker-matrix {
+        margin-left: 5px;
+    }
+
+    .boards {
+        flex: 1;
+        position: relative;
+        background: #f3f3f3;
+        width: 100%;
+        height: 100%;
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .font-color {
+        background: red;
+        width: 11px;
+        height: 11px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+    }
+
+    .font-size-label {
+        color: #fff;
+    }
+
+    .font-sizes {
+        max-height: 250px;
+        overflow: auto;
+        li {
+            min-height: 26px;
+            padding: 0 10px;
+            height: auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
+    .font-families {
+        max-height: 250px;
+        overflow: auto;
+
+        li {
+            font-size: 16px;
+        }
+    }
+}

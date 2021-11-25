@@ -1,0 +1,100 @@
+<ng-template #subjectsTemplate>
+    <ul class="booking-listing">
+        <li *ngFor="let item of subjects" (click)="changeSubject(item)" [attr.data-id]="item.subject._id">
+            <div class="icon">
+                <mat-icon *ngIf="item.selected" svgIcon="tick"></mat-icon>
+            </div>
+            <span>{{item.subject.name}}</span>
+        </li>
+    </ul>
+</ng-template>
+
+<ng-template #onlineTemplate>
+    <ul class="booking-listing">
+        <li (click)="changeMeetType(2)">
+            <div class="icon">
+                <mat-icon *ngIf="meet == 2" svgIcon="tick"></mat-icon>
+            </div>
+            <span>Online</span>
+        </li>
+        <li (click)="changeMeetType(4)">
+            <div class="icon">
+                <mat-icon *ngIf="meet == 4" svgIcon="tick"></mat-icon>
+            </div>
+            <span>In Person</span>
+        </li>
+    </ul>
+    <div *ngIf="meet == 4" class="edit-meet-location">
+        <div class="preview" *ngIf="!meetLocationEditing">
+            <div>{{meetLocation}}</div>
+            <a (click)="editMeetLocation()">Edit address</a>
+        </div>
+        <div class="editing" *ngIf="meetLocationEditing">
+            <textarea autocomplete="" #meetLocationControl [value]="meetLocation" placeholder="Tell you tutor where you should meet..."></textarea>
+            <div class="buttons gap-10" layout="row" layout-align="center center">
+                <button mat-raised-button color="primary" (click)="saveMeetLocation(meetLocationControl.value)">
+                    <span *ngIf="!meetLocation">Add Address</span>
+                    <span *ngIf="meetLocation">Save</span>
+                </button>
+                <button mat-raised-button (click)="cancelMeetLocation()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<div class="header">
+    <learnt-user-avatar [size]="37" [user]="tutor"></learnt-user-avatar>
+    <div class="name">{{tutor?.name}} Calendar</div>
+    <div class="selects">
+        <div *ngIf="subject" class="select subject" #tooltipSubjects [learntPopoverTooltip]="subjectsTemplate" [data]="tutor" [autoclose]="false" show-event="click" direction="top">
+            <mat-icon svgIcon="book" color="learnt-red"></mat-icon>
+            <span>{{subject?.name}}</span>
+            <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+        </div>
+        <div class="select where" #tooltipOnline [learntPopoverTooltip]="onlineTemplate"  [data]="tutor" [autoclose]="false" show-event="click" direction="top">
+            <mat-icon svgIcon="mapmarker" color="learnt-red"></mat-icon>
+            <span>{{meet == 2 ? 'Online' : 'In Person'}}</span>
+            <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+        </div>
+    </div>
+</div>
+<div class="contents">
+
+    <div class="week" layout="row">
+        <div class="nav-left" (click)="navDay(-1)">
+            <mat-icon svgIcon="arrow-left"></mat-icon>
+        </div>
+        <div class="days" layout="row" layout-align="center center">
+            <div [class.sunday]="x.isoWeekday() == 7" [class.disabled]="dayIsDisabled(x)" (click)="changeDay(x)" [class.selected]="isDaySelected(x)" *ngFor="let x of days">
+                <div class="circle">
+                    <div class="day">{{x.format('dddd')}}</div>
+                    <div class="date">{{x.format('MMM DD')}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-right" (click)="navDay(1)">
+            <mat-icon svgIcon="arrow-right"></mat-icon>
+        </div>
+    </div>
+
+    <div class="hours">
+        <!-- Time interval edit -->
+        <learnt-time-interval [lessons]="lessons" [date]="date" [(ngModel)]="time"></learnt-time-interval>
+        <!-- Time interval edit -->
+
+        <div layout="row" layout-align="center center" class="recurring gap-15">
+            <learnt-checkbox group="recurring" value="weekly" [(ngModel)]="recurring">Recurring weekly</learnt-checkbox>
+            <learnt-checkbox group="recurring" value="monthly" [(ngModel)]="recurring">Recurring monthly</learnt-checkbox>
+            <span flex></span>
+            <div class="timezone">
+                <span>Your account is set to &nbsp;</span>
+                <a (click)="changeTimezone()">{{timezone ? timezone : 'Set timezone'}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer gap-15" layout="row" layout-align="center center">
+    <button mat-raised-button color="primary" (click)="save()">Continue</button>
+    <button mat-raised-button (click)="cancel()">Cancel</button>
+</div>

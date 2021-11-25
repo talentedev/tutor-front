@@ -1,0 +1,6 @@
+<p>
+  Waiting <span *ngIf="user"> for {{user.name}}</span> <span *ngIf="!user"> for other participant</span> to connect ( <strong>{{countdown}}</strong> seconds left )
+</p>
+<div class="button">
+  <button mat-raised-button color="primary" type="button" (click)="endSession()">End Session</button>
+</div>

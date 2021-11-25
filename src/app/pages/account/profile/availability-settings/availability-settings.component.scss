@@ -1,0 +1,95 @@
+@import "../../../../../variables";
+
+:host {
+    .margined {
+        margin-top: 2rem;
+    }
+    table {
+        th {
+            text-align: left;
+        }
+        td {
+            line-height: 1rem;
+        }
+        td.actions {
+            text-align: right;
+        }
+    }
+    .actions {
+        button:not(:first-child) {
+            margin-left: .5rem;
+        }
+    }
+    .avail-form {
+        padding: 1rem;
+        .checkbox__container {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            flex-wrap: wrap;
+            ::ng-deep .mat-checkbox-frame {
+                border: 1px solid rgba(243, 112, 115, 0.5);
+                border-radius: 3px;
+            }
+            @media (max-width: $layout-breakpoint-sm) {
+                label {
+                    flex-basis: 100%;
+                }
+            }
+        }
+        .mat-form-field:not(:first-child), .add-btn {
+            @media (max-width: $layout-breakpoint-sm) {
+                margin-left: 0;
+            }
+        }
+        .add-btn {
+            border-radius: 100px;
+            border: 1px solid rgba(243, 112, 115, 0.5);
+            &.loading {
+                pointer-events: none;
+                touch-action: none;
+            }
+        }
+        .add-btn:not([disabled]) {
+            cursor: pointer;
+            &:not([disabled]) {
+                outline: none;
+            }
+            &:focus {
+                border: none;
+            }
+        }
+    }
+    .form__row {
+        display: flex;
+        flex-flow: row wrap;
+        margin: 0 -0.5rem;
+        .mat-checkbox {
+            padding-bottom: 2em;
+            display: inline-flex;
+            align-items: flex-end;
+        }
+        > * {
+            padding: 0 0.5rem;
+        }
+    }
+    .blackout-form {
+        padding: 1rem;
+    }
+    ::ng-deep {
+        .mat-form-field {
+            .mat-form-field-wrapper {
+                .mat-form-field-flex {
+                    .mat-form-field-infix {
+                        width: 200px;
+                    }
+                }
+            }
+        }
+    }
+    .header {
+        font-weight: bold;
+        font-size: 1rem;
+        padding-bottom: 1rem;
+    }
+}

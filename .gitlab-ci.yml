@@ -1,0 +1,69 @@
+default:
+  image: "debian:stretch-slim"
+
+stages:
+  - stage
+  - production
+
+cache:
+  key: $CI_PROJECT_DIR
+  paths:
+    - node_modules/
+
+staging:
+  stage: stage
+  before_script:
+    - 'curl -s -X POST -H ''Content-type: application/json'' --data "{''text'':''Deployment STARTED $CI_PROJECT_NAME in $CI_JOB_STAGE by $GITLAB_USER_LOGIN Details: $CI_PIPELINE_URL''}" $SLACK_WEBHOOK_NOTIFICATION_URL'
+  script:
+    - echo Installing software
+    - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    - sudo apt-get install -y nodejs
+    - npm install
+    - ng --version
+    - echo Attempting build
+    - node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --aot --configuration=stage --output-hashing=all
+  after_script:
+    - echo Deploying build to S3
+    - cd ./dist
+    - export NOW=$(date +%Y%m%d%M%S)
+    - echo Pushing build to S3
+    - aws s3 sync . s3://$S3_DEPLOY_BUCKET/$S3_BUCKET_FOLDER/$NOW/
+    - cd ..
+    - echo Syncing build to server and restart nginx
+    - ssh root@$SERVER_STAGING 'bash -s' < scripts/push_server.sh $S3_DEPLOY_BUCKET $S3_BUCKET_FOLDER $NOW
+    - echo New live directory is www-${NOW}
+    - 'curl -s -X POST -H ''Content-type: application/json'' --data "{''text'':''Deployment COMPLETE $CI_PROJECT_NAME in $CI_JOB_STAGE successfully by $GITLAB_USER_LOGIN :rocket: Details: $CI_PIPELINE_URL''}" $SLACK_WEBHOOK_NOTIFICATION_URL'
+  only:
+    - dev
+  tags:
+    - learnt
+  environment: staging
+
+production:
+  stage: production
+  before_script:
+    - 'curl -s -X POST -H ''Content-type: application/json'' --data "{''text'':''Deployment STARTED $CI_PROJECT_NAME in $CI_JOB_STAGE by $GITLAB_USER_LOGIN Details: $CI_PIPELINE_URL''}" $SLACK_WEBHOOK_NOTIFICATION_URL'
+  script:
+    - echo Installing software
+    - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    - sudo apt-get install -y nodejs
+    - npm install
+    - ng --version
+    - echo Attempting build
+    - ng build --prod --aot --output-hashing=all
+  after_script:
+    - echo Deploying build to S3
+    - cd ./dist
+    - export NOW=$(date +%Y%m%d%M%S)
+    - echo Pushing build to S3
+    - aws s3 sync . s3://$S3_DEPLOY_BUCKET/$S3_BUCKET_FOLDER/$NOW/
+    - cd ..
+    - echo Syncing build to server and restart nginx
+    - ssh root@$SERVER_PRODUCTION 'bash -s' < scripts/push_server.sh $S3_DEPLOY_BUCKET $S3_BUCKET_FOLDER $NOW
+    - echo New live directory is www-${NOW}
+    - 'curl -s -X POST -H ''Content-type: application/json'' --data "{''text'':''Deployment COMPLETE $CI_PROJECT_NAME in $CI_JOB_STAGE successfully by $GITLAB_USER_LOGIN :rocket: Details: $CI_PIPELINE_URL''}" $SLACK_WEBHOOK_NOTIFICATION_URL'
+  only:
+    - master
+  tags:
+    - learnt
+  environment: production

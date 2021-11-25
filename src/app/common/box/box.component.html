@@ -1,0 +1,11 @@
+<div *ngIf="headline" class="header" layout="row" layout-align="center center">
+    <div class="title">
+        <span>{{headline}}</span>
+        <ng-content select="head-left"></ng-content>
+    </div>
+    <span flex></span>
+    <ng-content select="head-right"></ng-content>
+</div>
+<div class="contents" [style.padding.px]="contentPaddings">
+    <ng-content></ng-content>
+</div>

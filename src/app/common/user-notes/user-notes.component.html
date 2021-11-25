@@ -1,0 +1,6 @@
+<ul>
+    <li class="note-wrapper" *ngFor="let note of notes" [class.rejected]="note.note_type === noteTypes.rejected">
+        ({{ note.note_type }}) {{ note.note }}
+        <div class="by">{{ note.created_at | date:'MM/dd/y h:mm a' }} - {{ note.updated_by.name }}</div>
+    </li>
+</ul>

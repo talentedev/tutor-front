@@ -1,0 +1,31 @@
+<div class="inner" *ngIf="users">
+    <div layout="row" layout-align="start center">
+        <h1>Online</h1>
+        <div *ngIf="requesting" class="loading">
+            <learnt-spinner [size]="20"></learnt-spinner>
+        </div>
+    </div>
+
+    <table cellspacing="0">
+        <thead>
+            <th align="left">Name</th>
+            <th align="center">Role</th>
+            <th align="center">IP</th>
+            <th align="center">Device</th>
+            <th align="right">Logged In</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td align="left">{{user.shortName}}</td>
+                <td align="center">{{getRoles(user)}}</td>
+                <td align="center">
+                    <a target="_blank" href="http://whatismyipaddress.com/ip/{{user.last_login?.ip}}">
+                        {{user.last_login?.ip}}
+                    </a>
+                </td>
+                <td align="center">{{user.last_login ? getDeviceInfo(user.last_login.device) : ''}}</td>
+                <td align="right">{{user.last_login?.time.fromNow()}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

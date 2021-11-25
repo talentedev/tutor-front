@@ -1,0 +1,116 @@
+@import "../../../../variables.scss";
+@keyframes tab-line-left {
+    0% {
+        left: 50%;
+        width: 50%;
+    }
+    50% {
+        left: 0;
+        width: 100%;
+    }
+    100% {
+        left: 0;
+        width: 50%;
+    }
+}
+
+@keyframes tab-line-right {
+    0% {
+        left: 0;
+        width: 50%;
+    }
+    50% {
+        left: 0;
+        width: 100%;
+    }
+    100% {
+        left: 50%;
+        width: 50%;
+    }
+}
+
+:host {
+    display: block;
+    width: 100%;
+
+    aside {
+        height: 100%;
+        border-right: 1px solid #F0E5E5;
+        display: flex;
+        flex-direction: column;
+       
+        .threadcontent {    
+            height: 100%;
+            overflow: hidden;
+            background: #FF676B;
+            @media (max-width: 960px) {
+                border-radius: 15px;
+            }
+            @media (min-width: 960px) {
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+            }
+
+            .tab {
+                min-height: 62px;
+                display: flex;
+                justify-content: center;
+                color: #FFFFFF;
+                align-items: center;
+                cursor: default;
+                border-bottom: white 1px solid;
+
+                img.icon {
+                    margin-right: 5px;
+                }
+                span.label {
+                    font-family: Quicksand;
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 16px;
+                    line-height: 20px;
+
+                    display: flex;
+                    align-items: center;
+
+                    color: #FFFFFF;
+
+                    border-radius: 5px;
+                }
+                span.counter {
+                    position: absolute;
+                    top: 4px;
+                    right: 4px;
+                    width: 30px;
+                    height: 30px;
+                    font-family: Quicksand;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #FFFFFF;
+                    border: 1px solid #FFFFFF;
+                }
+
+            }
+        }
+
+        .contents {
+            @media (max-width: 960px) {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+            @media (min-width: 960px) {
+                border-bottom-left-radius: 15px;
+            }
+            width: 100%;
+            flex: 1;
+        }
+    }
+
+    @media(max-width: $layout-breakpoint-xs) {
+        aside {
+            background: none;
+        }
+    }
+}

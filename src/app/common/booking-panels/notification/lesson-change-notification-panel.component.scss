@@ -1,0 +1,68 @@
+@import '../../../../variables.scss';
+:host {
+    .panel {
+        display: flex;
+        align-items: center;
+        padding: 100px 60px;
+        height: 100vh;
+    }
+
+    .content {
+        .text-wrapper {
+            width: 85%;
+            margin-bottom: 50px;
+
+            h4 {
+                font-size: 16px;
+                color: #444444;
+            }
+
+            h3 {
+                font-weight: 500;
+                color: #89C0CA;
+                margin: 15px 0;
+            }
+
+            p {
+                font-size: 13px;
+            }
+        }
+        .buttons {
+            .mat-icon {
+                width: 20px;
+                height: 16px;
+            }
+        }
+    }
+
+    @media(max-width: $layout-breakpoint-xs) {
+        .panel {
+            padding: 20px;
+        }
+
+        .content {
+            h3 {
+              font-size: 30px;  
+            }
+
+            .buttons {
+                .mat-button-wrapper {
+                    font-size: .8em;
+                }  
+            }
+        }
+    }
+
+    @media(max-width: $layout-breakpoint-xxs) {
+        .content {
+            width: 100%;
+            
+        }
+        .buttons {
+            .mat-raised-button {
+                padding: 0 10px;
+                font-size: 1.2em;
+            }
+        }
+    }
+}

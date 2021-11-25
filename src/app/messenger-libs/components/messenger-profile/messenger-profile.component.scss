@@ -1,0 +1,194 @@
+@import "../../../../variables";
+:host {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+
+    .profile {
+        margin: 35px 40px;
+
+        .name {
+            font-size: 2.4em;
+            font-weight: bold;
+            color: black;
+        }
+
+        .row1 {
+            margin: 0 40px;
+
+            learnt-user-avatar {
+                margin-right: 7px;
+            }
+        }
+
+        .profile-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+
+            mat-icon {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    }
+
+    .price {
+        background: rgba(137, 192, 202, .2);
+        height: 39px;
+        border: 1px solid #89C0CA;
+        border-radius: 5px;
+        font-size: 1.6em;
+        color: #89C0CA;
+        text-align: center;
+        line-height: 37px;
+        margin: 14px 40px 0 40px;
+    }
+
+    .infos {
+        display: flex;
+        font-size: 1.4em;
+        margin: 12px 0;
+
+        > div {
+            display: flex;
+            &:first-child {
+                margin-right: 10px;
+            }
+            svg {
+                margin-right: 5px;
+            }
+        }
+
+        .location {
+            margin-right: 10px;
+
+            mat-icon {
+                height: 12px;
+                width: 12px;
+                margin: 0 7px 3px 0;
+
+                ::ng-deep path {
+                    fill: #D3D3D3;
+                }
+            }
+        }
+
+        .rate {
+            mat-icon {
+                height: 12px;
+                width: 12px;
+                margin: 0 7px 1px 0;
+
+                ::ng-deep path {
+                    fill: #D3D3D3;
+                }
+            }
+        }
+    }
+
+    .bookbuttons {
+        margin-top: 30px;
+
+        button {
+            background: rgba(243, 112, 115, .7);
+            font-weight: normal;
+        }
+    }
+
+    .classes {
+        margin: 0 40px;
+        border-top: 1px solid #E3E3E3;
+        padding-top: 15px;
+
+        .header {
+            padding: 10px 5px;
+
+            .navigate {
+                mat-icon {
+                    width: 11px;
+                    height: 11px;
+                }
+                div {
+                    color: #444444;
+                    font-size: 14px;
+                    padding: 4px 0;
+                    width: 120px;
+                    text-align: center;
+                }
+            }
+
+            a {
+                font-size: 12px;
+                text-decoration: underline;
+            }
+        }
+
+        .list {
+            overflow: auto;
+            li {
+                height: 96px;
+                padding: 0 20px;
+                &:nth-child(odd) {
+                    background: #FAFAFA
+                }
+                &:nth-child(even) {
+                    background: #FFF
+                }
+            }
+            .date {
+                background: #FFFFFF;
+                border: 1px solid #ECECEC;
+                font-size: 10px;
+                color: #444444;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                max-width: 55px;
+                max-height: 55px;
+                min-width: 55px;
+                min-height: 55px;
+            }
+            .info {
+                margin-left: 10px;
+                .subject {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .empty-list {
+            color: #444;
+        }
+    }
+}
+
+@media(max-width: $layout-breakpoint-xs) {
+    :host {
+        
+        .profile {
+            margin: 20px;
+
+            .row1{
+                margin: 0;
+            }
+
+            .profile-close {
+                font-size: 1.3em;
+                color: #444;
+
+                mat-icon {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+        }
+        .price {
+            margin: 10px 0;
+        }
+        .classes {
+            margin: 0 20px;
+        }
+    }
+}

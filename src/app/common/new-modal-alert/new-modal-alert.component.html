@@ -1,0 +1,11 @@
+<img src="/assets/c-check.svg" alt="check" class="check">
+<div layout="column" class="messages">
+    <div class="closeBtn" *ngIf="closeButton">
+        <button mat-mini-fab (click)="eventListner(0)">X</button>
+    </div>
+    <h1>{{title}}</h1>
+    <p [innerHTML]="message"></p>
+    <div *ngIf="buttons" class="buttons gap-10" layout="row">
+        <button mat-raised-button *ngFor="let button of buttons" (click)="eventListner(button.result)">{{button.label}}</button>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+:host {
+    position: absolute;
+    display: block;
+    background: #fff;
+    width: 250px;
+    height: 310px;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+
+    .stretch {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .front {
+        z-index: 2;
+        transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .details {
+        background: #fff;
+        opacity: 0;
+        transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    .top {
+        width: 213px;
+        height: 157px;
+        margin: 0 auto;
+        margin-top: 20px;
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+        .avatar {
+            width: 213px;
+            height: 157px;
+            position: relative;
+            img {
+                width: 213px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+
+    .name {
+        color: #222222;
+        font-size: 2.4em;
+        text-align: center;
+        margin-top: 5px;
+
+        .online {
+            width: 8px;
+            height: 8px;
+            background: lime;
+            position: absolute;
+            border-radius: 50%;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+    }
+
+    .price {
+        margin: 0 19px;
+        height: 39px;
+        border: 1px solid #89C0CA;
+        border-radius: 5px;
+        font-size: 1.6em;
+        color: #89C0CA;
+        text-align: center;
+        line-height: 37px;
+        margin-top: 14px;
+    }
+
+    .infos {
+        display: flex;
+        font-size: 1.4em;
+        justify-content: center;
+        margin: 12px 0;
+        > div {
+            display: flex;
+            align-items: center;
+            &::first-child {
+                margin-right: 10px;
+            }
+            svg {
+                margin-right: 5px;
+            }
+        }
+        .location {
+            margin-right: 10px;
+        }
+    }
+
+    learnt-user-avatar {
+        margin: 0 auto;
+    }
+
+    &.focused {
+        box-shadow: 0px 1px 20px #ddd;
+        .front {
+            opacity: 0;
+        }
+
+        .details {
+            z-index: 3;
+            opacity: 1;
+        }
+    }
+
+    &.disabled {
+        opacity: 0.4;
+    }
+
+    .details-container {
+
+        display: flex;
+        height: 100%;
+
+        &.hidden {
+            display: none;
+        }
+
+        ::ng-deep learnt-search-results-profile-details {
+            flex: 1;
+        }
+    }
+}

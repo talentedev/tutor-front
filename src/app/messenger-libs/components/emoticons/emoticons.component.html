@@ -1,0 +1,33 @@
+<div class="search-wrapper">
+    <div class="search-results">
+        <ng-template #loadingTpl>
+            <div class="loading">
+                <learnt-spinner></learnt-spinner>
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="!loading; else loadingTpl">
+            <div *ngFor="let emoji of emojis.filter(filterEmoji); let i = index" (click)="change.next(emoji.name)"
+                 [attr.title]="emoji.name" [attr.key]="i" [attr.data-emoji]="emoji.name" class="emoji-wrapper">
+                <img width="22" height="22" [attr.alt]="emoji.name" class="emoji"
+                     [src]="'https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/' + emoji.name + '.png'"/>
+            </div>
+        </ng-container>
+    </div>
+    <div class="search-box">
+        <svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                <g transform="translate(-1154.000000, -514.000000)" fill="#000000">
+                    <g transform="translate(1120.000000, 487.000000)">
+                        <g transform="translate(25.000000, 22.000000)">
+                            <path
+                                d="M17.0208333,11.703125 L16.90625,11.9036458 L20,15.0260417 L19.0260417,16 L15.9322917,12.8776042 L15.7317708,13.0208333 C14.9678777,13.4982663 14.1753515,13.7369792 13.3541667,13.7369792 C12.1510362,13.7369792 11.1245693,13.3072953 10.2747396,12.4479167 C9.42490892,11.588538 9,10.5572972 9,9.35416667 C9,8.15103617 9.42490892,7.12456933 10.2747396,6.27473867 C11.1245693,5.42490983 12.1510362,5 13.3541667,5 C14.5572972,5 15.583764,5.42490983 16.4335947,6.27473867 C17.2834235,7.12456933 17.7083333,8.15103617 17.7083333,9.35416667 C17.7083333,10.1944493 17.4791685,10.9774275 17.0208333,11.703125 Z M15.7890625,6.91927083 C15.1206567,6.250865 14.3090327,5.91666667 13.3541667,5.91666667 C12.3993007,5.91666667 11.5876767,6.250865 10.9192708,6.91927083 C10.2508646,7.58767667 9.91666667,8.39930067 9.91666667,9.35416667 C9.91666667,10.3090327 10.2508646,11.1206567 10.9192708,11.7890625 C11.5876767,12.4574683 12.3993007,12.7916667 13.3541667,12.7916667 C14.3090327,12.7916667 15.1206567,12.4574683 15.7890625,11.7890625 C16.4765662,11.1015588 16.8203125,10.2899348 16.8203125,9.35416667 C16.8203125,8.4183985 16.4765662,7.6067745 15.7890625,6.91927083 Z"
+                                id="Page-1"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+        <input (keyup)="onKeywordChange($event.target.value)" type="text" placeholder="Search"/>
+    </div>
+</div>

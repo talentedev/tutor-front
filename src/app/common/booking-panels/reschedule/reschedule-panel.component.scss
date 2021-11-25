@@ -1,0 +1,41 @@
+:host {
+    .panel {
+        display: flex;
+        align-items: center;
+        padding: 100px 60px;
+        height: 100vh;
+    }
+
+    .content {
+        h3, p {
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        p {
+            font-size: 13px;
+        }
+
+        .suggestion {
+            margin: 35px auto;
+            width: 280px;
+
+            .item {
+                text-align: left;
+                color: #444444;
+                font-size: 18px;
+                border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
+                line-height: 35px;
+                margin-top: 10px;
+            }
+        }
+
+        .buttons {
+            width: 280px;
+            margin: 0 auto;
+        }
+    }
+}

@@ -1,0 +1,45 @@
+<div class="items-wrapper">
+    <div class="multiple clearfix" [attr.data-id]="i" *ngFor="let item of getMultipleOptions(); let i = index;">
+        <span>{{getHintLabel(item)}}</span>
+        <a (click)="removeItem(i)">
+            <svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Negotation-Room-_-Seller-3_PR" transform="translate(-388.000000, -378.000000)"
+                       fill-rule="nonzero" fill="#EEF2F3">
+                        <g id="Group-9" transform="translate(272.000000, 101.000000)">
+                            <g id="Group-Copy-2" transform="translate(0.000000, 237.000000)">
+                                <g id="Dynamic-group" transform="translate(8.000000, 34.000000)">
+                                    <path
+                                        d="M114,6 C110.691582,6 108,8.69159555 108,11.9999698 C108,15.3083441 110.691582,18 114,18 C117.308418,18 120,15.3084044 120,11.9999698 C120,8.69153521 117.308418,6 114,6 Z M117.269194,13.9890978 L115.989118,15.2691807 L114,13.2800527 L112.010882,15.2691807 L110.730806,13.9890978 L112.719924,11.9999698 L110.730806,10.0108419 L112.010882,8.73075898 L114,10.719887 L115.989118,8.73075898 L117.269194,10.0108419 L115.280076,11.9999698 L117.269194,13.9890978 Z"
+                                        id="Shape"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </a>
+    </div>
+    <input
+        type="text"
+        #input
+        [(ngModel)]="valueOfInput"
+        (keyup)="onKeyUp($event)"
+        (keydown)="onKeyDown($event)"
+        (focus)="onFocus($event)"
+        (change)="onInputChange($event)"
+        (blur)="onBlur($event)"
+    />
+
+    <learnt-spinner *ngIf="working"></learnt-spinner>
+
+</div>
+
+<ng-template #list>
+    <div class="autocomplete_input_list" [style.top.px]="getHintsTopPosition()">
+        <a *ngFor="let item of hints; let i = index" [class.selected]="hintsIndex == i"
+        (click)="onHintSelect(item, $event)">
+            {{getHintLabel(item)}}
+        </a>
+    </div>
+</ng-template>

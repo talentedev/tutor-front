@@ -1,0 +1,69 @@
+<div class="calendar">
+    <div class="header">
+        <div class="date">
+            <strong>{{ selectedDate | date: 'MMMM' }}</strong>
+            <span>{{ selectedDate | date: 'yyyy' }}</span>
+        </div>
+        <div class="d-flex">
+            <div class="arrow" [class.disabled]="loading" (click)="navigate(-1)">
+                <mat-icon svgIcon="arrow-left" color="learnt-red"></mat-icon>
+            </div>
+            <div class="arrow" [class.disabled]="loading" (click)="navigate(1)">
+                <mat-icon svgIcon="arrow-right" color="learnt-red"></mat-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="weekdays desktop-calendar">
+        <div class="weekday" *ngFor="let wd of weekdays">{{wd.toUpperCase()}}</div>
+    </div>
+
+    <div class="days desktop-calendar">
+        <div
+            class="day"
+            *ngFor="let day of calendarDates; trackBy: trackByUnixTime"
+            [attr.data-date]="day.date.toISOString()"
+            [ngClass]="{
+                active: isSameDateAsSelected(day.date),
+                inactive: !day.current,
+                booked: day.booked,
+                today: isToday(day.date)
+            }"
+            (click)="setDate(day)">
+            {{ day.date.getDate() }}
+        </div>
+    </div>
+
+    <div class="desktop-calendar">
+        <div class="share">
+            <div class="copy">
+                <button mat-raised-button type="button" (click)="copyMessage()" value="click to copy" >Subscribe to Calendar</button>
+            </div>
+            <div layout="row" class="title gap-15">
+                <div class="method-wrapper message">
+                    <strong class="num-line">{{textMessage}}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="events && events.length > 0" class="lessons-wrapper">
+        <h2>{{events.length == 1 ? 'Lesson': 'Lessons'}} on {{selectedDate | date:'mediumDate'}}</h2>
+        <div *ngFor="let lesson of events.items" class="lesson d-flex flex-row justify-content-between">
+            <div class="d-flex flex-row">
+                <div class="time">
+                    {{lesson.starts_at |  date:'shortTime'}}
+                </div>
+                <div>
+                    <p class="subject">{{lesson.subject.name}} </p>
+                    <p *ngIf="me.role == 2" class="name">{{lesson.tutor.profile.first_name}} {{lesson.tutor.profile.last_name}}</p>
+                    <p *ngIf="me.role == 4" class="name">{{lesson.students[0].profile.first_name}} {{lesson.students[0].profile.last_name}}</p>
+                </div>
+            </div>
+            <div>
+                <img *ngIf="me.role == 2" src="https://s3.amazonaws.com/learnt/{{lesson.tutor.profile.avatar.url}}">
+                <img *ngIf="me.role == 4" src="https://s3.amazonaws.com/learnt/{{lesson.students[0].profile.avatar.url}}">
+            </div>
+        </div>
+    </div>
+</div>

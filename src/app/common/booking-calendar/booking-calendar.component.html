@@ -1,0 +1,38 @@
+<div class="calendar" [class.full]="full" *ngIf="availability">
+  <div class="hours-wrapper">
+      <div [attr.data-slot]="slot.from.format('LLLL')"
+           class="hour"
+           *ngFor="let slot of slots; let i = index"
+           [class.hidden]="isSlotHidden(slot)"
+           [class.lighter]="hourIsLighter(i)">
+          <span>{{slot.from.format('h A')}}</span>
+          <div
+            #hour
+            class="first-half available"
+            [attr.data-slot-index]="i"
+            [attr.data-slot-part]="'top'"
+            (mousedown)="mouseDown($event)"
+            (mouseup)="mouseUp($event)"
+            (mouseenter)="mouseEnter($event)"
+            (touchstart)="mouseDown($event)"
+            (touchend)="mouseUp($event)"
+            (touchmove)="mouseEnter($event)"
+            *ngIf="availability.canBook(slot.top(), userLessons)"
+          ></div>
+
+          <div
+            #hour
+            class="second-half available"
+            [attr.data-slot-index]="i"
+            [attr.data-slot-part]="'bottom'"
+            (mousedown)="mouseDown($event)"
+            (mouseup)="mouseUp($event)"
+            (mouseenter)="mouseEnter($event)"
+            (touchstart)="mouseDown($event)"
+            (touchend)="mouseUp($event)"
+            (touchmove)="mouseEnter($event)"
+            *ngIf="availability.canBook(slot.bottom(), userLessons)"
+          ></div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+:host {
+    justify-content: center;
+    align-items: center;
+    padding: 70px 20px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    max-width: 560px;
+    width: 95vw;
+    height: 360px;
+    text-align: center;
+
+    .messages {
+        margin-right: 20px;
+        font-weight: 300;
+        h1 {
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 30px;
+            line-height: 120%;
+            text-align: center;
+            color: #3E1011;
+            margin-top: 40px;
+        }
+        p {
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 180%;
+            text-align: center;
+            color: #3E1011;
+        }
+        .closeBtn {
+            position: relative;
+            margin: 0;
+            top: -120px;
+            left: 475px;
+            width: 23px;
+            height: 23px;
+            border-radius: 23px;
+            font-size: 9px;
+            opacity: 1;
+            z-index: 10;
+        }
+    }
+
+    .buttons {
+        margin-top: 20px;
+    }
+}

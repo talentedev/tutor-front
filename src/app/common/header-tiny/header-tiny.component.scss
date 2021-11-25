@@ -1,0 +1,121 @@
+@import '../../../variables.scss';
+:host {
+  display: block;
+  z-index: 10;
+  header {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      border-bottom: 0.5px solid #e9e9e9;
+      height: 80px;
+      background: #fff;
+      @media only screen 
+        and (min-device-width: 1024px) 
+        and (max-device-width: 1024px) 
+        and (orientation: portrait) 
+        and (-webkit-min-device-pixel-ratio: 2) {
+            //     iPad Pro
+            height: 120px;
+      }
+
+      > * {
+          height: 100%;
+      }
+
+      .head-links {
+          list-style-type: none;
+          font-size: 1.4em;
+          margin-right: 20px;
+          ul {
+              list-style: none;
+              li {
+                  margin-left: 20px;
+                  
+              }
+          }
+          @media only screen 
+            and (min-device-width: 1024px) 
+            and (max-device-width: 1024px) 
+            and (orientation: portrait) 
+            and (-webkit-min-device-pixel-ratio: 2) {
+            //     iPad Pro
+            ul>li {
+                img {
+                    width: 2.5vw;
+                    margin-right: 5px;
+                }
+            }
+        }
+  
+      }
+  }
+
+  header {
+      .left {
+          position: relative;
+      }
+  }
+  .right-states {
+    display: flex;
+    align-items: center;
+
+    @media only screen 
+        and (min-device-width: 1024px) 
+        and (max-device-width: 1024px) 
+        and (orientation: portrait) 
+        and (-webkit-min-device-pixel-ratio: 2) {
+        //     iPad Pro
+        font-size: 2em;
+    }
+
+  }
+
+  .logo {
+      position: absolute;
+      border-right: 0.5px solid #e9e9e9;
+      cursor: pointer;
+      width: 92px;
+      outline: none;
+      img {
+          padding: 15px 30px;
+      }
+      @media only screen 
+        and (min-device-width: 1024px) 
+        and (max-device-width: 1024px) 
+        and (orientation: portrait) 
+        and (-webkit-min-device-pixel-ratio: 2) {
+            //     iPad Pro
+            align-items: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            img {
+                width: 45%;
+                padding: 0px;
+            }
+        }
+
+  }
+  .logo-tiny {
+      height: 100%;
+        width: 110px;
+        margin-top: 0;
+        margin-left: 110px;
+        padding-top: 0;
+    @media(max-width: $layout-breakpoint-xs){
+        width: 15vw;
+        margin-left: 100px;
+    }
+    @media only screen 
+        and (min-device-width: 1024px) 
+        and (max-device-width: 1024px) 
+        and (orientation: portrait) 
+        and (-webkit-min-device-pixel-ratio: 2) {
+        //     iPad Pro
+        width: 15vw;
+    }
+
+  }
+}

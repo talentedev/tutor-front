@@ -1,0 +1,76 @@
+<mat-card>
+    <div layout="row" class="transaction-title">
+        <p class="transaction-title-left">Transaction History</p>
+        <ng-container *ngIf="user?.isStudent()">
+           <p class="transaction-title-right">Credit Balance: {{ balance | currency:'USD':'symbol' }}</p>
+        </ng-container>
+    </div>
+    <div class="row">
+        <mat-form-field class="date-field">
+            <mat-label>From:</mat-label>
+            <input matInput [matDatepicker]="fromPicker" [(ngModel)]="from" [placeholder]="'M/D/YYYY'" #fromInput
+                   (dateChange)="fromChange()" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="date-field">
+            <mat-label>To:</mat-label>
+            <input matInput [matDatepicker]="toPicker" [(ngModel)]="to" [placeholder]="'M/D/YYYY'" #toInput
+                   (dateChange)="toChange()" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+        <button mat-stroked-button color="accent" (click)="reload()" [disabled]="this.transactionService.loading">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
+    <mat-table [dataSource]="transactions">
+        <ng-container [matColumnDef]="'time'">
+            <mat-header-cell *matHeaderCellDef>Time</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.time.utc().format('MM-DD-YYYY H:m(z)') }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'reference'">
+            <mat-header-cell *matHeaderCellDef>Reference</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.reference }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'amount'">
+            <mat-header-cell class="cell-amount" *matHeaderCellDef>Amount</mat-header-cell>
+            <mat-cell class="cell-amount" *matCellDef="let transaction">{{ transaction.amount | currency: "USD" }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'details'">
+            <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.details }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'lesson'">
+            <mat-header-cell *matHeaderCellDef>Lesson</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.lesson }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'status'">
+            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.status }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'state'">
+            <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+            <mat-cell *matCellDef="let transaction">{{ transaction.stateDisplay }}</mat-cell>
+        </ng-container>
+
+        <ng-container [matColumnDef]="'loading'">
+            <mat-cell *matFooterCellDef>
+                <learnt-spinner></learnt-spinner>
+            </mat-cell>
+        </ng-container>
+        <ng-container [matColumnDef]="'no_transactions'">
+            <mat-cell *matFooterCellDef>No transactions</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+        <mat-footer-row *matFooterRowDef="footerToDisplay" [class.collapsed]="!footerToDisplay.length"></mat-footer-row>
+    </mat-table>
+</mat-card>

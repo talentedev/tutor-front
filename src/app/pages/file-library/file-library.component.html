@@ -1,0 +1,41 @@
+<learnt-account-box class="files-box">
+    <div class="header d-flex">
+        <div class="title">File Library</div>
+        <div class="d-flex flex-row">
+            <mat-form-field class="px-3">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Search filename" [formControl]="search">
+                <button mat-icon-button matSuffix>
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+            <div>
+                <input type="file" hidden #file>
+                <button mat-raised-button (click)="file.click()" [disabled]="uploading">
+                    <mat-icon *ngIf="!uploading" color="primary">upload_file</mat-icon>
+                    <learnt-spinner *ngIf="uploading"></learnt-spinner>
+                    Upload file
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="contents">
+        <div *ngFor="let file of files" class="file-wrapper">
+            <div class="icon-wrapper">
+                <mat-icon class="dots-icon" [matMenuTriggerFor]="menu">more_horiz</mat-icon>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="download(file.url)">
+                    <mat-icon>download</mat-icon>
+                    <span>Download</span>
+                  </button>
+                  <button mat-menu-item (click)="delete(file._id)">
+                    <mat-icon>close</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+                <mat-icon svgIcon="document" class="document-icon"></mat-icon>
+            </div>
+            <p>{{ file.name }}</p>
+        </div>
+    </div>
+</learnt-account-box>

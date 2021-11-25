@@ -1,0 +1,78 @@
+<mat-card>
+    <mat-card-title>Session History</mat-card-title>
+    <mat-card-content>
+        <div class="field-row">
+            <mat-form-field class="date-field">
+                <mat-label>From:</mat-label>
+                <input matInput [matDatepicker]="fromPicker" [(ngModel)]="from" [placeholder]="'M/D/YYYY'" #fromInput
+                       (dateChange)="fromChange()" [max]="maxDate">
+                <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                <mat-datepicker #fromPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="date-field">
+                <mat-label>To:</mat-label>
+                <input matInput [matDatepicker]="toPicker" [(ngModel)]="to" [placeholder]="'M/D/YYYY'" #toInput
+                       (dateChange)="toChange()" [max]="maxDate">
+                <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                <mat-datepicker #toPicker></mat-datepicker>
+            </mat-form-field>
+            <button mat-stroked-button color="accent" (click)="fetch()" [disabled]="this.loading">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+        <mat-table [dataSource]="sessions">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson._id }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="student">
+                <mat-header-cell *matHeaderCellDef>Student</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">
+                    <a [routerLink]="['/admin/students/', lesson.student._id]" target="_blank">{{ lesson.student.name }}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="subject">
+                <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson.subject.name }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="tutor">
+                <mat-header-cell *matHeaderCellDef>Tutor</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">
+                    <a [routerLink]="['/admin/tutors/', lesson.tutor._id]" target="_blank">{{ lesson.tutor.name }}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="duration">
+                <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson.duration | duration: 'minutes' }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="start">
+                <mat-header-cell *matHeaderCellDef>Started</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson.starts_at.utc().format('MM-DD-YYYY H:m(z)') }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="end">
+                <mat-header-cell *matHeaderCellDef>Ended</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson.ends_at.utc().format('MM-DD-YYYY H:m(z)') }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                <mat-cell *matCellDef="let lesson">{{ lesson.lessonType }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="error">
+                <mat-footer-cell *matFooterCellDef>
+                    {{ error }}
+                </mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="no_sessions">
+                <mat-footer-cell *matFooterCellDef>No sessions</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef>
+                    <learnt-spinner></learnt-spinner>
+                </mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let lesson; columns: displayedColumns"></mat-row>
+            <mat-footer-row *matFooterRowDef="displayedFooter" [class.collapsed]="!displayedFooter.length"></mat-footer-row>
+        </mat-table>
+    </mat-card-content>
+</mat-card>

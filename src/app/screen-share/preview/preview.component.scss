@@ -1,0 +1,46 @@
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f3f3f3;
+
+    .header {
+        display: flex;
+        height: 60px;
+        .title {
+            flex: 1;
+            font-size: 1.2em;
+            color: #fff;
+            font-weight: bold;
+            max-width: 127px;
+            background: rgba(0,0,0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .toolbar {
+            padding-left: 10px;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .gap {
+                width: 10px;
+                height: 60px;
+                margin-right: 10px;
+                border-right: 0.5px solid rgba(0, 0, 0, 0.34);
+            }
+        }
+    }
+
+    .video-container {
+        video {
+            width: 100%;
+        }
+        .info {
+            font-size: 14px;
+            div { margin-bottom: 20px; }
+        }
+    }
+}

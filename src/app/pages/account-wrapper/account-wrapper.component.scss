@@ -1,0 +1,136 @@
+@import "src/mixins";
+
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .content {
+        margin-top: 5rem;
+        overflow: hidden auto;
+        @include media-breakpoint-up(sm) {
+            margin-top: 0;
+            display: grid;
+            grid-template-rows: 106px auto 184px;
+            min-height: 100vh;
+        }
+    }
+
+    .main-content {
+        position: relative;
+        padding-bottom: 3rem;
+        padding-top: 2rem;
+    }
+
+    .bg {
+        position: absolute;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        @include media-breakpoint-up(sm) {
+            display: block; 
+            max-width: 1284px;
+            left: 50%;
+            transform: translateX(-50%); 
+        }
+        
+        .dot {
+            background: $red;
+            opacity: 0.5;
+            position: absolute;
+            right: calc(50% + 560px);
+            top: 220px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+        
+        @keyframes fadeIn {
+            0% {opacity: 0; transform: translateY(-50px);}
+            100% {opacity: 1; transform: translateY(0);}
+        }
+
+        .img {
+            width: 130px;
+            height: 130px;
+            position: absolute;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: 1s ease-out var(--animate-delay) forwards fadeIn;
+            
+            &.img--diamond {
+                --animate-delay: 300ms;
+                width: 160px;
+                height: 160px;
+                
+                .img__text--bottom-right {
+                    right: 12px;
+                    bottom: 42px;
+                }
+            }
+            
+            &.img-biology {
+                --animate-delay: 550ms;
+                left: calc(50% + 480px);
+                top: 310px;
+            }
+            
+            &.img-history {
+                --animate-delay: 200ms;
+                right: calc(50% + 370px);
+                top: 290px;
+            }
+            
+            &.img-chemistry {
+                --animate-delay: 850ms;
+                right: calc(50% + 331px);
+                top: 20px;
+            }
+            
+            &.img-math {
+                --animate-delay: 400ms;
+                left: calc(50% + 360px);
+                top: 10px;
+            }
+            
+            &.img-algebra {
+                --animate-delay: 600ms;
+                left: calc(50% + 310px);
+                top: 210px;
+            }
+            
+            &.img-english {
+                --animate-delay: 550ms;
+                right: calc(50% + 450px);
+                top: 140px;
+            }
+
+            .img__drawing {
+                width: 100%;
+                height: 100%;
+            }
+            
+            .img__text--bottom-left {
+                left: -11px;
+                bottom: 18px;
+            }
+            
+            .img__text--bottom-right {
+                right: 0;
+                bottom: 18px;
+            }
+            
+            .img__text--top-right {
+                right: -24px;
+                top: 11px;
+            }
+            
+            .img__text {
+                position: absolute;
+                height: 37px;
+            }
+        }
+        
+    }
+}

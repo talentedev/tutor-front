@@ -1,0 +1,20 @@
+@import "src/variables";
+:host {
+    mat-row {
+        &.loading {
+            opacity: 0.6;
+            cursor: progress;
+        }
+        &:hover {
+            background-color: lighten($red, 25%);
+        }
+    }
+    mat-footer-row {
+        &.hidden {
+            display: none;
+        }
+    }
+    mat-row:nth-child(odd) {
+        background-color: $lightest-accent;
+    }
+}

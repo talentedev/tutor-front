@@ -1,0 +1,66 @@
+:host {
+    .no-invites {
+        text-align: center;
+
+        h3 {
+            margin: 45px 0;
+            font-weight: 200;
+            font-size: 26px;
+        }
+    }
+
+    input.check {
+        position: absolute;
+        left: -10000px;
+        float: left;
+
+        & + div {
+            float: left;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(#F37073, 50%);
+            border-radius: 3px;
+            background: #fff;
+            position: relative;
+            cursor: pointer;
+            margin-right: 15px;
+
+            svg {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -3px;
+                margin-top: -3px;
+            }
+        }
+
+        &.focused {
+            > div {
+                box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        &:hover {
+            > div {
+                border: 2px solid rgba(#F37073, 10%);
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        &:active {
+            > div {
+                background: #fff;
+                border: 1px solid darken(#F37073, 5%);
+            }
+        }
+
+        &.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    }
+
+    .import-contacts-button, .contact-email {
+        margin-left: 10px;
+    }
+}

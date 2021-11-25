@@ -1,0 +1,87 @@
+<learnt-search-filters #filters (change)="onFiltersChange($event)"
+                       [class.hidden]="!filtersVisibility"></learnt-search-filters>
+
+<div class="search-result-overlay" [class.show]="focused != null"></div>
+
+<div *ngIf="requesting" layout="row" layout-align="center center" class="fetching gap-10">
+    <learnt-spinner></learnt-spinner>
+    <div>Fetching results...</div>
+</div>
+<div>{{searchText}}</div>
+
+<div id="search-results-scroller" class="results-container" [@resultsState]="mapState"
+     [class.map]="mapVisible">
+    <div *ngIf="clearFilterButtons" class="searching-for-container" [class.map]="mapVisible">
+        <span *ngIf="clearFilterButtons.length > 0" class="you-are-searching-for" [class.map]="mapVisible">
+            You are searching for
+        </span>
+        <span class="chosen-filter-button-container" [class.map]="mapVisible">
+            <button *ngFor="let clearButton of clearFilterButtons"
+                    [ngClass]="{'chosen-filter-button-clickable': clearButton.clickAction}"
+                    class="chosen-filter-button" (click)="clearChosenSearchFilter(clearButton.clickAction)">
+                {{ clearButton.buttonText }}
+            </button>
+        </span>
+    </div>
+    <div *ngIf="triedOnline && tutors?.length > 0" class="tried-online">
+    </div>
+    <div class="results">
+        <div class="tutors-wrapper" [ngClass]="'columns-'+columns">
+            <div *ngFor="let tutor of tutors; let i = index; trackBy:tutorId"
+                 (mouseenter)="setFocus(i)"
+                 (mouseleave)="unFocused()"
+                 #searchResultTutor
+                 class="result">
+                <learnt-search-result-tutor
+                    [focused]="i == focused"
+                    [attr.data-userid]="tutor._id"
+                    [tutor]="tutor" [index]="i" [columns]="columns"
+                    (onMessage)="messageTutor($event)">
+                </learnt-search-result-tutor>
+            </div>
+           <div class="tutors-bottom-spacer"></div>
+       </div>
+
+        <div class="no-results" *ngIf="tutors && tutors.length === 0" layout="column" layout-align="center center">
+            <div class="message">This search criteria yielded no results. Please try again!</div>
+            <img alt="search illustration"
+                 src="https://s3.amazonaws.com/tutorappllc/tutor-search-illustration.png" />
+        </div>
+    </div>
+</div>
+
+<a class="map-toggle" #mapToggle matTooltip="Toggle Map" (click)="toggleMap()" *ngIf="false">
+    <div *ngIf="animatingMap">
+        <learnt-spinner color="#FFFFFF"></learnt-spinner>
+    </div>
+    <mat-icon *ngIf="!animatingMap && !mapVisible" svgIcon="map" color="learnt-white"></mat-icon>
+    <svg *ngIf="!animatingMap && mapVisible" width="17px" height="17px" viewBox="0 0 17 17">
+        <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="Desktop---032-Search-Forgot-Password" transform="translate(-1540.000000, -132.000000)"
+               stroke="#F37073" stroke-width="0.2"
+               fill="#ffffff">
+                <path
+                    d="M1550.06346,140.499482 L1555.67649,134.887573 C1556.10784,134.454824 1556.10784,133.755237 1555.67649,133.322488 C1555.24376,132.892504 1554.54421,132.892504 1554.11286,133.322488 L1548.49983,138.935779 L1542.88818,133.322488 C1542.45545,132.892504 1541.75589,132.892504 1541.32455,133.322488 C1540.89182,133.755237 1540.89182,134.454824 1541.32455,134.887573 L1546.9362,140.499482 L1541.32455,146.11139 C1540.89182,146.544139 1540.89182,147.243727 1541.32455,147.676475 C1541.54022,147.892158 1541.82225,148 1542.10567,148 C1542.38909,148 1542.67112,147.892158 1542.88818,147.676475 L1548.49983,142.063184 L1554.11286,147.676475 C1554.32853,147.892158 1554.61057,148 1554.89398,148 C1555.1774,148 1555.45943,147.892158 1555.67649,147.676475 C1556.10784,147.243727 1556.10784,146.544139 1555.67649,146.11139 L1550.06346,140.499482 Z"
+                    id="Fill-1"></path>
+            </g>
+        </g>
+    </svg>
+</a>
+
+<learnt-map
+    #map
+    *ngIf="mapVisible && mapHeight > -1"
+    [tutors]="tutors"
+    [center]="mapCenter"
+    [zoom]="mapZoom"
+    (select)="onMapTutorSelect($event)"
+    (over)="onMapTutorMouseOver($event)"
+    (out)="onMapTutorMouseOut()"
+    [style.top.px]="mapHeight"
+    [@mapState]="mapState"
+    (@mapState.done)="onMapAnimationComplete($event)"
+    [class.with-filters]="filtersVisibility"
+    [interactive]="true"
+></learnt-map>
+
+<!--<div class="search-result-overlay" #searchResultOverlay></div>-->

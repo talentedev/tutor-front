@@ -1,0 +1,10 @@
+# This is not a script, its just a note about how to build the front-end
+# Run these commands manually
+
+# If you are building the staging version:
+npm install
+ng build --aot --configuration=stage
+
+# If you are building the production version:
+npm install
+ng build --prod --aot

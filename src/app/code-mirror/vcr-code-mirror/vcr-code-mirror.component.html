@@ -1,0 +1,21 @@
+<div class="header vcr-header-gradient">
+    <div class="title">Code Editor</div>
+    <div class="toolbar gap-15" layout="row" layout-align="start center">
+        <div [learntPopoverDisabled]="editorReadonly" class="language-selector" #selectLang direction="bottom" show-event="click" [learntPopoverTooltip]="languageSelect" [offsetY]="-10">
+            <div class="label">{{language}}</div>
+            <mat-icon svgIcon="arrow-down" color="learnt-white"></mat-icon>
+        </div>
+        <learnt-checkbox [disabled]="editorReadonly" (change)="changeTheme('dark', true)" group="theme" [checked]="theme === 'dark'" value="dark" [dark]="true" align="left">Dark</learnt-checkbox>
+        <learnt-checkbox [disabled]="editorReadonly" (change)="changeTheme('light', true)" group="theme" [checked]="theme === 'light'" value="light" [dark]="true" align="left">Light</learnt-checkbox>
+    </div>
+</div>
+<div class="code-mirror">
+    <textarea #coding></textarea>
+</div>
+<div class="footer vcr-whiteboard-tabs"></div>
+
+<ng-template #languageSelect>
+    <div class="code-mirror-modes">
+        <a class="mode" (click)="changeLanguage(language, true)" *ngFor="let language of languages">{{language}}</a>
+    </div>
+</ng-template>

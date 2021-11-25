@@ -1,0 +1,37 @@
+@import '../../../variables.scss';
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        learnt-map {
+            position: relative !important;
+            top: 0px !important;
+            width: 100%;
+        }
+
+        .results-container {
+            overflow-y: scroll;
+
+            &.map {
+                display: none;
+            }
+
+            .tried-online {
+                margin-bottom: 15px;
+                font-size: 16px;
+                color: #444444;
+            }
+
+            > div {
+                padding: 5px 15px;
+            }
+
+            .results {
+                padding: 5px 0px;
+
+                .tutors-wrapper {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}

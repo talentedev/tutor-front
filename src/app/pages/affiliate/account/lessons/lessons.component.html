@@ -1,0 +1,77 @@
+<div class="page-wrapper lessons">
+    <div class="box-title">
+        <div class="left">
+            <h3>Lesson History</h3>
+            <p *ngIf="!mobile" (click)="toggleSort()">
+                <span *ngIf="sortingType === 1">Completed</span>
+                <span *ngIf="sortingType === 2">Confirmed</span>
+                Lessons
+                <a>
+                    <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                </a>
+            </p>
+        </div>
+        <span flex></span>
+        <div class="right">
+            <a (click)="setMonth(-1)">
+                <mat-icon svgIcon="arrow-left" color="learnt-red"></mat-icon>
+            </a>
+            <h3 class="month">{{currDate | date:'MMMM yyyy'}}</h3>
+            <a (click)="setMonth(1)">
+                <mat-icon svgIcon="arrow-right" color="learnt-red"></mat-icon>
+            </a>
+        </div>
+    </div>
+    <div class="box-title">
+        <div class="left">
+            <p *ngIf="mobile" (click)="toggleSort()">
+                <span *ngIf="sortingType === 1">Completed</span>
+                <span *ngIf="sortingType === 2">Confirmed</span>
+                    Lessons
+                <a>
+                    <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="lessons-wrapper">
+        <learnt-spinner *ngIf="loading"></learnt-spinner>
+
+        <ul *ngIf="lessons.length > 0">
+            <li *ngFor="let lesson of lessons">
+                <div class="avatars">
+                    <img [src]="lesson.tutor.avatar" alt="{{lesson.tutor.name}}'s profile picture"/>
+                    <img [src]="lesson.student.avatar" alt="{{lesson.student.name}}'s profile picture"/>
+                </div>
+                <div class="line">
+                    {{lesson.tutor.name|truncate:20:true}} & {{lesson.student.name|truncate:20:true}}
+                    <span>on {{lesson.date|date:'mediumDate'}}</span>
+                </div>
+                <span flex></span>
+                <div class="status">
+                    <div [ngSwitch]="lesson.payment.status">
+                        <div *ngSwitchCase="1" class="icon-wrapper approved">
+                            <mat-icon svgIcon="tick"></mat-icon>
+                            <div>Done</div>
+                        </div>
+                        <div *ngSwitchCase="2" class="icon-wrapper dispute">
+                            <mat-icon svgIcon="question-circle"></mat-icon>
+                            <div>In Dispute</div>
+                        </div>
+                        <div *ngSwitchCase="3" class="icon-wrapper cancelled">
+                            <mat-icon svgIcon="close"></mat-icon>
+                            <div>Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="earned">
+                    {{lesson.payment.earned|currency:'USD':'symbol'}} Earned
+                </div>
+            </li>
+        </ul>
+
+        <h3 *ngIf="lessons.length === 0" class="no-lessons">
+            No lessons available.
+        </h3>
+    </div>
+</div>

@@ -1,0 +1,208 @@
+<div class="menu__container">
+    <header [class.search]="state == 'search'" [class.account]="state == 'account'" *ngIf="!headless">
+        <div class="autocomplete" *ngIf="state === 'search' && subjects && subjects.length" [scrollTop]="hintIndex*20">
+            <div class="hint" [class.current]="i == hintIndex" (click)="hintSelect(subject)" *ngFor="let subject of subjects; let i = index">
+                <span>{{subject.name}}</span>
+            </div>
+        </div>
+        <div class="left" flex >
+            <div class="logo" routerLink="/" [@logo]="state" [class.visible]="state!=='search'">
+                <img src="/assets/logo.svg" />
+            </div>
+            <div class="mobile-logo" routerLink="/" [@logo]="state">
+                <img src="/assets/learnt-logo-tm.svg" />
+            </div>
+            <div class="searchbox" [@search]="state" (click)="showSearch()" *ngIf="searchIsVisible()">
+                <div class="icon" layout="row" layout-align="center center">
+                    <img *ngIf="!searchWorking" src="/assets/search.svg" />
+                    <learnt-spinner *ngIf="searchWorking"></learnt-spinner>
+                </div>
+                <input (keyup)="onSearchInputKeyUp($event)" (focus)="hintIndex = -1" (blur)="onInputBlur($event)" type="text" #searchInput
+                       [attr.placeholder]="mobile ? 'Search' : 'What do you want to learn today?'" />
+            </div>
+    
+            <div flex class="gap"></div>
+        </div>
+        <div class="center" flex>
+            <!-- <nav *ngIf="menuItems" class="main-nav" [class.mobile-menu-expanded]="menuExpanded" [class.account]="isSplit" (click)="expand($event)"
+                layout="column" layout-gt-sm="row" layout-align="center center"> -->
+                <a *ngFor="let item of menuItems" #rla="routerLinkActive" routerLinkActive="" [class]="item.class"
+                [routerLink]="item.link" 
+                [ngClass]="isActive(rla, item) ? 'active' : 'inactive'">
+                    <span>{{item.title}}</span>
+                </a>
+            <!-- </nav> -->
+        </div>
+        <div class="right right-states" flex>
+            <div class="nav-mobile"><a id="navbar-toggle" href="#!"><span></span></a></div>
+            <!-- MOBILE -->
+            <div class="state search hide-gt-sm" [class.visible]="state==='search'" layout="row" layout-align="end center">
+                <!--FILTER BUTTON-->
+                <a class="icon-button" (click)="toggleFilters()">
+                    <svg width="28px" height="28px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Show-Filters" transform="translate(-91.000000, -5.000000)" fill="#F37073">
+                                <path d="M93.4415189,15.715461 C93.6459586,14.6968969 94.5353889,13.9295508 95.6004728,13.9295508 C96.6655567,13.9295508 97.554987,14.6968969 97.7594267,15.715461 L104.559397,15.715461 C104.80261,15.715461 105,15.9154829 105,16.1619385 C105,16.4083941 104.80261,16.6084161 104.559397,16.6084161 L97.7594267,16.6084161 C97.554987,17.6269802 96.6655567,18.3943262 95.6004728,18.3943262 C94.5353889,18.3943262 93.6459586,17.6269802 93.4415189,16.6084161 L91.6350473,16.6084161 C91.3918345,16.6084161 91.1944444,16.4083941 91.1944444,16.1619385 C91.1944444,15.9154829 91.3918345,15.715461 91.6350473,15.715461 L93.4415189,15.715461 Z M95.6004728,17.5013712 C94.8717157,17.5013712 94.2786643,16.9004124 94.2786643,16.1619385 C94.2786643,15.4234647 94.8717157,14.8225059 95.6004728,14.8225059 C96.3292299,14.8225059 96.9222813,15.4234647 96.9222813,16.1619385 C96.9222813,16.9004124 96.3292299,17.5013712 95.6004728,17.5013712 Z M98.4350177,11.2506856 C98.6394574,10.2321215 99.5288877,9.46477541 100.593972,9.46477541 C101.659056,9.46477541 102.548486,10.2321215 102.752926,11.2506856 L104.559397,11.2506856 C104.80261,11.2506856 105,11.4507075 105,11.6971631 C105,11.9436187 104.80261,12.1436407 104.559397,12.1436407 L102.752926,12.1436407 C102.548486,13.1622048 101.659056,13.9295508 100.593972,13.9295508 C99.5288877,13.9295508 98.6394574,13.1622048 98.4350177,12.1436407 L91.6350473,12.1436407 C91.3918345,12.1436407 91.1944444,11.9436187 91.1944444,11.6971631 C91.1944444,11.4507075 91.3918345,11.2506856 91.6350473,11.2506856 L98.4350177,11.2506856 Z M100.593972,13.0365957 C99.8652145,13.0365957 99.2721631,12.435637 99.2721631,11.6971631 C99.2721631,10.9586893 99.8652145,10.3577305 100.593972,10.3577305 C101.322729,10.3577305 101.91578,10.9586893 101.91578,11.6971631 C101.91578,12.435637 101.322729,13.0365957 100.593972,13.0365957 Z M93.4415189,6.78591017 C93.6459586,5.76734607 94.5353889,5 95.6004728,5 C96.6655567,5 97.554987,5.76734607 97.7594267,6.78591017 L104.559397,6.78591017 C104.80261,6.78591017 105,6.9859321 105,7.23238771 C105,7.47884331 104.80261,7.67886525 104.559397,7.67886525 L97.7594267,7.67886525 C97.554987,8.69742935 96.6655567,9.46477541 95.6004728,9.46477541 C94.5353889,9.46477541 93.6459586,8.69742935 93.4415189,7.67886525 L91.6350473,7.67886525 C91.3918345,7.67886525 91.1944444,7.47884331 91.1944444,7.23238771 C91.1944444,6.9859321 91.3918345,6.78591017 91.6350473,6.78591017 L93.4415189,6.78591017 Z M95.6004728,8.57182033 C94.8717157,8.57182033 94.2786643,7.97086156 94.2786643,7.23238771 C94.2786643,6.49391385 94.8717157,5.89295508 95.6004728,5.89295508 C96.3292299,5.89295508 96.9222813,6.49391385 96.9222813,7.23238771 C96.9222813,7.97086156 96.3292299,8.57182033 95.6004728,8.57182033 Z"
+                                      id="Shape"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <!--CLOSE SEARCH BUTTON-->
+                <a class="icon-button" (click)="closeSearch()">
+                    <svg class="close-icon" width="28px" height="28px" viewBox="0 0 10 10" version="1.1">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Close" transform="translate(-46.000000, -6.000000)" stroke="#F37073" stroke-width="0.2" fill="#F37073">
+                                <path d="M51.8338441,10.9995852 L54.8274615,8.00670522 C55.0575128,7.7759165 55.0575128,7.40282034 54.8274615,7.17203161 C54.5966727,6.94271757 54.2235766,6.94271757 53.9935252,7.17203161 L50.9999078,10.165649 L48.0070278,7.17203161 C47.7762391,6.94271757 47.4031429,6.94271757 47.1730915,7.17203161 C46.9423028,7.40282034 46.9423028,7.7759165 47.1730915,8.00670522 L50.1659716,10.9995852 L47.1730915,13.9924653 C46.9423028,14.223254 46.9423028,14.5963501 47.1730915,14.8271389 C47.2881172,14.9421646 47.4385355,14.9996774 47.589691,14.9996774 C47.7408466,14.9996774 47.8912648,14.9421646 48.0070278,14.8271389 L50.9999078,11.8335215 L53.9935252,14.8271389 C54.1085509,14.9421646 54.2589691,14.9996774 54.4101247,14.9996774 C54.5612802,14.9996774 54.7116984,14.9421646 54.8274615,14.8271389 C55.0575128,14.5963501 55.0575128,14.223254 54.8274615,13.9924653 L51.8338441,10.9995852 Z"
+                                      id="Fill-1"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+    
+            <div class="state search hide-xs hide-sm" [class.visible]="state==='search'" layout="row" layout-align="end center">
+                <a class="icon-button" (click)="toggleFilters()">
+                    <span *ngIf="!filtersVisibility">Show Filters</span>
+                    <span *ngIf="filtersVisibility">Hide Filters</span>
+                    <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Show-Filters" transform="translate(-91.000000, -5.000000)" fill="#F37073">
+                                <path d="M93.4415189,15.715461 C93.6459586,14.6968969 94.5353889,13.9295508 95.6004728,13.9295508 C96.6655567,13.9295508 97.554987,14.6968969 97.7594267,15.715461 L104.559397,15.715461 C104.80261,15.715461 105,15.9154829 105,16.1619385 C105,16.4083941 104.80261,16.6084161 104.559397,16.6084161 L97.7594267,16.6084161 C97.554987,17.6269802 96.6655567,18.3943262 95.6004728,18.3943262 C94.5353889,18.3943262 93.6459586,17.6269802 93.4415189,16.6084161 L91.6350473,16.6084161 C91.3918345,16.6084161 91.1944444,16.4083941 91.1944444,16.1619385 C91.1944444,15.9154829 91.3918345,15.715461 91.6350473,15.715461 L93.4415189,15.715461 Z M95.6004728,17.5013712 C94.8717157,17.5013712 94.2786643,16.9004124 94.2786643,16.1619385 C94.2786643,15.4234647 94.8717157,14.8225059 95.6004728,14.8225059 C96.3292299,14.8225059 96.9222813,15.4234647 96.9222813,16.1619385 C96.9222813,16.9004124 96.3292299,17.5013712 95.6004728,17.5013712 Z M98.4350177,11.2506856 C98.6394574,10.2321215 99.5288877,9.46477541 100.593972,9.46477541 C101.659056,9.46477541 102.548486,10.2321215 102.752926,11.2506856 L104.559397,11.2506856 C104.80261,11.2506856 105,11.4507075 105,11.6971631 C105,11.9436187 104.80261,12.1436407 104.559397,12.1436407 L102.752926,12.1436407 C102.548486,13.1622048 101.659056,13.9295508 100.593972,13.9295508 C99.5288877,13.9295508 98.6394574,13.1622048 98.4350177,12.1436407 L91.6350473,12.1436407 C91.3918345,12.1436407 91.1944444,11.9436187 91.1944444,11.6971631 C91.1944444,11.4507075 91.3918345,11.2506856 91.6350473,11.2506856 L98.4350177,11.2506856 Z M100.593972,13.0365957 C99.8652145,13.0365957 99.2721631,12.435637 99.2721631,11.6971631 C99.2721631,10.9586893 99.8652145,10.3577305 100.593972,10.3577305 C101.322729,10.3577305 101.91578,10.9586893 101.91578,11.6971631 C101.91578,12.435637 101.322729,13.0365957 100.593972,13.0365957 Z M93.4415189,6.78591017 C93.6459586,5.76734607 94.5353889,5 95.6004728,5 C96.6655567,5 97.554987,5.76734607 97.7594267,6.78591017 L104.559397,6.78591017 C104.80261,6.78591017 105,6.9859321 105,7.23238771 C105,7.47884331 104.80261,7.67886525 104.559397,7.67886525 L97.7594267,7.67886525 C97.554987,8.69742935 96.6655567,9.46477541 95.6004728,9.46477541 C94.5353889,9.46477541 93.6459586,8.69742935 93.4415189,7.67886525 L91.6350473,7.67886525 C91.3918345,7.67886525 91.1944444,7.47884331 91.1944444,7.23238771 C91.1944444,6.9859321 91.3918345,6.78591017 91.6350473,6.78591017 L93.4415189,6.78591017 Z M95.6004728,8.57182033 C94.8717157,8.57182033 94.2786643,7.97086156 94.2786643,7.23238771 C94.2786643,6.49391385 94.8717157,5.89295508 95.6004728,5.89295508 C96.3292299,5.89295508 96.9222813,6.49391385 96.9222813,7.23238771 C96.9222813,7.97086156 96.3292299,8.57182033 95.6004728,8.57182033 Z"
+                                      id="Shape"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <a class="icon-button" (click)="closeSearch()">
+                    <span>
+                        <ng-container *ngIf="me; else loggedOut">Back to Dashboard</ng-container>
+                        <ng-template #loggedOut>Back to Homepage</ng-template>
+                    </span>
+                    <svg class="close-icon" width="10px" height="10px" viewBox="0 0 10 10" version="1.1">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Close" transform="translate(-46.000000, -6.000000)" stroke="#F37073" stroke-width="0.2" fill="#F37073">
+                                <path d="M51.8338441,10.9995852 L54.8274615,8.00670522 C55.0575128,7.7759165 55.0575128,7.40282034 54.8274615,7.17203161 C54.5966727,6.94271757 54.2235766,6.94271757 53.9935252,7.17203161 L50.9999078,10.165649 L48.0070278,7.17203161 C47.7762391,6.94271757 47.4031429,6.94271757 47.1730915,7.17203161 C46.9423028,7.40282034 46.9423028,7.7759165 47.1730915,8.00670522 L50.1659716,10.9995852 L47.1730915,13.9924653 C46.9423028,14.223254 46.9423028,14.5963501 47.1730915,14.8271389 C47.2881172,14.9421646 47.4385355,14.9996774 47.589691,14.9996774 C47.7408466,14.9996774 47.8912648,14.9421646 48.0070278,14.8271389 L50.9999078,11.8335215 L53.9935252,14.8271389 C54.1085509,14.9421646 54.2589691,14.9996774 54.4101247,14.9996774 C54.5612802,14.9996774 54.7116984,14.9421646 54.8274615,14.8271389 C55.0575128,14.5963501 55.0575128,14.223254 54.8274615,13.9924653 L51.8338441,10.9995852 Z"
+                                      id="Fill-1"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+    
+            <!-- STATE ACCOUNT -->
+            <div class="state account" [class.visible]="state==='account'" layout="row" layout-align="end center">
+    
+                <!-- MENU MOBILE -->
+                <div layout="row" layout-align="end center" class="hide-gt-sm mobile" *ngIf="mobile">
+                    <!-- Interactions -->
+                    <div *ngIf="me" layout="row" layout-align="end center">
+                        <learnt-header-notifications></learnt-header-notifications>
+                        <learnt-header-inbox></learnt-header-inbox>
+                    </div>
+                    <!-- Interactions -->
+                    <button class="mobile-menu-button" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger">
+                        <mat-icon svgIcon="menu" color="learnt-red" *ngIf="!trigger.menuOpen"></mat-icon>
+                        <mat-icon svgIcon="close" color="learnt-red" *ngIf="trigger.menuOpen"></mat-icon>
+                    </button>
+    
+                    <mat-menu class="mobile-menu" #menu="matMenu">
+                        <ng-template matMenuContent>
+                            <a mat-menu-item *ngIf="!me" class="login-button" routerLink="/start/login">
+                                <mat-icon svgIcon="user" color="learnt-red"></mat-icon>
+                                <span>Login</span>
+                            </a>
+                            <a mat-menu-item *ngIf="!me" class="login-button" routerLink="/start/register">
+                                <mat-icon svgIcon="user" color="learnt-red"></mat-icon>
+                                <span>Student Sign Up</span>
+                            </a>
+                            <a mat-menu-item *ngIf="!me || (!me.hasRole('tutor') && !me.isAffiliate())" routerLink="/start/apply">
+                                <mat-icon svgIcon="tutor" color="learnt-red"></mat-icon>
+                                <span>Become a Tutor</span>
+                            </a>
+                            <a mat-menu-item *ngIf="!me" routerLink="/start/register/affiliate">
+                                <mat-icon svgIcon="tutor" color="learnt-red"></mat-icon>
+                                <span>Become an Affiliate</span>
+                            </a>
+                            <a mat-menu-item *ngIf="me && me.isAdmin()" routerLink="/admin">
+                                <mat-icon svgIcon="lock" color="learnt-red"></mat-icon>
+                                <span>Admin</span>
+                            </a>
+                            <div *ngIf="me" >
+                                <a mat-menu-item *ngFor="let item of menuItems" [routerLink]="item.link" class="item-list">
+                                    <span>{{item.title}}</span>
+                                </a>
+                                <a mat-menu-item (click)="logout($event)" class="item-list">
+                                    <mat-icon svgIcon="user" color="learnt-red"></mat-icon>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                            
+                        </ng-template>
+                    </mat-menu>
+                </div>
+    
+                <div layout="row" layout-align="end center" class="hide-xs hide-sm" *ngIf="!mobile">
+    
+                    <nav class="head-links" layout="row" *ngIf="showLinks()">
+                        <!-- <ul>
+                            <li *ngIf="showLinks()">
+                                <img src="/assets/tutor.svg" />
+                                Become a
+                                <a routerLink="/start/apply">
+                                    Tutor
+                                </a>
+                                /
+                                <a routerLink="/start/register/affiliate">
+                                    Affiliate
+                               </a>
+                            </li>
+                            <li>
+                                <a routerLink="/blog">
+                                    <img src="/assets/marksign.svg"/>
+                                    Blog
+                                </a>
+                            </li>
+                        </ul> -->
+                        <button mat-button *ngIf="!me" [routerLink]="['/start/register/affiliate']">
+                            <img src="/assets/affiliate.svg" />
+                            Become an Affiliate
+                        </button>
+                        <button mat-button [routerLink]="['/start/apply']">
+                            <img src="/assets/tutor.svg" />
+                            Become a Tutor
+                        </button>
+                    </nav>
+    
+                    <!-- <button *ngIf="loginButtonIsVisible()" mat-raised-button class="login-button" routerLink="/start/login">
+                        <img src="/assets/user.svg" />
+                        <span>Login</span>
+                    </button> -->
+    
+                    <!-- Interactions -->
+                    <div *ngIf="me" class="buttons-with-icons" layout="row" layout-align="end center">
+                        <learnt-header-notifications></learnt-header-notifications>
+                        <learnt-header-inbox></learnt-header-inbox>
+                    </div>
+                    <!-- Interactions -->
+    
+                    <!-- Current User -->
+                    <div *ngIf="me" class="user" routerLink="/main/dashboard" layout="row">
+                        <div class="left">
+                            <div class="name">{{me.shortName}}</div>
+                            <div layout="row" layout-align="end center">
+                                <a (click)="admin($event)" *ngIf="me.isAdmin()">Admin</a>
+                                <a (click)="logout($event)">Logout</a>
+                            </div>
+                        </div>
+                        <img [src]="me.avatar" class="avatar" />
+                    </div>
+                    <!-- Current User -->
+                </div>
+            </div>
+            <!-- STATE ACCOUNT -->
+    
+        </div>
+    </header>
+</div>
+

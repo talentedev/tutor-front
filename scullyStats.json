@@ -1,0 +1,21 @@
+{
+    "numberOfRoutes": 54,
+    "generatingTime": 102.61,
+    "routesPerSecond": 0.53,
+    "findingRoutesAngular": 13.69985,
+    "routeDiscovery": 0.08153,
+    "renderingPages": 87.52092999999999,
+    "pluginTimings": {
+        "routeDiscoveryDone:sitemap": 11.37,
+        "routeDiscoveryDone:storeRoutes": 11.38,
+        "router:tutorProfilesPlugin": 79.19,
+        "scullySystem:generateAll": 102612.3,
+        "scullySystem:handleTravesal": 13700.2,
+        "scullySystem:processRoutes": 2.36,
+        "scullySystem:puppeteerRender": 677708.5999999997,
+        "scullySystem:renderRoute": 677731.7299999997,
+        "scullySystem:storeRoutes": 2.17,
+        "scullySystem:traverseAppRoutes": 13699.79,
+        "scullySystem:writeToStorage": 3981.58
+    }
+}

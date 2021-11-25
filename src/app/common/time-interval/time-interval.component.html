@@ -1,0 +1,31 @@
+<div class="hours">
+    <a class="left" (click)="nav(-1)">
+        <mat-icon svgIcon="arrow-left"></mat-icon>
+    </a>
+    <div class="hour" *ngFor="let hour of activeHours" [attr.data-hour]="hour">
+        {{hour < 12 ? hour + 'AM' : null}}
+        {{hour == 12 ? hour + 'PM' : null}}
+        {{hour > 12 && hour < 24 ? (hour-12) + 'PM' : null}}
+        {{hour == 24 ? (hour-12) + 'AM' : null}}
+    </div>
+    <a class="right" (click)="nav(1)"> 
+        <mat-icon svgIcon="arrow-right"></mat-icon>
+    </a>
+</div>
+<div class="dragging-zone">
+    <div class="hours">
+        <div class="hour" *ngFor="let hour of activeHours" [attr.data-hour]="hour">
+            <div [class.unavailable]="isUnavailableHour(hour, 15)"></div>
+            <div [class.unavailable]="isUnavailableHour(hour, 30)"></div>
+            <div [class.unavailable]="isUnavailableHour(hour, 45)"></div>
+            <div [class.unavailable]="isUnavailableHour(hour, 60)"></div>
+        </div>
+    </div>
+    <div class="range">
+        <div class="indicator" [ngStyle]="style" [class.unavailable]="isUnavailable(range)">{{range.nice}}</div>
+    </div>
+    <div class="handlers" [ngStyle]="style">
+        <div *ngIf="handlerLeftVisible" class="handler left"></div>
+        <div *ngIf="handlerRightVisible" class="handler right"></div>
+    </div>
+</div>

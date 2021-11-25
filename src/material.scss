@@ -1,0 +1,462 @@
+@import "~@angular/material/theming";
+@import "src/variables";
+@import "src/mixins";
+
+$mat-body-font-size-base: 1.9em;
+$learnt-font-family: 'proximasoft-regular', sans-serif;
+$learnt-typography: mat-typography-config(
+    $font-family: $learnt-font-family,
+    $input: mat-typography-level(1rem, 1.125, 400),
+);
+
+@include mat-core($learnt-typography);
+
+$learnt-red: (
+    50: #feeeee,
+    100: #fbd4d5,
+    200: #f9b8b9,
+    300: #f79b9d,
+    400: #f58588,
+    500: #f37073,
+    600: #f1686b,
+    700: #ef5d60,
+    800: #ed5356,
+    900: #ea4143,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffd4d5,
+    A700: #ffbbbc,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #ffffff,
+        400: #ffffff,
+        500: #ffffff,
+        600: #ffffff,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000
+    )
+);
+
+$candy-app-primary: mat-palette($learnt-red);
+$candy-app-accent: mat-palette($learnt-red);
+$candy-app-warn: mat-palette($learnt-red);
+$learnt-theme-foreground: (
+    base: #000,
+    divider: $dark-dividers,
+    dividers: $dark-dividers,
+    disabled: $dark-disabled-text,
+    disabled-button: rgba(#000, 0.12),
+    disabled-text: $dark-disabled-text,
+    elevation: transparent,
+    hint-text: $dark-disabled-text,
+    secondary-text: $dark-secondary-text,
+    icon: rgba(#000, 0.54),
+    icons: rgba(#000, 0.54),
+    text: #000,
+    slider-min: rgba(#000, 0.87),
+    slider-off: rgba(#000, 0.26),
+    slider-off-active: rgba(#000, 0.38),
+);
+$learnt-theme-background: (
+    status-bar: map-get($mat-grey, 300),
+    app-bar: map-get($mat-grey, 100),
+    background: map-get($mat-grey, 50),
+    hover: rgba(black, 0.04),
+    card: white,
+    dialog: white,
+    disabled-button: rgba(black, 0.12),
+    raised-button: white,
+    focused-button: $dark-focused,
+    selected-button: map-get($mat-grey, 300),
+    selected-disabled-button: map-get($mat-grey, 400),
+    disabled-button-toggle: map-get($mat-grey, 200),
+    unselected-chip: map-get($mat-grey, 300),
+    disabled-list-option: map-get($mat-grey, 200),
+    tooltip: map-get($mat-grey, 700),
+);
+$learnt-color-config: (
+    primary: $candy-app-primary,
+    accent: $candy-app-accent,
+    warn: $candy-app-warn,
+    is-dark: true,
+    foreground: $learnt-theme-foreground,
+    background: $learnt-theme-background,
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+$learnt-theme: (
+    color: $learnt-color-config,
+    typography: $learnt-typography,
+);
+
+.learnt-theme {
+    @include angular-material-color($learnt-color-config);
+    @include angular-material-typography($learnt-typography);
+
+    .mat-block {
+        display: block;
+    }
+
+    .mat-form-field {
+        font-size: 1.6em;
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .mat-button {
+        font-weight: bold;
+        border-radius: 100px;
+        box-shadow: none;
+
+        .mat-button-ripple {
+            border-radius: 100px;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 5px 2px rgba(243, 112, 115, 0.3);
+        }
+
+        &:active {
+            box-shadow: none;
+        }
+    }
+
+    .mat-raised-button {
+        font-weight: bold;
+        border-radius: 100px;
+        box-shadow: none;
+        border: 1px solid #f37073;
+
+        .mat-primary {
+            background: rgba(243, 112, 115, 0.8%);
+        }
+
+        .mat-button-ripple {
+            border-radius: 100px;
+        }
+
+        &:not([disabled]):active {
+            box-shadow: none;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 5px 2px rgba(243, 112, 115, 0.3);
+        }
+
+        &[disabled] {
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        &:not([class*=mat-elevation-z]) {
+            box-shadow: none;
+        }
+    }
+
+    .mat-stroked-button {
+        border-radius: 100px;
+        border-color: map-get($learnt-red, 500);
+        color: #000;
+        font-weight: bold;
+    }
+
+    .mat-dialog-title {
+        font-size: 2.8em;
+        color: #444444;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+
+    .mat-dialog-container {
+        p {
+            font-size: 1.4em;
+            color: #444444;
+            line-height: 30px;
+        }
+    }
+
+    .mat-large {
+        .mat-input-wrapper {
+            font-size: 24px;
+
+            .mat-input-underline {
+                border-top: 0.5px dashed #777777;
+                margin-top: 8px;
+            }
+        }
+
+        .mat-select {
+            font-family: 'proximasoft-regular', sans-serif !important;
+
+            .mat-select-trigger {
+                height: 40px;
+            }
+
+            .mat-select-placeholder,
+            .mat-select-value {
+                font-size: 24px;
+            }
+
+            .mat-select-underline {
+                border-top: 0.5px dashed #777777;
+                background-color: transparent;
+            }
+
+            &:focus:not(.mat-select-disabled).mat-primary {
+                .mat-select-underline {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    .mat-menu-panel.mobile-menu {
+        max-width: 1000px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        width: 100%;
+        top: 80px;
+        bottom: 0;
+        max-height: 100%;
+
+        .mat-menu-content {
+            padding-top: 48px;
+
+            .mat-menu-item {
+                line-height: 88px;
+                height: 88px;
+                padding: 0 16px;
+                text-decoration: none;
+                text-align: center;
+                font-size: 24px;
+                font-weight: 200;
+                color: #f37073;
+
+                .mat-icon {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+$learnt-theme-2: (
+    color: $learnt-color-config,
+    typography: $learnt-typography-2,
+);
+
+.learnt-theme--2 {
+    font-size: 16px;
+
+    .mat-typography {
+        @include use-typography(body-1);
+
+        h1 {
+            @include use-typography(headline);
+        }
+        h2 {
+            @include use-typography(title);
+        }
+        h3 {
+            @include use-typography(subheading-1);
+        }
+    }
+    
+    .mat-form-field {
+        @include use-typography(input);
+    }
+    
+    .cdk-overlay-dark-backdrop {
+        background-color: $learnt-overlay-dark-backdrop-background;
+        backdrop-filter: blur(10px);
+    }
+
+    body.learnt-theme {
+        @include angular-material-color($learnt-color-config-2);
+        @include angular-material-typography($learnt-typography-2);
+
+        background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #fcf5f5 100%) !important;
+        overflow: hidden;
+        color: $text;
+        @include use-typography(body-1);
+
+        .mat-autocomplete-panel, .mat-select-panel {
+            &::-webkit-scrollbar {
+                width: 10px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: $red;
+                border-radius: 4px;
+            }
+            &::-webkit-scrollbar-track {
+                border-radius: 4px;
+                background-color: $background-1;
+            }
+        }
+
+        .mat-form-field-required-marker {
+            display: none;
+        }
+
+        .mat-option {
+            font-size: 1rem;
+        }
+
+        .mat-calendar {
+            background: #fff;
+        }
+
+        .mat-select-trigger {
+            margin-top: 2rem;
+        }
+
+        .mat-form-field.mat-focused {
+            .mat-form-field-label {
+                color: $text;
+            }
+        }
+
+        .mat-form-field-label {
+            color: $label-color;
+        }
+
+        .mat-error {
+            color: $red;
+            @include use-typography(error)
+        }
+        
+        .mat-focused.mat-form-field-appearance-outline {
+            .mat-form-field-outline {
+                color: $red;
+            }
+        }
+
+        .mat-form-field-label {
+            @include use-typography(label);
+        }
+
+        input.mat-input-element, select.mat-input-element {
+            margin: 1rem 0 0.5rem;
+        }
+
+        .mat-input-element::placeholder {
+            @include use-typography(label);
+        }
+
+        .mat-form-field-infix {
+            border-top: 0;
+        }
+
+        .mat-form-field-appearance-outline {
+            .mat-form-field-subscript-wrapper {
+                z-index: 1;
+                margin-top: 0;
+                .mat-error:not(:first-child) {
+                   display: none;
+                }
+            }
+            
+            .mat-form-field-infix {
+                padding: 0;
+                height: 72px;
+                display: flex;
+                place-content: center start;
+            }
+            
+            .mat-form-field-flex {
+                margin-top: 0;
+            }
+
+            .mat-form-field-wrapper {
+                margin: 0;
+            }
+
+            .mat-form-field-label {
+                margin-top: 0;
+            }
+
+            .mat-form-field-label-wrapper {
+                top: 0;
+                padding-top: 0;
+            }
+
+            &.mat-form-field-should-float.mat-form-field-can-float {
+                .mat-form-field-label {
+                    transform: translateY(-0.7rem) scale(0.85);
+                }
+            }
+
+            .mat-form-field-outline {
+                color: $border-color;
+                top: 0;
+            }
+
+            .mat-form-field-outline-start {
+                border-radius: 16px 0 0 16px;
+                width: 50% !important;
+                background: #fff;
+            }
+
+            .mat-form-field-outline-end {
+                border-radius: 0 16px 16px 0;
+                width: 50%;
+                background: #fff;
+            }
+
+            .mat-form-field-outline-gap {
+                width: 0 !important;
+                background: #fff;
+            }
+        }
+
+        .mat-form-field-infix {
+            width: auto;
+        }
+
+        .mat-white {
+            color: #fff;
+        }
+
+        .mat-button, .mat-raised-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}

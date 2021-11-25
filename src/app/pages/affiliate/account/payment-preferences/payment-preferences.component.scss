@@ -1,0 +1,86 @@
+@import '../../../../../variables.scss';
+
+:host {
+    .terms {
+        .info {
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: justify;
+            line-height: 20px;
+        }
+
+        .check-link {
+            a {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .payment-preferences, .bank-account {
+        margin-bottom: 60px;
+    }
+
+    .form {
+        .or {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999999;
+            position: absolute;
+            margin-left: 15px;
+            line-height: 11px;
+        }
+
+        .input-row {
+            height: 65px;
+        }
+
+        .input-wrapper {
+            width: 50%;
+
+            mat-form-field {
+                width: 90%;
+            }
+
+            mat-error::first-letter {
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .save {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: #ffffff;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        border-top: 1px solid #f3f3f3;
+
+        button {
+            margin: 0 5px;
+            border: 1px solid;
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        .form .or {
+            margin-left: 0px;
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-xs) {
+    :host {
+        .form .or {
+            position: relative !important;
+            display: block;
+            margin-bottom: 20px;
+        }
+    }
+}
+

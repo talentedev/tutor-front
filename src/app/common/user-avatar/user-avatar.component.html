@@ -1,0 +1,27 @@
+<div status
+     [class]="status"
+     [style.width.px]="statusStyle.width"
+     [style.height.px]="statusStyle.height"
+     [style.min-width.px]="statusStyle.width"
+     [style.min-height.px]="statusStyle.height"
+     [style.border-width.px]="statusStyle.borderWidth"
+     [style.left.px]="statusStyle.left"
+     [style.top.px]="statusStyle.top"
+     [matTooltip]="status">
+</div>
+
+<ng-container *ngIf="user">
+    <ng-container *ngIf="isTutor() && link; else noLink">
+        <a [routerLink]="['/tutor', user ? user._id : '']">
+            <div class="avatar-image"
+                 [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}">
+            </div>
+        </a>
+    </ng-container>
+ 
+    <ng-template #noLink>
+        <div class="avatar-image"
+             [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}" >
+        </div>
+    </ng-template>
+</ng-container>

@@ -1,0 +1,26 @@
+<div [class.uploading]="uploading" [class.filled]="!!file" class="upload-button" #button
+     [class.disabled]="disabled" (click)="onClick()">
+    <!-- Placeholder -->
+    <span class="placeholder" *ngIf="!file && !uploading">
+        <mat-icon class="arrow" svgIcon="full-arrow-up"></mat-icon>
+        <span>{{placeholder}}</span>
+    </span>
+
+    <!-- No file -->
+    <input #fileInput id="file" hidden (change)="onFileChange(fileInput.files[0])" type="file" [accept]="accept"/>
+
+    <!-- Uploading -->
+    <div *ngIf="uploading" class="uploading">
+        <learnt-spinner></learnt-spinner>
+        <span>Uploading...</span>
+    </div>
+
+    <!-- File ready -->
+    <div *ngIf="file && !uploading" class="filename">
+        <span class="label">File:</span>
+        <span class="name">{{file.name}}</span>
+        <a title="Delete file" class="ms-2" (click)="delete($event)">
+            <mat-icon svgIcon="close" class="close" color="learnt-red"></mat-icon>
+        </a>
+    </div>
+</div>

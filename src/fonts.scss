@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'proximasoft-regular';
+    src: url('/assets/fonts/proximasoft-regular-webfont.woff2') format('woff2'),
+    url('/assets/fonts/proximasoft-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'proximasoft-medium';
+    src: url('/assets/fonts/proximasoft-medium-webfont.woff2') format('woff2'),
+    url('/assets/fonts/proximasoft-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'proximasoft-bold';
+    src: url('/assets/fonts/proximasoft-bold-webfont.woff2') format('woff2'),
+    url('/assets/fonts/proximasoft-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+    local('MaterialIconsRounded-Regular'),
+    url('/assets/fonts/MaterialIconsRound-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: Quicksand;
+    font-style: normal;
+    font-weight: 500 700;
+    src: local('Quicksand Bold'),
+        url(~assets/fonts/Quicksand-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Quicksand;
+    font-style: normal;
+    font-weight: 100 400;
+    src: local('Quicksand Regular'),
+        local(Quicksand),
+        url(~assets/fonts/Quicksand-Regular.ttf) format('truetype');
+}

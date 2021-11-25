@@ -1,0 +1,47 @@
+<div class="menu__container">
+    <header [class.transparent]="transparent">
+        <div class="buttons buttons--left">
+            <div>
+                <a class="link" *ngIf="!me" routerLink="/main/tutors">
+                    Browse Tutors
+                </a>
+            </div>
+            <div>
+                <a class="link" routerLink="/main/tutors" [queryParams]="{instantSession: true}">
+                    Jump into a Session
+                </a>
+            </div>
+            <div>
+                <a class="link" routerLink="/" fragment="vc">
+                    Virtual Classroom
+                </a>
+            </div>
+        </div>
+        <a [routerLink]="'/'" fragment="" class="site-brand">
+            <img src="/assets/learnt-logo-tm.svg" alt="learnt logo" class="site-logo">
+        </a>
+        <button learnt-button size="sm" class="btn-signup--mobile" [routerLink]="['/start/register']">
+            Sign up/Log in
+        </button>
+        <div class="buttons buttons--right">
+            <div>
+                <a class="link" *ngIf="!me" [routerLink]="['/start/register/affiliate']">
+                    Become an Affiliate {{ me?.name}}
+                </a>
+            </div>
+            <div>
+                <a class="link" [routerLink]="['/start/apply']">
+                    Become a Tutor
+                </a>
+            </div>
+            <div>
+                <button learnt-button="red" [routerLink]="['/start/register']">
+                    Sign up/Log in
+                </button>
+            </div>
+        </div>
+        <div class="toggle-menu">
+            <mat-icon svgIcon="menu" (click)="showMenu()"></mat-icon>
+        </div>
+    </header>
+</div>

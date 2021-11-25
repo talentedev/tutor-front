@@ -1,0 +1,40 @@
+<div class="video__container" [style]="{display: state != 'initial' ? 'block' : 'none'}">
+    <video #video preload="auto"></video>
+    <div class="video__controls">
+        <ng-container *ngIf="state === 'recorded' || state === 'uploaded'">
+            <button mat-raised-button (click)="play()">Play</button>
+            <button mat-icon-button color="primary" (click)="removeVideo()">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="state === 'playing'">
+            <button mat-raised-button (click)="stopPlaying()">Stop</button>
+        </ng-container>
+        <ng-container *ngIf="state === 'recording'">
+            <button mat-raised-button (click)="stopRecord()">Stop</button>
+            <div style="position:absolute; right:0px; bottom:0px; color:white;">Duration: {{counter}} seconds</div>
+        </ng-container>
+    </div>
+</div>
+<div class="controls">
+    <div class="duration" *ngIf="state == 'recorded' && duration">Recorded {{duration}} seconds</div>
+    <div class="duration" *ngIf="state == 'uploaded' && duration">Uploaded {{duration}} seconds</div>
+
+    <div [class.d-none]="state !== 'initial'" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+        <div fxFlex="50%">
+            <button class="record-btn" learnt-button="red-stroked" [fluid]="true" [size]="'lg'" [icon-position]="'left'" (click)="startRecord()" [disabled]="requesting">
+                <mat-icon svgIcon="video-camera"></mat-icon>Record Video
+            </button>
+        </div>
+        <div fxFlex="50%">
+            <learnt-upload-button
+                [uploadOnSelect]="false"
+                [formControl]="videoUpload"
+                [mimes]="['video/webm', 'video/mp4', 'video/quicktime']"
+                placeholder="Upload video" context="applying"
+                [maxSize]="maxUploadSize">
+            </learnt-upload-button>
+        </div>
+    </div>
+</div>
+

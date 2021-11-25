@@ -1,0 +1,137 @@
+@import '../../../../variables';
+
+:host {
+    @media (max-width: $layout-breakpoint-md) {
+        .top {
+            margin-bottom: 0;
+        }
+
+        .earnings {
+            padding: 0 60px;
+        }
+
+        .activity,
+        .inboxobox {
+            padding: 45px 60px;
+        }
+
+        .boxes {
+            margin: 15px 0 0 0;
+
+            .boxes-wrapper {
+                &.left {
+                    margin: 0 7px 0 15px;
+                }
+
+                &.right {
+                    margin: 0 15px 0 7px;
+                }
+
+                & > * {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+
+    @media (min-width: $layout-breakpoint-md) {
+        .top {
+            .inner {
+                width: 1116px;
+                > img {
+                    margin: 10px 40px;
+                }
+            }
+        }
+
+        .boxes {
+            width: 1116px;
+            margin: 50px auto;
+            > div {
+                flex: 1;
+            }
+            > div:first-child {
+                margin-right: 30px;
+            }
+        }
+
+        learnt-box {
+            margin-bottom: 30px;
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        .boxes-wrapper {
+            &.left,
+            &.right {
+                margin: 0 15px !important;
+            }
+
+            .notifications {
+                padding: 0px;
+            }
+
+            learnt-referral-box {
+                padding: 0px;
+                ::ng-deep learnt-box {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-xs) {
+        display: flex;
+        flex-direction: column;
+        flex-flow: column-reverse;
+        padding-top: 8rem;
+
+        .top {
+            margin-top: 15px;
+
+            img {
+                display: none;
+            }
+            .inner {
+                padding: 20px;
+                height: unset;
+
+                div {
+                    margin: 0;
+                    p {
+                        margin: 10px 0 20px;
+                    }
+                }
+            }
+        }
+        .boxes {
+            flex-direction: column-reverse;
+
+            margin: 0;
+
+            .boxes-wrapper {
+                &.left,
+                &.right {
+                    margin: 0 !important;
+                }
+
+                & > * {
+                    margin-bottom: 15px;
+                }
+
+                learnt-referral-box {
+                    ::ng-deep learnt-box {
+                        margin-bottom: 0px;
+                    }
+                }
+            }
+
+            .activity,
+            .notifications,
+            .inboxobox,
+            .earnings {
+                padding: 0;
+            }
+        }
+    }
+}

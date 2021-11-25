@@ -1,0 +1,41 @@
+<form [formGroup]="cardForm" (submit)="addCard($event)">
+    <div class="card-logos" *ngIf="cardProvider">
+        <img src="/assets/card-logos/visa.svg" alt="VISA" [class.active]="cardProvider.visa"/>
+        <img src="/assets/card-logos/mastercard.svg" alt="MasterCard" [class.active]="cardProvider.mastercard"/>
+        <img src="/assets/card-logos/discover.svg" alt="Discover" [class.active]="cardProvider.discover"/>
+        <img src="/assets/card-logos/amex.svg" alt="AmericanExpress" [class.active]="cardProvider.amex"/>
+    </div>
+
+    <div class="card-number mt-4">
+        <p class="m-0">Credit card number</p>
+        <input #cardNumber type="text" mask="0000-0000-0000-0000" placeholder="XXXX-XXXX-XXXX-XXXX" class="border-0" formControlName="number"
+               (keyup)="updateProvider(cardNumber.value)"/>
+    </div>
+    <mat-error *ngIf="cardForm.get('number').hasError('required')">Card number is required.</mat-error>
+    <mat-error *ngIf="cardForm.get('number').hasError('cardAlreadyExists')">This card already exists.</mat-error>
+    <mat-error *ngIf="cardForm.get('number').hasError('invalidFields')">Invalid fields provided.</mat-error>       
+    <mat-error *ngIf="cardForm.get('number').hasError('stripe')">{{cardForm.get('number').getError('stripe')}}
+    </mat-error>
+
+    <div class="d-flex">
+        <div class="card-date">
+            <p class="m-0">Validity</p>
+            <input type="text" formControlName="exp" mask="00/00" placeholder="XX/XX" class="border-0">
+            <div class="error" *ngIf="cardForm.get('exp').hasError('required')">Expiration Date is required.</div>
+            <div class="error" *ngIf="cardForm.get('exp').hasError('invalidDate')">Expiration date cannot occur in the past.</div>
+            <div class="error" *ngIf="cardForm.get('exp').hasError('stripe')">{{cardForm.get('exp').getError('stripe')}}            </div>
+        </div>
+        <div class="card-cvv">
+            <p class="m-0">Cvv</p>
+            <input type="text" formControlName="cvc" mask="000" placeholder="XXX" class="border-0">
+            <div class="error" *ngIf="cardForm.get('cvc').hasError('required')">CVV is required.</div>
+            <div class="error" *ngIf="cardForm.get('cvc').hasError('stripe')">{{cardForm.get('cvc').getError('stripe')}}
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="w-100 border-0 text-white" [disabled]="cardForm.invalid || loading">
+        Add Card
+        <learnt-spinner *ngIf="loading"></learnt-spinner>
+    </button>
+</form>

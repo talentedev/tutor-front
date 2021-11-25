@@ -1,0 +1,303 @@
+@import '../../../../../variables.scss';
+
+:host {
+    height: 100%;
+    width: 300px;
+    min-width: 300px;
+    border-right: 1px solid #E9E9E9;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    overflow: auto;
+
+    .calendar {
+        padding: 0 10px;
+
+        .header {
+            display: flex;
+            font-size: 18px;
+            // line-height: 30px;
+            color: #222222;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 5px;
+
+            .arrow {
+                cursor: pointer;
+                &.disabled {
+                    opacity: 0.3;
+                    pointer-events: none;
+                }
+                mat-icon {
+                    height: 12px;
+                    transform: scaleY(1.2);
+                }
+                &:first-child {
+                    border-right: 1px solid #F0E5E5;
+                    margin-right: 5px;
+                    padding-right: 5px;
+                }
+            }
+
+            .date > strong {
+                margin-right: 5px;
+            }
+        }
+
+        .desktop-calendar {
+            button {
+                background: #78C7D6;
+                box-shadow: 0px 18px 37px rgba(120, 199, 214, 0.3);
+                border-radius: 14px;
+                border:  none;
+                color: white;
+                font-weight: normal;
+                width: 100%;
+            }
+        }
+
+        .weekdays {
+            display: flex;
+            font-size: 16px;
+            line-height: 37px;
+            color: #797979;
+
+            .weekday {
+                width: 14.28%;
+                text-align: center;
+                font-size: 12px;
+            }
+        }
+
+        .days {
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 14px;
+            line-height: 35px;
+            color: #222222;
+
+            .day {
+                width: 14.28%;
+                text-align: center;
+                cursor: pointer;
+                position: relative;
+                z-index: 15;
+
+                &.booked::after {
+                    content: '';
+                    height: 3px;
+                    width: 3px;
+                    background: #89c0ca;
+                    border: 1px solid #89c0ca;
+                    border-radius: 50%;
+                    position: absolute;
+                    z-index: -1;
+                    left: 25px;
+                    top: 6px;
+                }
+
+                &.today {
+                    &::before {
+                        content: '';
+                        width: 30px;
+                        height: 24px;
+                        border: 1px solid rgba(255, 148, 150, 0.5);
+                        border-radius: 4px;
+                        position: absolute;
+                        z-index: -1;
+                        left: -1px;
+                        top: 4px;
+                    }
+                }
+
+                &.active {
+                    color: #FFFFFF;
+
+                    &::before {
+                        content: '';
+                        width: 30px;
+                        height: 24px;
+                        background: #FF676B;
+                        border: 1px solid #F37073;
+                        border-radius: 4px;
+                        position: absolute;
+                        z-index: -1;
+                        left: -1px;
+                        top: 4px;
+                    }
+
+                    &.booked::after {
+                        background: #f8eb76;
+                        border: 1px solid #f8eb76;
+                    }
+                }
+
+                &.inactive {
+                    color: #CCCCCC;
+                }
+            }
+        }
+
+        .share {
+            margin-top: 10px;
+            padding-top: 10px;
+            .copy {
+                display: flex;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .message {
+                padding-top: 10px;
+                margin: auto;
+                justify-content: center;
+                align-items: center;
+                font-size: 11px;
+            }
+        }
+    }
+
+    .lessons-wrapper {
+        h2 {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .lesson {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1rem;
+            padding: 10px 0px;
+            border-bottom: 1px solid #F0E5E5;
+
+            .time {
+                font-weight: bold;
+                width: 65px;
+                max-width: 65px;
+                min-width: 65px;
+                border-right: 3px solid #77D2ED;
+            }
+
+            .subject {
+                margin: 0;
+                font-weight: bold;
+                padding-left: 1rem;
+            }
+
+            .name {
+                padding-left: 1rem;
+            }
+
+            .status {
+                width: 3px;
+                background: #77D2E9;
+                border-radius: 2px;
+                margin: 0 10px;
+            }
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+        }
+        @media(max-width: $layout-breakpoint-xs){
+            padding: 0 15px 45px 15px;
+        }
+
+    }
+
+    .days-mobile {
+        display: none !important;
+    }
+}
+
+@media(max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        width: 100%;
+        padding-right: 0px;
+        height: 100vh;
+        .lessons-wrapper {
+            .lesson {
+                width: 100%;
+            }
+        }
+
+        .share {
+            margin-top: 10px;
+            padding-top: 10px;
+            .copy {
+                margin-top: 15px;
+                display: flex;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .message {
+                padding-top: 10px;
+                margin: auto;
+                justify-content: center;
+                align-items: center;
+                font-size: 11px;
+            }
+        }
+
+        .calendar {
+            padding: 0 30px;
+            .day.today::before, .day.active::before {
+                left: 4px !important;
+            }
+        }
+
+        .calendar .header .date {
+            font-size: 24px;
+        }
+
+        .days-mobile {
+            display: flex !important;
+            flex-wrap: wrap;
+            font-size: 14px;
+            line-height: 35px;
+            color: #222222;
+            justify-content: space-around;
+            flex: 0 1 auto;
+
+            .weekday {
+                text-align: center;
+                display: block;
+            }
+
+            .day-container {
+                display: block;
+                &.day-muted {
+                    color: #CCCCCC;
+                }
+            }
+
+            .day {
+                font-size: 20px;
+                min-width: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 55%;
+
+                &.active {
+
+                    &::before {
+                        left: 0 !important;
+                        top: 3px;
+                        right: 0 !important;
+                        margin: 0 auto 0 !important;
+                    }
+                }
+            }
+
+            .weekday {
+                display: block;
+            }
+        }
+    }
+}
+

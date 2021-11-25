@@ -1,0 +1,22 @@
+:host {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+
+    &:hover {
+        background: rgba(243, 112, 115, 0.3);
+        border: 1px solid rgba(243, 113, 115, 0.4);
+    }
+
+    &.active {
+        background: rgba(243, 112, 115, 0.8);
+        border: 1px solid #F37073;
+    }
+
+    ::ng-deep mat-icon svg g {
+        fill: #fff;
+    }
+}

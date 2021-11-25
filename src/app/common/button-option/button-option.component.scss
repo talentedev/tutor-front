@@ -1,0 +1,20 @@
+@import "src/variables";
+
+:host {
+    button {
+        background: transparent;
+        padding: 0.875rem 1.25rem;
+        color: $label-color;
+        border: 1px solid #e2cdcd;
+        border-radius: 0.9375rem;
+        &:focus {
+            outline: none;
+        }
+    }
+    button.active {
+        background: $red;
+        border: none;
+        color: #fff;
+        box-shadow: 0 18px 37px rgba(255, 103, 107, 0.3);
+    }
+}

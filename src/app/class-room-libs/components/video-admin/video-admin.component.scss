@@ -1,0 +1,50 @@
+:host {
+  .video__container {
+    max-width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    background: #000;
+  }
+  
+  .video__wrapper {
+    position: relative;
+    display: flex;
+  }
+  
+  .user-name {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: white;
+    font-size: 0.625rem;
+  }
+
+  .video {
+    width: 382px;
+    height: 215px;
+  }
+  
+  &.fullscreen {
+    .video__container {
+      flex-flow: row nowrap;
+      max-height: 100vh;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background: #000;
+      width: 100vw;
+      z-index: 50;
+    }
+    .video__wrapper {
+      width: 50%;
+    }
+    .video {
+      height: 100%;
+      width: 100%;
+    }
+    .user-name {
+      font-size: 1rem;
+    }
+  }
+}

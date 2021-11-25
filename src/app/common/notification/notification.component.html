@@ -1,0 +1,10 @@
+<div class="icon">
+    <mat-icon [svgIcon]="n?.icon" color="learnt-dark"></mat-icon>
+</div>
+<div class="info">
+    <div class="title">{{n?.title}}</div>
+    <div class="message">{{n?.message}}</div>
+</div>
+<button matTooltip="Dismiss" class="close">
+    <mat-icon svgIcon="close" color="learnt-red" (click)="close($event)"></mat-icon>
+</button>

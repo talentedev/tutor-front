@@ -1,0 +1,103 @@
+:host {
+    display: flex;
+    height: 50px;
+
+    .day-number {
+        width: 50px;
+        height: 50px;
+        border: 0.5px solid #ECECEC;
+        background: #fff;
+        border-radius: 50%;
+        color: #444444;
+        text-align: center;
+        line-height: 50px;
+        position: relative;
+        user-select: none;
+        cursor: pointer;
+        &:hover {
+            border: 1px solid #F37073;
+        }
+    }
+
+    .day-number-holder {
+        position: relative;
+        .halfbg {
+            position: absolute;
+            width: 50%;
+            background: #fff;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    }
+
+    .timeline {
+        position: relative;
+        border-bottom-right-radius: 100px;
+        border-top-right-radius: 100px;
+        background: #fff;
+        width: 100%;
+        .hours {
+            position: absolute;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            display: flex;
+            flex: 1;
+            .hour {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-right: 1px solid #F6F6F6;
+            }
+        }
+
+        .slots {
+            position:absolute;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: .3;
+    }
+}
+
+.learnt-calendar-popover .day-part {
+    background: rgba(#F37073, 80%);
+    border: 1px solid #F37073;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    height: 40px;
+    color: #fff;
+
+    svg {
+        margin-right: 5px;
+        pointer-events: none;
+        g { fill: #ffffff; }
+    }
+
+    &:hover {
+        background: lighten(#F37073, 5%);
+    }
+
+    &.block {
+        background: rgba(#F8EB76, 80%);
+        border: 1px solid #F8EB76;
+        color: #222222;
+        svg g { fill: #222222; }
+
+        &:hover {
+            background: lighten(#F8EB76, 5%);
+        }
+    }
+}

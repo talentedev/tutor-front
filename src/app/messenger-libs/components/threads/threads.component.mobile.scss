@@ -1,0 +1,31 @@
+@import "../../../../variables";
+:host {
+    @media (max-width: $layout-breakpoint-sm) {
+        .no-results {
+            // margin: 0 25px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+
+            .inbox-icon {
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-xs) {
+        .no-results {
+            .inbox-icon {
+                margin-bottom: 10px;
+
+                svg {
+                    width: 60px;
+                    height: 60px;
+                }
+            }
+
+            p {
+                line-height: 20px;
+            }
+        }
+    }
+}

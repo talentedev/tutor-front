@@ -1,0 +1,75 @@
+<learnt-box [padding]="padding" headline="Notifications">
+    <head-left>
+        <div class="counter" *ngIf="counter && count > 0">{{count}}</div>
+    </head-left>
+
+    <head-right>
+        <a *ngIf="!deletingAll" (click)="clearAll()">Clear All</a>
+        <learnt-spinner *ngIf="deletingAll"></learnt-spinner>
+    </head-right>
+
+    <div class="no-results" *ngIf="!loading && notifications && count === 0" layout="row" layout-align="start center">
+        <div layout="row" layout-align="center center">
+            <svg width="57px" height="57px" viewBox="0 0 57 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Desktop---02-Dashboard-Empty" transform="translate(-878.000000, -576.000000)">
+                        <g id="Notifications" transform="translate(812.000000, 442.000000)">
+                            <g id="illustration" transform="translate(67.000000, 135.000000)">
+                                <g id="icon">
+                                    <circle id="Oval" stroke-opacity="0.3" stroke="#89C0CA" stroke-width="0.5" cx="27.5" cy="27.5" r="27.5"></circle>
+                                    <path
+                                        d="M32.9086651,32.1007026 L34.4894614,33.6814988 L34.4894614,34.4894614 L21,34.4894614 L21,33.6814988 L22.5807963,32.1007026 L22.5807963,27.7447307 C22.5807963,26.5503445 22.9554998,25.4789283 23.704918,24.5304438 C24.4543363,23.5819616 25.4028051,22.9789242 26.5503513,22.7213115 L26.5503513,22.1943794 C26.5503513,21.866509 26.6674466,21.5854808 26.9016393,21.3512881 C27.1358321,21.1170953 27.4168603,21 27.7447307,21 C28.072601,21 28.3536292,21.1170953 28.587822,21.3512881 C28.8220148,21.5854808 28.9391101,21.866509 28.9391101,22.1943794 L28.9391101,22.7213115 C30.0866563,22.9789242 31.0351251,23.5819616 31.7845433,24.5304438 C32.5339616,25.4789283 32.9086651,26.5503445 32.9086651,27.7447307 L32.9086651,32.1007026 Z M26.1709602,34.4894614 L29.1217799,34.4894614 C29.1217799,34.8875898 28.9754102,35.2388745 28.6826709,35.5433255 C28.3899294,35.8477767 28.044498,36 27.64637,36 C27.2482421,36 26.9028107,35.8477767 26.6100691,35.5433255 C26.3173298,35.2388745 26.1709602,34.8875898 26.1709602,34.4894614 Z"
+                                        id="Page-1" fill="#89C0CA"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+            <span>No notifications</span>
+        </div>
+    </div>
+
+    <learnt-spinner class="center-loading" *ngIf="loading"></learnt-spinner>
+
+    <ul *ngIf="notifications && count" [class.paginated]="paginated">
+        <li *ngFor="let notification of notifications" layout="row" layout-align="start center">
+            <div class="icon" layout="row" layout-align="center center">
+                <img width="20" src="/assets/{{notification.icon || 'bell'}}.svg"/>
+            </div>
+
+            <div flex>
+                <div class="title">
+                    <ng-container [ngSwitch]="notification.type">
+                        <!-- lesson booked and lesson accepted point to the calendar details page -->
+                        <a *ngSwitchCase="1" routerLink="/main/account/calendar/details/{{notification.data.lesson._id}}">{{notification.title}}</a>
+                        <a *ngSwitchCase="2" routerLink="/main/account/calendar/details/{{notification.data.lesson._id}}">{{notification.title}}</a>
+
+                        <!-- lesson change requests -->
+                        <a *ngSwitchCase="7" (click)="openPanel(notification, 7)">{{notification.title}}</a>
+                        <a *ngSwitchCase="14" (click)="openPanel(notification, 14)">{{notification.title}}</a>
+                        <a *ngSwitchCase="15" (click)="openPanel(notification, 15)">{{notification.title}}</a>
+
+                        <!-- tutor rate dialog -->
+                        <a *ngSwitchCase="16" (click)="rateTutor(notification)">{{notification.title}}</a>
+
+                        <!-- Favorite tutor is online -->
+                        <a *ngSwitchCase="18" routerLink="/main/tutor/{{notification.data.tutor}}">{{notification.title}}</a>
+
+                        <!-- default, non interactive -->
+                        <span *ngSwitchDefault>{{notification.title}}</span>
+                    </ng-container>
+                </div>
+                <div class="text">{{notification.message}}</div>
+            </div>
+
+            <button *ngIf="!notification.deleting" matTooltip="Delete this notification" class="close" (click)="remove(notification, $event)">
+                <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+            </button>
+
+            <learnt-spinner *ngIf="notification.deleting"></learnt-spinner>
+        </li>
+    </ul>
+
+    <learnt-pagination *ngIf="paginated" [pages]="pages" (page)="getPage($event)"></learnt-pagination>
+</learnt-box>

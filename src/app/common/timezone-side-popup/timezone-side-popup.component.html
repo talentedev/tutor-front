@@ -1,0 +1,18 @@
+<div class="preloader" *ngIf="loading">
+  <learnt-spinner></learnt-spinner>
+</div>
+<div *ngIf="!loading">
+  <div class="head" layout="row" layout-align="center center">
+    <h3 flex>Please set your time zone</h3>
+    <a (click)="visibility = 'hidden'">
+      <span>Close</span>
+      <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+    </a>
+  </div>
+  <div class="tzlist">
+    <div class="tz" *ngFor="let tz of timezones" layout="row" (click)="select(tz)">
+      <div class="name" flex>{{tz.zone}}</div>
+      <div class="offset">{{tz.time}}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,151 @@
+:host {
+  $rows: 4;
+  $columns: 3;
+
+  $rowsFull: 8;
+
+  $hourWidth: 85px;
+  $hourHeight: 50px;
+
+  .calendar {
+      height: calc(#{$rows} * #{$hourHeight} * 1.1);
+      width: 100%;
+      margin: 10px auto;
+
+      .hours-wrapper {
+          display: flex;
+          flex-flow: column wrap;
+          max-height: 100%;
+          width: 33.3%;
+          align-content: flex-start;
+
+          .hour {
+              width: 98%;
+              margin: 1%;
+              height: $hourHeight;
+              position: relative;
+              // border-bottom: 1px solid rgba(151, 151, 151, 0.2);
+              background: rgba(230, 241, 244, 0.63);
+              border-radius: 3px;
+              user-select: none;
+
+              &.hidden {
+                  display: none;
+              }
+
+              &.lighter {
+                  background: #fafafa;
+              }
+
+              span {
+                  font-family: Quicksand;
+                  font-style: normal;
+                  font-weight: normal;
+                  font-size: 12px;
+                  line-height: 21px;
+                  color: #3E1011;
+                  position: absolute;
+                  top: 6px;
+                  left: 12px;
+              }
+
+              .first-half {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 50%;
+                  z-index: 2;
+                  cursor: not-allowed;
+                  pointer-events: none;
+
+                  &.available {
+                      cursor: pointer;
+                      background: #78C7D6;
+                      opacity: 0.45;
+                      border-radius: 3px 3px 0 0;
+                      // background: rgba(137, 192, 202, 0.20);
+                  }
+
+                  &.start {
+                      background: #FFCACB;
+                      border-top-left-radius: 3px;
+                      border-top-right-radius: 3px;
+                      width: 100%;
+                      // left: 2px;
+                      top: 2px;
+                      border: 1px solid #FF676B;
+                      border-bottom: none;
+                  }
+
+                  &.middle {
+                      background: #FFCACB;
+                      width: 100%;
+                      height: 27px;
+                      // left: 2px;
+                      border-left: 1px solid #FF676B;
+                      border-right: 1px solid #FF676B;
+                  }
+
+                  &.end {
+                      width: 100%;
+                      // left: 2px;
+                      top: -1px;
+                      background: #FFCACB;
+                      border-bottom-left-radius: 3px;
+                      border-bottom-right-radius: 3px;
+                      border: 1px solid #FF676B;
+                      border-top: none;
+                  }
+
+                  &.start.end {
+                      top: 2px;
+                      height: 21px;
+                      border: 1px solid #FF676B;
+                  }
+              }
+
+              .second-half {
+                  @extend .first-half;
+                  top: calc(#{$hourHeight / 2});
+                  pointer-events: none;
+
+                  &.available {
+                      border-radius: 0 0 3px 3px;
+                      // background: rgba(137, 192, 202, 0.20);
+                  }
+
+                  &.start {
+                      top: 25px;
+                  }
+
+                  &.middle {
+                      top: 27px;
+                      height: 23px;
+                  }
+
+                  &.end {
+                      top: 27px;
+                      height: 20px;
+                  }
+
+                  &.start.end {
+                      @extend .end;
+                  }
+              }
+
+              .available {
+                  background: rgba(137, 192, 202, 0.15);
+                  position: absolute;
+                  width: 100%;
+                  z-index: 1;
+                  pointer-events: initial;
+              }
+          }
+      }
+
+      &.full {
+          height: calc(#{$rowsFull} * #{$hourHeight} * 1.1);
+      }
+  }
+}

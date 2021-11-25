@@ -1,0 +1,42 @@
+:host {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 50%;
+    }
+
+    .avatar-image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-clip: border-box;
+        background-repeat: no-repeat;
+        background-position: center center;
+        border-radius: 8px;
+    }
+
+    [status] {
+        border-color: #FFF;
+        border-style: solid;
+        border-radius: 50%;
+        position: absolute;
+        display: none;
+        
+        &.online {
+            background: #65D1AD;
+            display: block;
+        }
+
+        &.idle {
+            background: lightblue;
+            display: block;
+        }
+    }
+}

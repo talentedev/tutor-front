@@ -1,0 +1,255 @@
+<div class="content" *ngIf="!tutor && loading">
+    <learnt-spinner></learnt-spinner>
+</div>
+
+<div class="content" *ngIf="tutor && !success">
+    <div class="step-title">Step {{bookingFormStep+1}} of 3</div>
+    <ng-container [ngSwitch]="editing">
+        <p class="title" *ngSwitchCase="true">Edit your session with {{tutor.profile.first_name}}</p>
+        <p class="title" *ngSwitchDefault>Book a session with {{tutor.profile.first_name}}</p>
+    </ng-container>
+
+    <form [formGroup]="bookingForm" (submit)="book($event)" class="step-{{bookingFormStep}}">
+        <div class="form-body">
+            <ng-container *ngIf="bookingFormStep === 0">
+                <div>
+                    <div class="select">
+                        <mat-form-field>
+                            <mat-select placeholder="Subject" formControlName="subject">
+                                <mat-option *ngFor="let subject of tutor.tutoring.subjects" [value]="subject.subject">{{subject.subject.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                    </div>
+                    <div class="select">
+                        <mat-form-field>
+                            <mat-select #meetSelect placeholder="Meeting" formControlName="meet" (selectionChange)="changedLocation($event)">
+                                <mat-option [disabled]="!tutor.canMeetInPerson" [value]="locationOffline">
+                                    In Person
+                                </mat-option>
+                                <mat-option [value]="locationOnline">Online</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                    </div>
+
+                    <div class="location" [class.visible]="bookingForm.get('meet').value === locationOffline">
+                        <mat-form-field>
+                            <input matInput required type="text" placeholder="Location" [value]="latestLocationAddress" #search />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button *ngIf="bookingFormStep === 0" mat-raised-button color="primary" type="button" (click)="bookAuth()">
+                        Next
+                    </button>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="bookingFormStep === 1">
+                <div>
+                    <div class="month">
+                        <a (click)="setDate(-1, 'months')" [ngClass]="{hidden: date.isSame(today, 'month')}">
+                            <mat-icon svgIcon="arrow-left"></mat-icon>
+                        </a>
+
+                        <span>{{date.format('MMMM YYYY')}}</span>
+
+                        <a (click)="setDate(1, 'months')">
+                            <mat-icon svgIcon="arrow-right"></mat-icon>
+                        </a>
+                    </div>
+
+                    <div class="day">
+                        <a (click)="setDate(-1, 'days')" [ngClass]="{hidden: prevDate.isBefore(today, 'day')}">
+                            <mat-icon svgIcon="arrow-left" style="color: '#A18C8D';"></mat-icon>
+                        </a>
+
+                        <span>{{prevDate.format('ddd D ')}}</span>
+                        <span class="active">{{date.format('ddd D ')}}</span>
+                        <span>{{nextDate.format('ddd D ')}}</span>
+
+                        <a (click)="setDate(1, 'days')">
+                            <mat-icon svgIcon="arrow-right" style="color: '#A18C8D';"></mat-icon>
+                        </a>
+                    </div>
+
+                    <div class="when space-evenly">
+                        <div class="period">
+                            <mat-icon svgIcon="morning"></mat-icon>
+                            <p>Morning</p>
+                        </div>
+
+                        <div class="period">
+                            <mat-icon svgIcon="afternoon"></mat-icon>
+                            <p>Afternoon</p>
+                        </div>
+
+                        <div class="period">
+                            <mat-icon svgIcon="evening"></mat-icon>
+                            <p>Evening</p>
+                        </div>
+                    </div>
+
+                    <learnt-booking-calendar
+                        [availability]="availability"
+                        [full]="fullHours"
+                        [date]="date"
+                        [userLessons]="userLessons"
+                        (change)="onBookingSlotsSelect($event)"
+                    ></learnt-booking-calendar>
+
+                    <div class="text">
+                        <a (click)="changeTimezone()" class="timezone">
+                            <ng-container>{{me.timezone}}</ng-container>
+                        </a>
+                        
+                        <ng-template #empty><span></span></ng-template>
+
+                        <a *ngIf="!fullHours; else lessHours" (click)="fullHours = true" class="switch-type">Show all hours?</a>
+                        <ng-template #lessHours>
+                            <a (click)="fullHours = false" class="switch-type">Show less hours?</a>
+                        </ng-template>
+                    </div>
+
+                    <div class="text">
+                        <p *ngIf="calendarSelection; else empty">
+                            Time Select:
+                            <span>{{calendarSelection.from.format('h:mm a')}} - {{calendarSelection.to.format('h:mm a')}}</span>
+                        </p>
+                    </div>
+
+                    <div class="recurrent">
+                        <div style="float:left">
+                            <learnt-checkbox formControlName="recurrent" *ngIf="isAvailableRecurrent" (change)="isRecurring($event)">
+                                Meet on this day and time each week?
+                            </learnt-checkbox>
+                        </div>
+                        <!-- <div style="width: 20%; float:right">
+                            <mat-form-field style="width: 70px; text-align:center; font-size: 13px; margin-top: 10px;" *ngIf="isCheckedRecurrent">
+                                <mat-label>Occurrence</mat-label>
+                                <input style="font-size: 13px;" matInput type="number" min=1 formControlName="occurrence">
+                            </mat-form-field>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="bookNowDisabled">
+                        <ng-container *ngIf="editing; else bookBtn">Update Class</ng-container>
+                        <ng-template #bookBtn>Book Now</ng-template>
+                        <learnt-spinner *ngIf="loading"></learnt-spinner>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+    </form>
+
+</div>
+
+<div class="content success" *ngIf="success">
+    <div class="step-title" *ngIf="!booked">Step 3 of 3</div>
+    <p class="title" *ngIf="booked">You're all set!</p>
+    <p class="title" *ngIf="!booked">Review the {{ editing ? 'changes' : 'lesson'}}</p>
+
+    <p class="subtitle">
+        <!-- Your meeting with {{tutor.profile.first_name}} is scheduled for {{date.format('dddd, MMMM Do, YYYY')}} at
+        {{calendarSelection && calendarSelection.from.format('H:mm a')}}, -->
+        Your meeting with {{tutor.profile.first_name}} is scheduled
+        <span *ngIf="occurrence > 1; else one_occurrence">
+            every {{date.format('dddd')}} starting {{date.format('MMMM Do, YYYY')}} at {{calendarSelection && calendarSelection.from.format('h:mm a')}} for {{occurrence}} weeks,
+        </span>
+        <ng-template #one_occurrence>
+            for {{date.format('dddd, MMMM Do, YYYY')}} at {{calendarSelection && calendarSelection.from.format('h:mm a')}},
+        </ng-template>
+
+        <ng-container [ngSwitch]="bookingForm.get('meet').value">
+            <span *ngSwitchCase="locationOnline">online.</span>
+            <span *ngSwitchCase="locationOffline">in person, at {{latestLocationAddress}}</span>
+        </ng-container>
+
+        <span *ngIf="booked">
+            <ng-container *ngIf="editing">
+                The lesson change proposal was successfully sent.
+            </ng-container>
+            <ng-template #bookedMsg>
+                The lesson has been added to your <a routerLink="/main/account/calendar/">calendar</a>.
+            </ng-template>
+
+            You can <a (click)="messageTutor()">message {{tutor.profile.first_name}}</a> anytime to discuss topics you would like to review, etc.
+        </span>
+
+        Details of the session can be found below.
+    </p>
+
+    <h3>{{duration * occurrence}} {{(duration * occurrence) === 1 ? 'hour' : 'hours'}} of {{subjectName}} tutoring with {{tutor.profile.first_name}}</h3>
+
+    <div class="summary">
+        <div class="row">
+            <p>{{calendarSelection && calendarSelection.from.format('h:mm a')}} - {{calendarSelection && calendarSelection.to.format('h:mm a')}}</p>
+            <p class="dots"></p>
+            <p>{{(tutor.tutoring.rate * duration * occurrence) | currency:'USD':'symbol'}}</p>
+        </div>
+
+        <div class="row">
+            <p>Learnt Fee</p>
+            <p class="dots"></p>
+            <p>{{(3.50 * occurrence) | currency:'USD':'symbol'}}</p>
+        </div>
+
+        <div class="row">
+            <p>Taxes</p>
+            <p class="dots"></p>
+            <p>{{(4.41 * occurrence) | currency:'USD':'symbol'}}</p>
+        </div>
+
+        <div class="row total">
+            <p>Total</p>
+            <p class="dots"></p>
+            <p>{{((tutor.tutoring.rate * duration) + 3.50 + 4.41) * occurrence | currency:'USD':'symbol'}}</p>
+        </div>
+    </div>
+
+    <p class="subtitle" *ngIf="ccNum">Your card on file ending in {{ccNum}} will be charged 24 hours after the session ends.</p>
+
+    <p class="subtitle" *ngIf="bookingForm.get('recurrent').value === false && booked">
+        Want this same lesson every {{date.format('dddd')}}?
+        <a routerLink="/main/account/calendar/details/{{lesson._id}}" (click)="close()">Click&nbsp;here</a>.
+    </p>
+
+    <div class="buttons">
+        <div *ngIf="!booked">
+            <ng-container *ngIf="editing; else finalBtn">
+                <button mat-raised-button color="primary" (click)="editBooking()" [disabled]="loading">
+                    Send changes
+                    <learnt-spinner *ngIf="loading"></learnt-spinner>
+                </button>
+            </ng-container>
+            <ng-template #finalBtn>
+                <button mat-raised-button color="primary" (click)="addBooking()" [disabled]="loading" 
+                        [ngSwitch]="confirmed">
+                    <span *ngSwitchCase="true">Confirmed</span>
+                    <span *ngSwitchDefault>Confirm Lesson</span>
+                    <learnt-spinner *ngIf="loading && !confirmed"></learnt-spinner>
+                </button>
+            </ng-template>
+
+            <button mat-raised-button (click)="backToEdit()">Edit lesson</button>
+        </div>
+
+        <button *ngIf="booked" mat-raised-button color="primary" (click)="addAnotherLesson()">Add another lesson</button>
+    </div>
+    <div class="buttons calendar-links">
+        <ng-container *ngIf="booked && needToAcceptChanges && calendarLinks">
+            <a *ngIf="calendarLinks.googleLink" [href]="calendarLinks.googleLink" target="_blank">
+                <mat-icon class="share-icon" style="margin-top: -16px;" svgIcon="google-g" color="learnt-yellow"></mat-icon>
+                <span>Add to Google Cal</span>
+            </a>
+            <a *ngIf="calendarLinks.icalLink" [href]="calendarLinks.icalLink" target="_blank">
+                <mat-icon class="share-icon" style="margin-top: -16px;" svgIcon="apple" color="learnt-yellow"></mat-icon>
+                <span>Add to iCal</span>
+            </a>
+        </ng-container>
+    </div>
+</div>

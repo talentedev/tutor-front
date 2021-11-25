@@ -1,0 +1,118 @@
+@import "~variables.scss";
+
+:host {
+    .header {
+        flex-direction : row;
+        justify-content: space-between;
+        margin-top: 30px;
+        .title {
+            font-weight: bold;
+        }
+        ::ng-deep .mat-form-field {
+            .mat-form-field-wrapper {
+                padding: 0;
+                background: #FFFFFF;
+                border: 1px solid #F0E5E5;
+                border-radius: 20px;
+                height: 56px;
+                width: 275px;
+                .mat-form-field-suffix {
+                    background: #FF676B;
+                    box-shadow: 0px 18px 37px rgb(255 103 107 / 30%);
+                    border-radius: 14px;
+                    width: 40px;
+                    height: 40px;
+                    text-align: center;
+                    padding: 8px;
+                    margin: 0 8px;
+                    .mat-button-wrapper {
+                        color: white;
+                        font-size: 22px;
+                    }
+                }
+                .mat-form-field-infix {
+                    margin-left: 20px;
+                    padding-top: 5px;
+                }
+            }
+            .mat-form-field-underline {
+                display: none;
+            }
+        }
+        .mat-raised-button {
+            border: 1px dashed #FF676B;
+            border-radius: 14px;
+            background: transparent;
+            height: 56px;
+            padding: 0 20px;
+            width: 180px;
+        }
+    }
+
+    .contents {
+        .file-wrapper {
+            width: 114px;
+            padding: 7px;
+            .icon-wrapper {
+                width: 96px;
+                height: 96px;
+                border: 1px solid #F0E5E5;
+                border-radius: 16px;
+                .document-icon {
+                    width: 40px;
+                    height: auto;
+                    margin: 28px 0 0 8px;
+                }
+                .dots-icon {
+                    position: relative;
+                    width: 20px;
+                    top: -43px;
+                    left: 62px;
+                    cursor: pointer;
+                    color: #666;
+                }
+            }
+            p {
+                font-size: 16px;
+                margin: 5px 0;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+    ::ng-deep {
+        .box {
+            width: calc(100% - 60px) !important;
+            margin: 1rem auto;
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        .header {
+            flex-direction : column;
+            .title {
+                margin-bottom: 20px;
+            }
+            .d-flex {
+                justify-content: space-between;
+            }
+            ::ng-deep .mat-form-field {
+                padding: 0 !important;
+                width: 55%;
+            }
+        }
+        ::ng-deep {
+            .box {
+                width: calc(100% - 15px) !important;
+                margin: 0;
+            }
+        }
+        ::ng-deep .mat-form-field-wrapper {
+            width: auto !important;
+        }
+        .mat-raised-button {
+            width: auto !important;
+        }
+    }
+}

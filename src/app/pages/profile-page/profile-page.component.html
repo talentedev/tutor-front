@@ -1,0 +1,227 @@
+<a class="back" (click)="back()" *ngIf="ready && !isMyProfile && fromSearch">
+    <mat-icon svgIcon="arrow-left" color="white"></mat-icon>
+    Back to search
+</a>
+
+<header *ngIf="ready">
+    <div class="map">
+<!--        <learnt-map [interactive]="false" [zoom]="14" [center]="userLocationCoords"></learnt-map>-->
+    </div>
+    <div class="profile">
+        <learnt-user-avatar class="avatar" [size]="100" [user]="tutor"></learnt-user-avatar>
+        <h1>{{tutor?.shortName}}</h1>
+        <div layout="row" class="rating">
+            <learnt-rating [interactive]="!isMyProfile" (select)="onRatingSelect($event)" [rating]="tutor?.tutoring?.rating"></learnt-rating>
+            <div class="num">
+                {{tutor?.tutoring?.rating.toFixed(1)}}
+            </div>
+        </div>
+
+        <div class="meetkind gap-10" layout="row">
+            <learnt-tag *ngIf="tutor.canMeetOnline" icon="pointer">
+                Online
+            </learnt-tag>
+            <learnt-tag *ngIf="tutor.canMeetInPerson" icon="user">
+                In Person
+            </learnt-tag>
+        </div>
+
+        <div class="about" *ngIf="tutor.profile.about != ''">{{tutor.profile.about}}</div>
+
+        <div layout="row" class="gap-30" *ngIf="isMyProfile">
+            <button routerLink="/main/profile/edit" mat-raised-button color="primary">Edit Profile</button>
+        </div>
+
+        <div layout="row" class="gap-30" *ngIf="!isMyProfile">
+            <div layout="row" class="gap-10">
+                <button mat-raised-button color="primary" (click)="book()">Book Now</button>
+                <button mat-raised-button color="primary" (click)="book(true)">
+                    <svg width="9px" height="15px" viewBox="0 0 9 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Instant-Session" transform="translate(-19.000000, -13.000000)" fill="#F8EB76">
+                                <polygon id="icon" points="25.25 13 24.078125 19.25 27.828125 19.25 21.578125 28 22.75 21.75 19 21.75"></polygon>
+                            </g>
+                        </g>
+                    </svg>
+                    <span>Instant Session</span>
+                </button>
+            </div>
+            <div layout="row" class="gap-10">
+                <button mat-raised-button (click)="message()">
+                    <svg width="13px" height="11px" viewBox="0 0 13 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Message-Tutor" transform="translate(-33.000000, -15.000000)" fill="#F37073">
+                                <path d="M46,18.2935256 L46,24.053571 C46,24.3727689 45.8863475,24.6460177 45.6590409,24.8733255 C45.4317326,25.1006331 45.158484,25.2142853 44.8392853,25.2142853 L34.1607143,25.2142853 C33.8415163,25.2142853 33.5682675,25.1006331 33.3409598,24.8733255 C33.1136521,24.6460177 33,24.3727689 33,24.053571 L33,18.2935256 C33.2127986,18.5305059 33.4570299,18.7408833 33.732701,18.9246643 C35.4834534,20.1144031 36.6852644,20.9486586 37.3381699,21.4274551 C37.6138414,21.6305801 37.8375178,21.7889689 38.0092071,21.902623 C38.1808981,22.0162755 38.4094105,22.132346 38.694754,22.2508361 C38.9800975,22.3693263 39.2460921,22.4285705 39.492746,22.4285705 L39.5,22.4285705 L39.507254,22.4285705 C39.7539079,22.4285705 40.0199025,22.3693263 40.305246,22.2508361 C40.5905895,22.132346 40.8191019,22.0162755 40.9907929,21.902623 C41.1624823,21.7889689 41.3861586,21.6305801 41.6618301,21.4274551 C42.484007,20.8325865 43.688236,19.998331 45.2745529,18.9246643 C45.5502244,18.7360473 45.7920374,18.5256699 46,18.2935256 Z M46,16.1607131 C46,16.5427848 45.8815115,16.9079223 45.6445312,17.2561386 C45.407551,17.6043534 45.1125387,17.9017836 44.7594864,18.1484375 C42.9410253,19.4107196 41.8093395,20.1966119 41.3643966,20.5061386 C41.3160334,20.5399923 41.2132635,20.6137445 41.0560821,20.7273986 C40.8989024,20.8410528 40.7683223,20.9329416 40.6643417,21.0030685 C40.5603596,21.0731954 40.4346171,21.1517853 40.2871094,21.2388381 C40.1396016,21.3258926 40.0005585,21.3911819 39.8699784,21.4347091 C39.7393966,21.4782364 39.6184901,21.5 39.507254,21.5 L39.5,21.5 L39.492746,21.5 C39.3815099,21.5 39.2606034,21.4782364 39.1300216,21.4347091 C38.9994415,21.3911819 38.8603984,21.3258926 38.7128906,21.2388381 C38.5653829,21.1517853 38.4396404,21.0731954 38.3356583,21.0030685 C38.2316778,20.9329416 38.1010976,20.8410528 37.9439179,20.7273986 C37.7867365,20.6137445 37.6839666,20.5399923 37.6356034,20.5061386 C37.1954965,20.1966119 36.5619464,19.7553041 35.7349335,19.1821975 C34.9079206,18.6090925 34.4122032,18.2645096 34.2477678,18.1484375 C33.9479152,17.9453109 33.6649939,17.6660172 33.3989955,17.3105469 C33.1329972,16.9550765 33,16.6250016 33,16.3203125 C33,15.9430785 33.1003524,15.6287206 33.3010603,15.3772324 C33.5017681,15.1257425 33.7883166,15 34.1607143,15 L44.8392853,15 C45.153648,15 45.4256876,15.1136509 45.6554122,15.3409591 C45.8851385,15.5682674 46,15.841516 46,16.1607131 Z" id="Page-1"></path>
+                            </g>
+                        </g>
+                    </svg>
+                    <span>Message Tutor</span>
+                </button>
+                <button mat-raised-button class="sharebut">
+                    <svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Buttons-/-Share" transform="translate(-14.000000, -14.000000)" fill="#F37073">
+                                <path d="M23.7199074,22 C23.272278,22 22.8592925,22.10677 22.4809384,22.320312 C22.1025844,22.533856 21.7961761,22.812498 21.5617033,23.15625 L18.8279803,21.625 C18.9132434,21.458332 18.9825187,21.28125 19.0358083,21.09375 C19.0890959,20.90625 19.1157407,20.708334 19.1157407,20.5 C19.1157407,20.375 19.1050836,20.252604 19.0837674,20.132812 C19.0624511,20.01302 19.0304777,19.895834 18.9878472,19.78125 L21.8494657,18.1875 C22.0839365,18.437502 22.3610378,18.635416 22.6807736,18.78125 C23.0005074,18.927084 23.3468819,19 23.7199074,19 C24.4233259,19 25.0254854,18.75521 25.5264023,18.265624 C26.0273213,17.77604 26.2777778,17.187504 26.2777778,16.5 C26.2777778,15.812496 26.0273213,15.22396 25.5264023,14.734376 C25.0254854,14.24479 24.4233259,14 23.7199074,14 C23.016489,14 22.4143294,14.24479 21.9134125,14.734376 C21.4124935,15.22396 21.162037,15.812496 21.162037,16.5 C21.162037,16.625 21.1726941,16.747396 21.1940104,16.867188 C21.2153267,16.98698 21.2473001,17.104166 21.2899306,17.21875 L18.4283121,18.8125 C18.1938413,18.562498 17.91674,18.364584 17.5970042,18.21875 C17.2772704,18.072916 16.9308959,18 16.5578704,18 C15.8544525,18 15.2522932,18.24479 14.7513744,18.734376 C14.2504556,19.22396 14,19.812496 14,20.5 C14,21.187504 14.2504556,21.77604 14.7513744,22.265624 C15.2522932,22.75521 15.8544525,23 16.5578704,23 C16.8456328,23 17.1200678,22.953126 17.3811854,22.859376 C17.642303,22.765624 17.8847646,22.640626 18.1085783,22.484376 L21.1940104,24.234376 C21.1833533,24.276042 21.1753584,24.320312 21.1700299,24.367188 C21.1647013,24.414062 21.162037,24.458334 21.162037,24.5 C21.162037,25.1875034 21.4124935,25.7760392 21.9134125,26.265625 C22.4143294,26.7552108 23.016489,27 23.7199074,27 C24.4233259,27 25.0254854,26.7552108 25.5264023,26.265625 C26.0273213,25.7760392 26.2777778,25.1875034 26.2777778,24.5 C26.2777778,23.812496 26.0273213,23.22396 25.5264023,22.734376 C25.0254854,22.24479 24.4233259,22 23.7199074,22 Z" id="Page-1"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="contents">
+    <div class="inner">
+
+
+        <!-- EDUCATION -->
+        <learnt-account-box>
+            <div class="header">
+                <div class="title">Education</div>
+            </div>
+            <div class="contents">
+                <table *ngIf="tutor?.tutoring && tutor?.tutoring.degrees && tutor?.tutoring.degrees.length">
+                    <thead>
+                        <tr>
+                            <th align="left" width="37%">Course</th>
+                            <th align="left" width="23%">School</th>
+                            <th align="left" width="20%">Degree</th>
+                            <th align="left" width="10%">Verification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let degree of tutor?.tutoring.degrees">
+                            <td>{{degree.course}}</td>
+                            <td>{{degree.university}}</td>
+                            <td>{{degree.degree}}</td>
+                            <td>
+                                <div *ngIf="!degree.verified" class="status pending">
+                                    <!-- <mat-icon svgIcon="time"></mat-icon>
+                                    <div>In Review</div> -->
+                                </div>
+                                <div *ngIf="degree.verified" class="status approved">
+                                    <mat-icon svgIcon="tick"></mat-icon>
+                                    <div>Approved</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="no-results" *ngIf="!tutor?.tutoring || !tutor?.tutoring.degrees || !tutor?.tutoring.degrees.length">
+                    <span>{{tutor?.profile.first_name}} hasn’t added any education yet</span>
+                </div>
+            </div>
+        </learnt-account-box>
+        <!-- EDUCATION -->
+
+        <!-- SUBJECTS -->
+        <learnt-account-box>
+            <div class="header">
+                <div class="title">Subjects</div>
+            </div>
+            <div class="contents">
+                <table *ngIf="tutor?.tutoring && tutor?.tutoring.subjects && tutor?.tutoring.subjects.length">
+                    <thead>
+                        <tr>
+                            <th align="left" width="80%">Subject</th>
+                            <th align="left" width="10%">Verification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let subject of tutor?.tutoring.subjects">
+                            <td>{{subject.subject.name}}</td>
+                            <td>
+                                <div *ngIf="!subject.verified" class="status pending">
+                                    <mat-icon svgIcon="time"></mat-icon>
+                                    <div>In Review</div>
+                                </div>
+                                <div *ngIf="subject.verified" class="status approved">
+                                    <mat-icon svgIcon="tick"></mat-icon>
+                                    <div>Verified</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="no-results" *ngIf="!tutor?.tutoring || !tutor?.tutoring.subjects || !tutor?.tutoring.subjects.length">
+                    <span>{{tutor?.profile.first_name}} hasn’t added any subjects yet</span>
+                </div>
+            </div>
+        </learnt-account-box>
+        <!-- SUBJECTS -->
+
+
+
+        <!-- REVIEWS INFO -->
+        <learnt-account-box>
+            <div class="header">
+                <div class="title">
+                    <span>Reviews</span>
+                    <span *ngIf="totalReviews>0">( {{totalReviews}} )</span>
+                </div>
+            </div>
+            <div class="contents">
+                <div layout="row" class="gap-10 overall" *ngIf="totalReviews>0 && averageReviews">
+                    <div>Overall</div>
+                    <learnt-rating [rating]="averageReviews.average"></learnt-rating>
+                    <div>{{averageReviews.average.toFixed(1)}}</div>
+                </div>
+                <div *ngIf="totalReviews>0 && averageReviews" layout="row" class="gap-20 average-ratings">
+                    <div class="average-rating">
+                        <span>Communication</span>
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <div>{{averageReviews.communication.toFixed(1)}}</div>
+                    </div>
+                    <div class="average-rating">
+                        <span>Clarity</span>
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <div>{{averageReviews.clarity.toFixed(1)}}</div>
+                    </div>
+                    <div class="average-rating">
+                        <span>Professionalism</span>
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <div>{{averageReviews.professionalism.toFixed(1)}}</div>
+                    </div>
+                    <div class="average-rating">
+                        <span>Patience</span>
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <div>{{averageReviews.patience.toFixed(1)}}</div>
+                    </div>
+                    <div class="average-rating">
+                        <span>Helpfulness</span>
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <div>{{averageReviews.helpfulness.toFixed(1)}}</div>
+                    </div>
+                </div>
+                <div class="review" *ngFor="let review of reviews" layout="row">
+                    <learnt-user-avatar class="avatar" [size]="50" [user]="review.reviewer"></learnt-user-avatar>
+                    <div class="info" flex>
+                        <div layout="flex">
+                            <div>{{review.reviewer.shortName}}</div>
+                            <learnt-rating [rating]="averageReviews.average"></learnt-rating>
+                            <div>{{averageReviews.average.toFixed(1)}}</div>
+                            <div class="time" [attr.title]="review.time.format('lll')">
+                                {{review.time.fromNow()}}
+                            </div>
+                        </div>
+                        <p>{{review.public_review}}</p>
+                    </div>
+                </div>
+
+                <div *ngIf="reviews && reviews.length < totalReviews" class="loadmore" layout="row" layout-align="center center">
+                    <button *ngIf="!fetchingReviews" mat-raised-button (click)="fetchReviews()">Load more</button>
+                    <div *ngIf="fetchingReviews">
+                        <learnt-spinner></learnt-spinner>
+                    </div>
+                </div>
+
+                <div class="no-results" *ngIf="!reviews || reviews.length === 0">
+                    There aren’t any reviews yet
+                </div>
+            </div>
+        </learnt-account-box>
+        <!-- REVIEWS INFO -->
+
+    </div>
+</div>

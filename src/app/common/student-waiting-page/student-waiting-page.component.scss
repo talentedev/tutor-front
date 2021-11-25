@@ -1,0 +1,42 @@
+@import "../../../variables";
+
+:host {
+  .contents {
+    text-align: center;
+    margin: 0 20px;
+    margin-top: 50px;
+    .center {
+        width: 700px;
+        margin-top: 40px;
+    }
+
+    h1 {
+        font-size: 4em;
+        font-weight: 400;
+        margin-bottom: 50px;
+        color: #444444;
+    }
+
+    p {
+        font-size: 1.4em;
+        color: #444444;
+        line-height: 28px;
+        margin: 20px 0;
+    }
+
+    img {
+        width: 70%;
+        height: auto;
+    }
+  }
+}
+
+@media (min-width: $layout-breakpoint-sm) {
+  :host {
+    .contents {
+      width: 900px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+  }
+}

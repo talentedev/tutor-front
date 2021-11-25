@@ -1,0 +1,71 @@
+<div class="inner">
+  <div layout="row" layout-align="start center">
+      <h1>Footer Links</h1>
+  </div>
+  <h2>Subject Links {{subjectsCount}}</h2>
+  <div layout="column" class="gap-15">
+
+    <mat-form-field>
+      <mat-chip-list
+        #chipList
+        cdkDropList 
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="dropSubject($event)">
+        <mat-chip
+          *ngFor="let subject of subjects"
+          cdkDrag
+          class="noselect"
+          [removable]="removable"
+          (removed)="removeSubject(subject)">
+          {{subject.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New"
+          #subjectInput
+          [formControl]="subjectControl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSubjectSelected($event)">
+        <mat-option *ngFor="let subject of filteredSubjects | async" [value]="subject">
+          {{subject.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div layout="row" class="gap-15">
+    <h2>Location Links {{locationsCount}}</h2>
+    <form [formGroup]="locationFormGroup" layout="row" class="gap-10">
+      <mat-form-field class="location-search">
+        <input matInput formControlName="name" placeholder="Location Name" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="lat" type="number" placeholder="Latitude" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="lon" type="number" placeholder="Longitude" />
+      </mat-form-field>
+      <div layout="row" layout-align="center center">
+        <button [disabled]="locations.length === 18" (click)="addLocation();"  mat-button>Add</button>
+      </div>
+    </form>
+  </div>
+
+  <mat-chip-list
+    #chipList
+    cdkDropList 
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropLocation($event)">
+    <mat-chip
+      *ngFor="let location of locations"
+      cdkDrag
+      [removable]="removable"
+      (removed)="removeLocation(location)">
+      {{location.name}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>

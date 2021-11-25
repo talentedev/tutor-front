@@ -1,0 +1,49 @@
+@import '../../../../variables';
+
+@media (max-width: $layout-breakpoint-sm) {
+    :host {
+        .xmessenger-create {
+            padding: 25px 21px;
+            background: transparent;
+            margin: 0px 15px 0 15px;
+            .input-container{
+                .input {
+                    margin-left: 115px;
+                }
+                .features {
+                    button {
+                        img {
+                            height: 22px;
+                            width: 22px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-xs) {
+    :host {
+        .xmessenger-create {
+            padding: 10px 1px 10px 5px;
+            margin: 0px 10px 0 10px;
+            background: transparent;
+
+            .input-container {
+                max-width: 100%;
+                .input {
+                    margin-left: 115px;
+                }
+                .features {
+                    button {
+                        img {
+                            height: 22px;
+                            width: 22px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

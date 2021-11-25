@@ -1,0 +1,285 @@
+<div class="wrapper" [ngSwitch]="mode">
+    <ng-container *ngIf="!loading && other !== undefined">
+        <div class="calendar-header">
+            <div class="left">
+                <learnt-user-avatar [user]="other"></learnt-user-avatar>
+
+                <p *ngSwitchCase="'details'">Class with {{other.name}}</p>
+                <p *ngSwitchCase="'notes'">Notes for the class with {{other.name}}</p>
+                <p *ngSwitchCase="'edit'">Edit Class with {{other.name}}</p>
+                <p *ngSwitchCase="'cancel'">Cancel class with {{other.name}}</p>
+            </div>
+
+            <div class="right" routerLink="/main/account/calendar">
+                <p class="m-0">Close</p>
+                <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="content">
+                <!-- Details -->
+                <div *ngSwitchCase="'details'" [class.details]="canBeModified">
+                    <div class="row date-time">
+                        <div class="date">
+                            <div class="icon-circle">
+                                <mat-icon svgIcon="calendar" color="white"></mat-icon>
+                            </div>
+
+                            <ng-container *ngIf="!lesson?.recurrent; else recurrentDate">
+                                <p>{{startsAt.format('dddd, MMMM Do')}}</p>
+                            </ng-container>
+
+                            <ng-template #recurrentDate>
+                                <p>{{startsAt.format('dddd')}}s</p>
+                            </ng-template>
+                        </div>
+
+                        <div class="time">
+                            <div class="icon-circle">
+                                <mat-icon svgIcon="time" color="white"></mat-icon>
+                            </div>
+                            <p>From {{startsAt.format('h:mma')}} to {{endedAt.format('h:mma')}}</p>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="!isInstant">
+                        <div class="row">
+                            <div class="meet">
+                                <div class="icon-circle">
+                                    <mat-icon svgIcon="mapmarker"></mat-icon>
+                                </div>
+
+                                <p *ngIf="lesson.Online">
+                                    <a *ngIf="classLink" [href]="classLink" target="_blank">Online</a>
+                                    <span *ngIf="!classLink">Online</span>
+                                    <mat-icon svgIcon="video-camera"></mat-icon>
+                                </p>
+
+                                <p *ngIf="lesson.Offline">
+                                    {{location}}
+                                </p>
+                            </div>
+
+                            <div class="recurring" *ngIf="lesson.recurrent">
+                                <div class="icon-circle">
+                                    <mat-icon svgIcon="refresh"></mat-icon>
+                                </div>
+                                <p>Recurring Class</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="subject">
+                                <div class="icon-circle">
+                                    <mat-icon svgIcon="book"></mat-icon>
+                                </div>
+                                <p>{{subject?.name}}</p>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="row separator"></div>
+
+                    <div class="earned" *ngIf="role === 'tutor' && lesson.charge">
+                        <p class="text">
+                            You earn <span class="money">{{ lesson.charge.tutor_pay | currency:'USD':'symbol' }}</span>
+                            ({{ lesson.charge.tutor_rate | currency: 'USD':'symbol'}}/h)
+                        </p>
+                        <p class="text">
+                            Platform fee <span class="money">{{ lesson.charge.platform_fee | currency: 'USD': 'symbol' }}</span>
+                        </p>
+                        <p class="text">
+                            Student cost <span class="money">{{ lesson.charge.student_cost | currency: 'USD':'symbol' }}</span>
+                        </p>
+                    </div>
+
+                    <div class="charged" *ngIf="role === 'student' && lesson.charge">
+                        <p class="text">
+                            You pay <span class="money">{{ lesson.charge.student_cost | currency:'USD':'symbol' }}</span>
+                        </p>
+                    </div>
+
+                    <div class="row message">
+                        <p>Need to talk with {{other.profile.first_name}}?</p>
+                        <button mat-raised-button color="primary" (click)="messageOther()">
+                            Message {{other.profile.first_name}}
+                        </button>
+                    </div>
+
+                    <div class="row message">
+                        <p>Want to leave a note or read the others?</p>
+                        <button mat-raised-button color="primary" routerLink="/main/account/calendar/details/{{lessonID}}/notes"
+                                [queryParams]="{instant: isInstant}">
+                            See notes
+                        </button>
+                    </div>
+                </div>
+                <!-- Details -->
+
+                <!-- Notes -->
+                <ng-container *ngSwitchCase="'notes'">
+                    <ng-container *ngIf="myNotes !== undefined && otherNotes !== undefined; else loading">
+                        <div class="note-input note" *ngIf="myNotes.length > 0">
+                            <h4>Notes by {{userById(myNotes[0].user).name}}:</h4>
+                            <p *ngFor="let note of myNotes">{{note.note}}</p>
+                        </div>
+
+                        <div class="note-input note" *ngIf="otherNotes.length > 0">
+                            <h4>Notes by {{userById(otherNotes[0].user).name}}:</h4>
+                            <p *ngFor="let note of otherNotes">{{note.note}}</p>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #loading>
+                        <learnt-spinner></learnt-spinner>
+                    </ng-template>
+
+                    <textarea placeholder="Leave a note" class="note-input input" #note (input)="notePristine = false"></textarea>
+                </ng-container>
+                <!-- Notes -->
+
+                <!-- Edit -->
+                <div *ngSwitchCase="'edit'">
+                    <ng-template #subjectsTemplate>
+                        <ul class="booking-listing">
+                            <li *ngFor="let item of subjectList" (click)="changeSubject(item.subject)" [attr.data-id]="item._id">
+                                <div class="icon">
+                                    <mat-icon *ngIf="item.subject._id === subject._id" svgIcon="tick"></mat-icon>
+                                </div>
+                                <span>{{item.subject.name}}</span>
+                            </li>
+                        </ul>
+                    </ng-template>
+
+                    <ng-template #onlineTemplate>
+                        <ul class="booking-listing">
+                            <li (click)="changeMeetType('online')">
+                                <div class="icon">
+                                    <mat-icon *ngIf="lesson.Online" svgIcon="tick"></mat-icon>
+                                </div>
+                                <span>Online</span>
+                            </li>
+                            <li (click)="changeMeetType('offline')">
+                                <div class="icon">
+                                    <mat-icon *ngIf="lesson.Offline" svgIcon="tick"></mat-icon>
+                                </div>
+                                <span>In Person</span>
+                            </li>
+                        </ul>
+                        <div *ngIf="lesson.Offline" class="edit-meet-location">
+                            <div class="preview" *ngIf="!meetLocationEditing">
+                                <div>{{location}}</div>
+                                <a (click)="changeMeetLocation()">Edit address</a>
+                            </div>
+                            <div class="editing" *ngIf="meetLocationEditing">
+                                <input placeholder="Tell your {{role === 'tutor' ? 'student' : 'tutor'}} where you should meet..."
+                                    [value]="location" #address/>
+                                <div class="buttons location gap-10" layout="row" layout-align="center center">
+                                    <button mat-raised-button color="primary" (click)="closeLocationEditing()">
+                                        <span *ngIf="!location">Add Address</span>
+                                        <span *ngIf="location">Save</span>
+                                    </button>
+                                    <button mat-raised-button (click)="cancelLocationEditing()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!meetLocationEditing">
+                            <div class="buttons location gap-10" layout="row" layout-align="center center">
+                                <button mat-raised-button color="primary" (click)="closeLocationEditing()"
+                                        [disabled]="lesson.Offline && (location === undefined || location === '')">Save
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <div class="select-wrapper">
+                        <div class="select" #tooltipSubjects [learntPopoverTooltip]="subjectsTemplate" [autoclose]="false" show-event="click"
+                            direction="bottom" [hider]="hider" (click)="hider.next(true)" [offsetX]="100" [popoverSettings]="{width: 300, class: 'arrow-left-side'}">
+                            <mat-icon svgIcon="book" color="learnt-red"></mat-icon>
+                            <span>{{subject?.name}}</span>
+                            <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                        </div>
+
+                        <div class="select" #tooltipOnline [learntPopoverTooltip]="onlineTemplate" [autoclose]="false" show-event="click" direction="bottom"
+                            [hider]="hider" (click)="hider.next(true)" [popoverSettings]="{width: 300}">
+                            <mat-icon svgIcon="mapmarker" color="learnt-red"></mat-icon>
+                            <span>{{lesson.Online ? 'Online' : 'In Person'}}</span>
+                            <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                        </div>
+                    </div>
+
+                    <learnt-specific-availability [date]="lesson.starts_at"
+                                                [fromRange]="fromTime" [toRange]="toTime" [intervalRange]="intervalTime"
+                                                (change)="timeChanged($event)"></learnt-specific-availability>
+                </div>
+                <!-- Edit -->
+
+                <!-- Cancel -->
+                <div *ngSwitchCase="'cancel'">
+                    <textarea placeholder="Please tell us why you need to cancel" class="note-input input" #reason (input)="reasonPristine = false"></textarea>
+                </div>
+                <!-- Cancel -->
+            </div>
+        </div>
+
+        <div class="calendar-footer">
+            <div class="buttons" *ngSwitchCase="'details'">
+                <div *ngIf="canBeModified">
+                    <button mat-raised-button routerLink="/main/account/calendar/edit/{{lessonID}}">Edit Lesson</button>
+                    <button mat-raised-button routerLink="/main/account/calendar/cancel/{{lessonID}}">Cancel Lesson</button>
+                </div>
+            </div>
+
+            <div class="buttons" *ngSwitchCase="'notes'">
+                <button mat-raised-button color="primary" (click)="addNote()" [disabled]="loadingAction || notePristine">
+                    <learnt-spinner *ngIf="loadingAction"></learnt-spinner>
+                    Add note
+                </button>
+                <button mat-raised-button routerLink="/main/account/calendar/details/{{lessonID}}" [queryParams]="{instant: isInstant}">Cancel</button>
+            </div>
+
+            <div class="buttons" *ngSwitchCase="'edit'">
+                <button mat-raised-button color="primary" (click)="updateClass()" [disabled]="!hasChanges">Update class</button>
+                <button mat-raised-button routerLink="/main/account/calendar/details/{{lessonID}}">Cancel</button>
+            </div>
+
+            <div class="buttons" *ngSwitchCase="'cancel'">
+                <button mat-raised-button color="primary" (click)="cancelClass()" [disabled]="loadingAction || reasonPristine">
+                    <learnt-spinner *ngIf="loadingAction"></learnt-spinner>
+                    Cancel
+                </button>
+                <button mat-raised-button routerLink="/main/account/calendar/details/{{lessonID}}">Back</button>
+            </div>
+        </div>
+
+        <div *ngIf="warning24hoursCancellation">
+            <div class="backdrop"></div>
+            <div class="warning">
+                <div class="title">Warning!</div>
+                <div class="content">
+                    Warning. This lesson is set to begin within 24 hours.
+                    <div *ngSwitchCase="'edit'">
+                        If you edit a lesson within 24 hours of its start time and the student does not approve
+                        by the lesson’s original start time, the lesson will automatically be marked as cancelled.
+                    </div>
+                    <div *ngSwitchCase="'cancel'">
+                        Learnt investigates all cancellations that are made without 24 hours advanced notice. We understand
+                        last-minute cancellations are sometimes inevitable, but repeated cancellations could result in account suspension.
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button mat-raised-button color="primary" (click)="warning24hoursCancellation = false">I understand</button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="loading || other === undefined">
+        <div class="startup-screen">
+            <div class="center">
+                <div class="spinner"></div>
+                <img src="/assets/logo.svg"/>
+            </div>
+        </div>
+    </ng-container>
+</div>

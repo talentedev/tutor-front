@@ -1,0 +1,219 @@
+<div class="top" *ngIf="transactions.length === 0 && referralsTotal === 0; else blank">
+    <div class="inner">
+        <h1>It's easy to get started</h1>
+
+        <ul>
+            <li>
+                <mat-icon svgIcon="mail-red"></mat-icon>
+                <div>Spread the word online</div>
+            </li>
+            <li>
+                <mat-icon svgIcon="book" color="learnt-red"></mat-icon>
+                <div>Track user sign ups</div>
+            </li>
+            <li>
+                <mat-icon svgIcon="checkmark" color="learnt-red"></mat-icon>
+                <div>Get paid every time people you referred use the application</div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<ng-template #blank>
+    <div class="blank"></div>
+</ng-template>
+
+<div class="content-box invite-box">
+    <learnt-box padding="50px 110px">
+        <div class="inner">
+            <h2>Invite people and take advantage of our affiliate program</h2>
+
+            <form [formGroup]="inviteForm" (submit)="sendInvites($event)">
+                <input class="login-input" #email formControlName="email" placeholder="email addresses, separated by comma" type="email" required />
+                <button type="submit" mat-raised-button [disabled]="!inviteForm.valid" color="primary">Send Invites</button>
+            </form>
+
+            <div class="import">
+                <h2>Import contacts</h2>
+
+                <div class="services" layout="row">
+                    <a (click)="import('gmail')">
+                        <mat-icon svgIcon="gmail"></mat-icon>
+                        <span>Gmail</span>
+                    </a>
+                    <a (click)="import('yahoo')">
+                        <mat-icon svgIcon="yahoo"></mat-icon>
+                        <span>Yahoo</span>
+                    </a>
+                    <a (click)="import('outlook')">
+                        <mat-icon svgIcon="outlook"></mat-icon>
+                        <span>Outlook</span>
+                    </a>
+
+                    <learnt-spinner *ngIf="importLoading"></learnt-spinner>
+                </div>
+            </div>
+
+            <div class="share-link">
+                <h2>
+                    <span>or</span>Share link
+                </h2>
+
+                <div layout="row" layout-align="start center">
+                    <input class="login-input" readonly title="Referral Link" value="{{referralLink}}" (click)="$event.target.select();" />
+                    <div layout="row" class="gap-10 share-buttons">
+                        <a *ngIf="messengerLink" mat-raised-button color="primary" [href]="messengerLink" target="_blank">
+                            <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Desktop---Referal" transform="translate(-886.000000, -911.000000)" fill="#F8EB76">
+                                        <g id="Form" transform="translate(435.000000, 549.000000)">
+                                            <g id="Share-Link" transform="translate(0.000000, 289.000000)">
+                                                <g id="Btn-Messenger" transform="translate(426.000000, 60.000000)">
+                                                    <path d="M33.7950311,22.9753086 L31.757764,20.8024691 L27.7826087,22.9753086 L32.1552795,18.3333333 L34.242236,20.5061728 L38.1677019,18.3333333 L33.7950311,22.9753086 Z M33,13 C28.5817143,13 25,16.3163951 25,20.4074074 C25,22.7385185 26.1633292,24.8178272 27.9813665,26.1756543 L27.9813665,29 L30.7052919,27.505037 C31.4322484,27.7062222 32.2023851,27.8148148 33,27.8148148 C37.4182857,27.8148148 41,24.4984198 41,20.4074074 C41,16.3163951 37.4182857,13 33,13 L33,13 Z"
+                                                          id="Page-1"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span>Messenger</span>
+                        </a>
+                        <a *ngIf="facebookLink" mat-raised-button color="primary" [href]="facebookLink" target="_blank">
+                            <svg width="8px" height="15px" viewBox="0 0 8 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Desktop---Referal" transform="translate(-1057.000000, -913.000000)" fill="#F8EB76">
+                                        <g id="Form" transform="translate(435.000000, 549.000000)">
+                                            <g id="Share-Link" transform="translate(0.000000, 289.000000)">
+                                                <g id="Btn-Facebook" transform="translate(588.000000, 62.000000)">
+                                                    <path d="M35.875,28 L38.6875,28 L38.6875,20.5 L41.2363281,20.5 L41.5,17.921875 L38.6875,17.921875 L38.6875,16.6328125 C38.6875,16.2421862 38.7460937,15.9687512 38.8632812,15.8125 C38.9804687,15.6562487 39.2636687,15.578125 39.7128906,15.578125 L41.5,15.578125 L41.5,13 L38.921875,13 C37.7499944,13 36.9492212,13.2783175 36.5195312,13.83496 C36.0898412,14.3916044 35.875,15.2460887 35.875,16.3984375 L35.875,17.921875 L34,17.921875 L34,20.5 L35.875,20.5 L35.875,28 Z"
+                                                          id="icon"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span>Facebook</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </learnt-box>
+</div>
+
+<div class="content-box invites-payments-box">
+    <learnt-box headline="Your Invites Status" padding="30px 55px" layout="column" class="status-box">
+        <head-right>
+            <a class="head-link" routerLink="/invites">See All</a>
+        </head-right>
+        <div>
+            <table class="invites" *ngIf="referralsTotal > 0">
+                <tbody>
+                    <tr *ngFor="let ref of referrals">
+                        <td class="avatar">
+                            <img [src]="ref?.avatar" alt="{{ref?.email}}'s avatar" />
+                        </td>
+                        <td class="status">
+                            <p *ngIf="ref" class="email">{{ref.email ? ref.email : (ref.firstname + ' ' + ref.lastname)}}</p>
+                            <p class="referral-status">{{ref?.status}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf="referralsTotal === 0" class="no-invites">
+                Looks like you haven't invited anyone until now.
+            </p>
+        </div>
+    </learnt-box>
+
+    <learnt-box headline="Your Payments" padding="30px 55px" layout="column" class="payments-box">
+        <head-right>
+            <a class="head-link" routerLink="/account/payment">See All</a>
+        </head-right>
+        <div>
+            <div *ngIf="transactions.length === 0" class="no-payments">
+                No transactions for the selected time frame.
+            </div>
+
+            <table class="payments" *ngIf="transactions.length > 0">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of transactions">
+                        <td>{{t.reference}}</td>
+                        <td>{{t.amount | currency:'USD':'symbol'}}</td>
+                        <td [ngSwitch]="t.state">
+                            <div class="icon-wrapper approved" *ngSwitchCase="t.getState('approved')">
+                                <mat-icon svgIcon="tick"></mat-icon>
+                                <div>Approved</div>
+                            </div>
+
+                            <div class="icon-wrapper pending" *ngSwitchCase="t.getState('pending') || t.getState('sent')">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <div>Pending</div>
+                            </div>
+
+                            <div class="icon-wrapper cancelled" *ngSwitchCase="t.getState('cancelled')">
+                                <mat-icon svgIcon="close"></mat-icon>
+                                <div>Cancelled</div>
+                            </div>
+
+                            <div class="icon-wrapper pending" *ngSwitchCase="t.getState('sent')">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <div>Sent</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </learnt-box>
+</div>
+<div class="content-box creative-box">
+    <learnt-box padding="50px 50px">
+        <div class="inner">
+            <h2>Creative Commons</h2>
+
+            <div class="entry-text">
+                Here you can download files for use in your blogs
+            </div>
+
+            <div>
+                <div layout="row" layout-align="" class="creatives header">
+                    <div layout="row" layout-align="space-between center title" class="entry title">
+                        Logo Pack <a href="https://drive.google.com/drive/folders/1u4A5wxIrCWS_R1cRnKW4VRlem2InC58S" target="_blank">
+                            <mat-icon svgIcon="download" color="learnt-red"></mat-icon>
+                        </a>
+                    </div>
+                    <div layout="row" layout-align="space-between center " class="entry">Banner Ads <a href="https://drive.google.com/drive/folders/1u4A5wxIrCWS_R1cRnKW4VRlem2InC58S" target="_blank">
+                            <mat-icon svgIcon="download" color="learnt-red"></mat-icon>
+                        </a>
+                    </div>
+                </div>
+                <div layout="row" class="creatives">
+                    <div layout="row" layout-align="space-between center " class="entry">Screenshots <a href="https://drive.google.com/drive/folders/1u4A5wxIrCWS_R1cRnKW4VRlem2InC58S" target="_blank">
+                            <mat-icon svgIcon="download" color="learnt-red"></mat-icon>
+                        </a>
+                    </div>
+                    <div layout="row" layout-align="space-between center " class="entry">Graphics <a href="https://drive.google.com/drive/folders/1u4A5wxIrCWS_R1cRnKW4VRlem2InC58S" target="_blank">
+                            <mat-icon svgIcon="download" color="learnt-red"></mat-icon>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </learnt-box>
+</div>
+<div class="earned" *ngIf="referralsCredit > 0">
+    <p>You've earned {{referralsCredit | currency:'USD':'symbol'}} so far</p>
+</div>

@@ -1,0 +1,165 @@
+@import "src/variables";
+
+:host {
+    &.always-open {
+        .footer-wrapper {
+            position: relative;
+        }
+    }
+    .about-us {
+        border-radius: 4px;
+        border: solid 1px rgba(243, 112, 115, 0.5);
+        background-color: #ffffff;
+        z-index: 300;
+        position: fixed;
+        bottom: 1%;
+        left: 2%;
+        width: 250px;
+        height: 45px;
+
+        .close-icon {
+            display: none;
+        }
+    }
+    
+    .close-icon {
+        color: $red-color;
+    }
+
+    .about-us-close {
+        border-radius: 4px;
+        border: solid 1px rgba(243, 112, 115, 0.5);
+        background-color: #ffffff;
+        z-index: 300;
+        position: fixed;
+        bottom: 1%;
+        left: 2%;
+        width: 100px;
+        height: 45px;
+
+        .close-icon {
+            margin: 0 0 0 5px;
+        }
+    }
+
+    .footer-wrapper {
+        position: fixed;
+        bottom: 0;
+        height: 184px;
+        background: #1f0708;
+        width: 100vw;
+        z-index: 10;
+        overflow-y: auto;
+
+        .footer {
+            display: grid;
+            grid-template-rows: 107px 76px;
+            .container {
+                width: 1180px;
+                max-width: calc(100vw - 2rem);
+                margin: 0 auto;
+                display: grid;
+                grid-template: 1fr / 200px calc(100% - 400px) 200px;
+                place-content: center;
+                place-items: center;
+            }
+            
+            .link {
+                padding: 0 1rem;
+            }
+
+            .left {
+                display: flex;
+                align-items: center;
+                height: 35px;
+
+                .logo {
+                    width: 95px;
+                    height: 35px;
+                }
+
+                .logo-tm {
+                    font-size: 1rem;
+                    font-weight: 800;
+                    align-self: flex-start;
+                    font-family: 'proximasoft-bold', sans-serif;
+
+                    &-footer {
+                        font-size: 1em;
+                        padding: 0 0.5em;
+                    }
+                }
+
+                .terms {
+                    margin-left: 15px;
+                    .title {
+                        font-size: 12px;
+                        color: #ffffff;
+                        line-height: 18px;
+                    }
+                }
+            }
+            .copyright {
+                font-family: Montserrat, Quicksand, sans-serif;
+                font-size: 12px;
+                color: transparentize(#fff, 0.5);
+                line-height: 15px;
+                border-top:1px solid #321717;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .right {
+                height: 35px;
+                display: flex;
+                justify-content: flex-end;
+
+                .logos {
+                    margin-top: 12px;
+
+                    .facebook {
+                        margin-right: calc(24px - 17px);
+                    }
+
+                    .instagram {
+                        margin-right: calc(24px - 10px);
+                    }
+
+                    .twitter {
+                        margin-right: calc(24px - 7px);
+                    }
+
+                    .youtube {
+                        margin-right: calc(24px - 8px);
+                    }
+                }
+            }
+        }
+
+        .footer-divider {
+            border-top: 1px solid grey;
+            margin: 40px 200px;
+        }
+
+        .footer-menu {
+            color: #ffffff;
+            letter-spacing: normal;
+            font-size: 14px;
+            padding: 0 200px;
+
+            .header {
+                line-height: normal;
+                background-color: transparent;
+                font-weight: bold;
+                padding: 0;
+            }
+
+            .content {
+                line-height: 2.14;
+                opacity: 0.7;
+                display: grid;
+            }
+        }
+    }
+}

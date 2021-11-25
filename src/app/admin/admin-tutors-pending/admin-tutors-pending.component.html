@@ -1,0 +1,26 @@
+<div class="inner">
+    <h1>Tutors / Pending</h1>
+    <div *ngIf="tutors">
+        <table *ngIf="tutors.length">
+            <thead>
+                <tr>
+                    <th align="left">Name</th>
+                    <th align="left">Age</th>
+                    <th align="left">Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr *ngFor="let tutor of tutors">
+                <td>{{tutor.name}}</td>
+                <td>{{tutor.age}}</td>
+                <td>{{tutor.registered_date.format('LLLL')}}</td>
+                <td align="right">
+                    <button mat-raised-button [routerLink]="tutor._id">View</button>
+                </td>
+            </tr>
+        </table>
+        <div *ngIf="!tutors.length">
+            No tutors to activate
+        </div>
+    </div>
+</div>

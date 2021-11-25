@@ -1,0 +1,263 @@
+<div class="head">
+    <div class="inner">
+        <div layout="row" class="wrapper">
+            <div class="messages">
+                <img src="/assets/learnt-logo.svg" alt="Learnt Logo"/>
+                <span class="logo-tm text-red">TM</span>
+                <h1>Want to share your love of knowledge?</h1>
+                <p *ngIf="isTutor">
+                    Refer students and tutors to Learn.
+                </p>
+                <p *ngIf="isTutor">
+                    Get paid when they have learned or taught 10 for hours.
+                </p>
+
+                <p *ngIf="!isTutor">
+                    Refer friends and colleagues to Learnt. Receive $15 learning credit when they join Learnt and complete their first lesson!
+                </p>
+
+                <ng-container *ngIf="referrals.length > 0; else invite">
+                    <button mat-raised-button color="accent" routerLink="/main/referrals/management">
+                        <span>Manage invitations</span>
+                    </button>
+                </ng-container>
+                <ng-template #invite>
+                    <ng-container *ngIf="referralsTotal === 0">
+                        <button mat-raised-button color="accent" (click)="scrollToContacts()">
+                            <span>Invite friends</span>
+                        </button>
+                    </ng-container>
+                </ng-template>
+                <!-- <a routerLink="/main/terms-of-use">Terms and Conditions</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="workflow">
+    <div class="title-box">
+        <p class="sub">Get Money</p>
+        <p class="title">It's easy to get started</p>
+    </div>
+    <div class="flow-box">
+        <div class="list">
+            <div class="icon">
+                <img src="/assets/email 2.svg" alt="">
+            </div>
+            <p class="description">Spread the word online</p>
+        </div>
+        <div class="list">
+            <div class="icon">
+                <img src="/assets/track.svg" alt="">
+            </div>
+            <p class="description">Track user sign ups</p>
+        </div>
+        <div class="list">
+            <div class="icon">
+                <img src="/assets/Group.svg" alt="">
+            </div>
+            <p class="description">Get paid when people you refer use the app </p>
+        </div>
+    </div>
+</div>
+
+<div class="contacts" #contacts>
+    <p class="description">You can import your contacts by using these 3 methods</p>
+    <div class="contact-box">
+        <form [formGroup]="inviteForm" (submit)="sendInvites($event)">
+            <div class="method-wrapper">
+                <strong class="num-line">Enters the email addresses:</strong>
+            </div>
+            <div class="input-box">
+                <input class="" #email formControlName="email" placeholder="Enter email addresses, separated by a comma"
+                    type="email" required/>
+                <div class="btn-invite">
+                    <button type="submit" mat-raised-button [disabled]="!inviteForm.valid || inviteLoading" color="primary">
+                        Send Invites
+                    </button>
+                </div>                
+            </div>            
+        </form>
+        <hr/>
+
+        <!-- <div class="method-wrapper">
+            <strong class="num-line">You can also use one of these:</strong>
+        </div>
+        <div class="social">
+            <div class="list">
+                <img src="/assets/referral/linkedin.svg" alt="">
+                <p class="lab">Linkedin</p>
+            </div>
+            <div class="list">
+                <img src="/assets/referral/facebook.svg" alt="">
+                <p class="lab">Facebook</p>
+            </div>
+            <div class="list" >
+                <img src="/assets/referral/gmail.svg" alt="">
+                <p class="lab">Gmail</p>
+            </div>
+        </div>
+        <hr/> -->
+
+        <div class="method-wrapper">
+            <strong class="num-line">Or you can share this link:</strong>
+            <div class="share-box">
+                <input class="" readonly title="Referral Link" value="{{referralLink}}"
+                       (click)="$event.target.select();"/>
+                <!-- <div class="so-button google">
+                    <img src="/assets/referral/gmail-2.svg" alt="">
+                    <p>Google</p>
+                </div>
+
+                <div class="so-button linkedin">
+                    <img src="/assets/referral/linkedin-2.svg" alt="">
+                    <p>Linkedin</p>
+                </div>
+
+                <div class="so-button facebook">
+                    <img src="/assets/referral/facebook-2.svg" alt="">
+                    <p>Facebook</p>
+                </div> -->
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="contacts" #contacts>
+    <div class="inner">
+        <p class="method-header">Please paste emails here to invite your friends and get referral credits!</p>
+
+        <form [formGroup]="inviteForm" (submit)="sendInvites($event)">
+            <div class="method-wrapper">
+                <strong class="num-line">Insert the email addresses</strong>
+            </div>
+                <input class="login-input" #email formControlName="email" placeholder="email addresses, separated by comma"
+                        type="email" required/>
+                <button type="submit" mat-raised-button [disabled]="!inviteForm.valid || inviteLoading" color="primary">
+                    Send Invites
+                </button>
+            
+        </form>
+
+        <div class="share">
+            <div layout="row" class="title gap-15">
+                <div class="method-wrapper">
+                    <strong class="num-line">Or, you can share this link</strong>
+                </div>
+            </div>
+
+            <div class="share-link gap-15" layout="row" layout-align="start center">
+                <input class="login-input" readonly title="Referral Link" value="{{referralLink}}"
+                       (click)="$event.target.select();"/>
+                <div layout="row" *ngIf="false">
+                    <a (click)="sendMessenger($event)" target="_blank" mat-raised-button color="primary">
+                        <mat-icon svgIcon="messenger-btn" class="icon-btn"></mat-icon>
+                        <span>Messenger</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="more">
+    <div class="messages">
+        <h1>It’s easy to get started</h1>
+        <ul>
+            <li>
+                <svg width="36px" height="29px" viewBox="0 0 36 29"
+                    >
+
+                    <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Desktop---Referal" transform="translate(-436.000000, -1343.000000)" fill="#ffffff">
+                            <g id="Get-Started" transform="translate(-2.000000, 1081.000000)">
+                                <g id="01" transform="translate(438.000000, 248.000000)">
+                                    <path
+                                        d="M31.9298246,21.1509503 L31.9298246,17.5754751 L17.7110746,26.4725877 L3.49232456,17.5754751 L3.49232456,21.1509503 L17.7110746,29.9649123 L31.9298246,21.1509503 Z M31.9298246,14 C32.8722014,14 33.6898444,14.3603174 34.3827695,15.0809576 C35.0756892,15.8015978 35.4221491,16.6330983 35.4221491,17.5754751 L35.4221491,38.8620249 C35.4221491,39.8044028 35.0756892,40.6359006 34.3827695,41.3565424 C33.6898444,42.0771844 32.8722014,42.4375 31.9298246,42.4375 L3.49232456,42.4375 C2.54994665,42.4375 1.7323074,42.0771844 1.03938231,41.3565424 C0.346457329,40.6359006 0,39.8044028 0,38.8620249 L0,17.5754751 C0,16.6330983 0.346457329,15.8015978 1.03938231,15.0809576 C1.7323074,14.3603174 2.54994665,14 3.49232456,14 L31.9298246,14 Z"
+                                        id="Page-1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <div>Spread the word with your link over email or social media</div>
+            </li>
+            <li>
+                <svg width="32px" height="44px" viewBox="0 0 32 44"
+                    >
+
+                    <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Desktop---Referal" transform="translate(-761.000000, -1340.000000)" fill="#ffffff">
+                            <g id="Get-Started" transform="translate(-2.000000, 1081.000000)">
+                                <g id="02" transform="translate(763.000000, 250.000000)">
+                                    <path
+                                        d="M31.815761,21.5505179 L31.815761,45.0550267 C31.815761,45.646337 31.5940231,46.1193818 31.1505362,46.4741669 C30.7070549,46.8289536 30.174883,47.2280828 29.5540035,47.6715664 C29.0513895,48.0263531 28.5487868,48.041136 28.0461728,47.7159145 C27.5435531,47.390693 27.2922517,46.9324339 27.2922517,46.3411196 C27.2922517,46.3411196 27.2922517,45.165907 27.2922517,42.8154476 C27.2922517,40.4649825 27.2922517,37.8706467 27.2922517,35.0323494 C27.2922517,32.194052 27.2922517,29.5701527 27.2922517,27.1605549 C27.2922517,24.7509628 27.2922517,23.4870539 27.2922517,23.3687941 C27.2922517,23.1322688 27.2405155,22.910531 27.1370318,22.7035693 C27.0335538,22.4966076 26.8487704,22.3192207 26.5826816,22.1713917 C26.4348526,22.112259 25.4370325,21.5948689 23.5891815,20.6192043 C21.7413361,19.6435455 19.7382992,18.5865926 17.5800141,17.4483173 C15.4217233,16.310042 13.4556466,15.2752618 11.68171,14.3439482 C9.90777347,13.412629 9.02082222,12.9469807 9.02082222,12.9469807 C8.87299323,12.887848 8.51821387,12.7621973 7.95646711,12.570023 C7.39472035,12.3778431 6.71472515,12.488712 5.91645314,12.9026354 C5.17731386,13.286984 4.59340296,13.6713326 4.16470172,14.0556811 C3.73600106,14.4400354 3.47730656,14.7356877 3.38860974,14.9426437 L21.9704761,25.0983683 C22.2070014,25.2461973 22.3991757,25.4161932 22.5470047,25.6083732 C22.694828,25.8005475 22.7687425,26.0296762 22.7687425,26.295765 L22.7687425,50.8202836 C22.7687425,51.0863735 22.6874371,51.3376771 22.5248263,51.5742018 C22.3622156,51.8107263 22.1626504,52.0028996 21.9261252,52.1507275 C21.8078654,52.2098586 21.6822147,52.2542063 21.5491675,52.2837719 C21.4161259,52.3133374 21.2904696,52.32812 21.1722098,52.32812 C20.9948173,52.32812 20.8322065,52.3059462 20.6843775,52.2615978 C20.5365542,52.2172494 20.403507,52.1507279 20.2852472,52.0620312 C20.1669874,52.0029001 19.1765525,51.396815 17.3139197,50.2437579 C15.4512925,49.0907008 13.3965138,47.8267919 11.1495325,46.4519942 C8.90255108,45.0771937 6.80342709,43.798503 4.85209802,42.6158767 C2.90077066,41.4332562 1.77729587,40.753261 1.48164015,40.5758684 C1.21555024,40.3984702 0.956855181,40.1693415 0.705547599,39.888471 C0.454240584,39.6075948 0.31380622,39.3341208 0.284240649,39.0680263 L0.0625,15.7409157 C0.0625,15.5043905 0.0772825642,15.1865655 0.10684813,14.7874295 C0.136413701,14.3882935 0.328587019,13.9226396 0.683373818,13.390462 C1.09729159,12.7695825 1.71076828,12.1561109 2.52382149,11.5500132 C3.33687413,10.9439212 4.22382821,10.4339219 5.18470928,10.0200041 C6.14558751,9.60608638 7.1138498,9.33260672 8.08950866,9.19956517 C9.06517319,9.06651794 9.90777914,9.19216861 10.6173549,9.57652285 L31.0174946,19.9096343 C31.2835834,20.0278997 31.4831486,20.220074 31.6161958,20.4861628 C31.7492373,20.7522516 31.815761,21.1070366 31.815761,21.5505179 Z"
+                                        id="Page-1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <div>Track user sign ups</div>
+            </li>
+            <li>
+                <svg width="37px" height="28px" viewBox="0 0 37 28"
+                    >
+
+                    <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Desktop---Referal" transform="translate(-1045.000000, -1345.000000)" fill="#ffffff">
+                            <g id="Get-Started" transform="translate(-2.000000, 1081.000000)">
+                                <g id="03" transform="translate(1047.000000, 250.000000)">
+                                    <path
+                                        d="M36.5201569,17.3871254 L33.5672784,14.4342468 C33.2777823,14.1447452 32.9448644,14 32.5685134,14 C32.1921624,14 31.8592445,14.1447452 31.5697484,14.4342468 L13.8090497,32.19494 L5.3412362,23.6837019 C5.05173682,23.4231538 4.71881776,23.2928825 4.34246845,23.2928825 C3.96611915,23.2928825 3.63320009,23.4231538 3.34370071,23.6837019 L0.390822161,26.6365804 C0.130272775,26.926082 0,27.259 0,27.6353509 C0,28.0117019 0.130272775,28.3446199 0.390822161,28.6341215 L12.8102847,41.0970032 C13.0708328,41.3865025 13.3965138,41.53125 13.7873387,41.53125 C14.1781637,41.53125 14.5038446,41.3865025 14.7643927,41.0970032 L36.5201569,19.3846609 C36.7807106,19.0951593 36.9109819,18.7550043 36.9109819,18.3641794 C36.9109819,17.9733545 36.7807106,17.6476735 36.5201569,17.3871254 Z"
+                                        id="Page-1"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <div>Learn or teach for 10 hours</div>
+            </li>
+        </ul>
+    </div>
+</div> -->
+
+<div class="credits">
+    <p class="description">You've got <span class="amount">{{referralsCredit | currency:'USD':'symbol'}}</span> to spend</p>
+    <div class="inner">
+        <!-- <div class="title">
+            You've made <span class="amount">{{referralsCredit | currency:'USD':'symbol'}}</span> so far
+        </div> -->
+
+        <ul>
+            <li *ngFor="let r of referrals">
+                <img [attr.src]="r?.avatar"/>
+                <div class="detail">
+                    <div class="line">
+                        <a *ngIf="r && r.email" [href]="'mailto:' + r.email">{{r.email}}</a>
+                        <span *ngIf="r && !r.email" class="name">{{r.firstname + ' ' + r.lastname}}</span>
+                        <p>{{r?.status}}</p>
+                    </div>
+                    <div class="status">
+                        <div>
+                            <span class="amount">{{r?.amount | currency:'USD':'symbol'}}</span>
+                            <span [ngSwitch]="r?.completed">
+                                <ng-container *ngSwitchCase="true">credit</ng-container>
+                                <ng-container *ngSwitchCase="false">pending</ng-container>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </li>
+        </ul>
+
+        <div class="manage-btn-wrap" *ngIf="referralsTotal > referralsLimit">
+            <a routerLink="/main/referrals/management">
+                See more
+            </a>
+        </div>
+    </div>
+</div>

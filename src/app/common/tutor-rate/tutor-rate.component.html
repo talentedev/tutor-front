@@ -1,0 +1,72 @@
+<span class="close" (click)="close.next()"> <mat-icon svgIcon="close" color="learnt-red"></mat-icon></span>
+
+<div class="head" layout="flex">
+    <h1>What was your impression overall?</h1>
+</div>
+
+<div class="body">
+    <div class="ratings" layout="column" [formGroup]="rateForm">
+        <div class="row" layout="row">
+            <span>Communication</span>
+            <div class="rate">
+                <div class="value">{{getRating('communication').toFixed(1)}}</div>
+                <learnt-rating [rating]="getRating('communication')" [interactive]="true" (select)="setRating('communication', $event)"></learnt-rating>
+            </div>            
+        </div>
+        <div class="row" layout="row">
+            <span>Clarity</span>
+            <div class="rate">
+                <div class="value">{{getRating('clarity').toFixed(1)}}</div>
+                <learnt-rating [rating]="getRating('clarity')" [interactive]="true" (select)="setRating('clarity', $event)"></learnt-rating>
+            </div>
+            
+        </div>
+        <div class="row" layout="row">
+            <span>Helpfulness</span>
+            <div class="rate">
+                <div class="value">{{getRating('helpfulness').toFixed(1)}}</div>
+                <learnt-rating [rating]="getRating('helpfulness')" [interactive]="true" (select)="setRating('helpfulness', $event)"></learnt-rating>
+            </div>
+        </div>
+        <div class="row" layout="row">
+            <span>Patience</span>
+            <div class="rate">
+                <div class="value">{{getRating('patience').toFixed(1)}}</div>
+                <learnt-rating [rating]="getRating('patience')" [interactive]="true" (select)="setRating('patience', $event)"></learnt-rating>
+            </div>
+        </div>
+        <div class="row" layout="row">
+            <span>Professionalism</span>
+            <div class="rate">
+                <div class="value">{{getRating('professionalism').toFixed(1)}}</div>
+                <learnt-rating [rating]="getRating('professionalism')" [interactive]="true" (select)="setRating('professionalism', $event)"></learnt-rating>
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews">
+
+        
+        <div class="review">
+            <p>Public Review</p>
+            <div #publicReview contenteditable="true" class="review-input"></div>
+        </div>
+        
+        <div class="review">
+            <p>
+                Private Review <br/>
+                <span>(optional)</span>
+            </p>
+            <div #privateReview contenteditable="true" class="review-input"></div>
+        </div>
+        <div class="buttons">
+            <button mat-raised-button (click)="close.next()" class="cancel">Cancel</button>
+            <button mat-raised-button color="primary" (click)="sendReview()" [disabled]="!canSendReview" class="submit">Submit</button>
+        </div>
+    </div>
+    
+
+</div>
+
+
+

@@ -1,0 +1,157 @@
+@import "src/variables";
+@import "src/mixins";
+
+:host {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    input {
+        position: fixed;
+        left: -10000px;
+        float: left;
+    }
+
+    > div:not(.checkbox) {
+        float: left;
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgba(#F37073, 50%);
+        border-radius: 3px;
+        position: relative;
+        background: #FF676B;
+         color: #fff;
+
+        svg {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -3px;
+            margin-top: -3px;
+            g {
+                fill: #fff;
+            }
+        }
+
+        &.disabled {
+            background: #f3f3f3;
+            box-shadow: none;
+            cursor: default;
+        }
+    }
+
+    .checkbox {
+        float: left;
+        width: 24px;
+        height: 24px;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        background: #fff;
+        position: relative;
+        &.checked {
+            border: none;
+            background: #FF676B;
+            color: #fff;
+        }
+
+        &.disabled {
+            background: #f3f3f3;
+            box-shadow: none;
+            cursor: default;
+        }
+    }
+
+    &.radio div {
+        border-radius: 50%;
+    }
+
+    label {
+        font-family: Quicksand;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+        color: #3E1011;
+        margin-left: 10px;
+    }
+
+    .checkbox__label {
+        @include use-typography(body-1);
+        margin-left: 5px;
+    }
+
+    &.focused {
+        > div {
+            background: #FF676B;
+            color: #fff;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    &:hover {
+        > div {
+            border: 2px solid rgba(#F37073, 10%);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    &:active {
+        > div {
+            background: #FF676B;
+            border: 1px solid darken(#F37073, 5%);
+            color: #fff;
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    &.dark {
+        > div {
+            border: 1px solid rgba(#fff, 50%);
+            background: transparent;
+            svg {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -3px;
+                margin-top: -3px;
+                g {
+                    fill: #fff;
+                }
+            }
+        }
+        label {
+            color: #fff;
+        }
+
+        &.style-old:hover {
+            > div {
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        &:hover {
+            > div {
+                background: transparent;
+            }
+        }
+
+        &:active {
+            > div {
+                background: transparent;
+                border: 1px solid rgba(#fff, 100%);
+            }
+        }
+    }
+
+    &.align-left {
+        display: flex;
+        flex-direction: row-reverse;
+        label {
+            margin-right: 5px;
+        }
+    }
+}

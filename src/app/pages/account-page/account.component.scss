@@ -1,0 +1,13 @@
+@import '../../../variables';
+
+:host {
+    overflow: hidden;
+    height: 100%;
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        overflow: visible;
+        height: auto;
+    }
+}
+.account-page-wrapper, learnt-account-page {
+    height: 100%;
+}

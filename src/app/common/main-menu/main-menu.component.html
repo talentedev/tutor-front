@@ -1,0 +1,8 @@
+<nav *ngIf="menuItems" class="main-nav" [class.mobile-menu-expanded]="menuExpanded" [class.account]="isSplit" (click)="expand($event)"
+     layout="column" layout-gt-sm="row" layout-align="center center">
+    <a *ngFor="let item of menuItems" #rla="routerLinkActive" routerLinkActive="" [class]="item.class"
+       [routerLink]="item.link" [routerLinkActiveOptions]="item.options ? item.options : {exact: false}"
+       [ngClass]="isActive(rla, item) ? 'active' : 'inactive'">
+        <span>{{item.title}}</span><mat-icon  class="icon arrow" svgIcon="arrow-down" color="learnt-yellow"></mat-icon>
+    </a>
+</nav>

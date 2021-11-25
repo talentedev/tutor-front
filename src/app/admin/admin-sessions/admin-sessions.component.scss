@@ -1,0 +1,13 @@
+:host {
+    .field-row {
+        & > :not(:first-child) {
+            margin-left: 0.5rem;
+        }
+    }
+    .mat-footer-row.collapsed {
+        display: none;
+    }
+    .mat-cell {
+        word-break: break-word;
+    }
+}

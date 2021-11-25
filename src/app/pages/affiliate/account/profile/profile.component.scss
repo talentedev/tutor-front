@@ -1,0 +1,101 @@
+:host {
+    .profile {
+        .change-avatar {
+            padding-bottom: 50px;
+
+            .avatar {
+                display: inline-block;
+
+                img {
+                    height: 85px;
+                    width: 85px;
+                    border-radius: 50%;
+                }
+            }
+
+            .text {
+                display: inline-block;
+                padding-left: 25px;
+                position: absolute;
+                line-height: 30px;
+
+                label {
+                    cursor: pointer;
+                    display: block;
+                    height: 30px;
+
+                    svg {
+                        vertical-align: middle;
+                        height: 30px;
+                        border-bottom: 5px solid #ffffff;
+                    }
+                }
+
+                strong {
+                    font-size: 14px;
+                    font-weight: 600;
+                    padding-left: 10px;
+                }
+
+                input {
+                    display: none;
+                }
+
+                p {
+                    font-size: 13px;
+                    font-weight: 200;
+                }
+            }
+        }
+
+        .form {
+            .input-row {
+                height: 65px;
+            }
+
+            .input-wrapper {
+                width: 50%;
+
+                mat-select, mat-form-field {
+                    width: 90%;
+                }
+
+                .street {
+                    width: 85%;
+                }
+
+                .locateicon {
+                    display: inline-block;
+                    cursor: pointer;
+                }
+
+                mat-error::first-letter {
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .delete {
+            text-align: center;
+            font-size: 14px;
+            padding: 25px 0;
+        }
+
+        .save {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            background: #ffffff;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            border-top: 1px solid #f3f3f3;
+
+            button {
+                margin: 0 5px;
+                border: 1px solid;
+            }
+        }
+    }
+}

@@ -1,0 +1,179 @@
+:host {
+    display: block;
+    height: 100%;
+
+    learnt-spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
+    }
+
+    &.empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .no-results {
+        text-align: center;
+        font-family: Quicksand;
+        font-style: normal;
+        text-align: center;
+        height: 100%;
+        color: #FFFFFF;
+        padding: 10px 25px;    
+
+        .inbox-icon {
+            margin: 40px 0 20px 0;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 100%;
+        }
+
+        p {
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 190%;
+
+            span {
+                display: block;
+            }
+        }
+
+        button {
+            color: #FF676B;
+            background-color: #FFFFFF;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 17px;
+            margin: 0 auto;
+        }
+    }
+
+    .room-conversation-icon {
+        width: 37px;
+        height: 37px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #f37073;
+        ::ng-deep mat-icon {
+            path, circle {
+                fill: #f37073;
+            }
+        }
+    }
+    
+    .contents {
+        background: #FFFFFF;
+        height: 100%;
+
+        .search {
+            height: 59px;
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+            align-items: center;
+            color: #8F7677;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 30px;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #F0E5E5;
+            &:focus, &:focus-visible{
+                outline: none;
+            }
+        }
+        .scrollarea {
+            overflow: auto;
+            height: calc(100% - 125px);
+            .thread {
+                cursor: pointer;
+                display: flex;
+                flex-direction: row;
+                padding: 15px 20px;
+                border-bottom: 1px solid #F0E5E5;
+                position: relative;
+
+                &.active {
+                    background: rgba(230, 241, 244, 0.4);
+                }
+
+                &:not(.active):hover {
+                    background: rgba(230, 241, 244, 0.4);
+                }
+
+                &.unread {
+                    background: #FFFFFF;
+                }
+
+                .texts {
+                    width: 80%;
+
+                    .name {
+                        font-weight: 600;
+                        font-size: 14px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-family: Quicksand;
+                        font-style: normal;
+
+                        span {
+                            font-weight: 500;
+                            font-size: 15px;
+                            line-height: 19px;
+                            color: #3E1011;
+                        }
+
+                        .time {
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 15px;
+                            color: #8F7677;
+                        }
+                    }
+
+                    .description {
+                        font-family: Quicksand;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 190%;
+                        color: #3E1011;
+                    }
+                }
+
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+
+                .dot {
+                    margin: 0 3px;
+                    height: 10px;
+                    width: 10px;
+                    background: #ECECEC;
+                    border-radius: 100%;
+                    cursor: pointer;
+
+                    &.active {
+                        background: #F37073;
+                    }
+                }
+            }
+        }
+    }
+}

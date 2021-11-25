@@ -1,0 +1,43 @@
+<div *ngIf="!success">
+    <div layout="row">
+        <h3 mat-dialog-title flex>Add Subject</h3>
+        <a class="icon-button close" (click)="dialog.close()">
+            <mat-icon svgIcon="close" color="learnt-red"></mat-icon>
+            <span>Close</span>
+        </a>
+    </div>
+    <form layout="column" [formGroup]="form" class="gap-15" (submit)="save($event)">
+        <mat-dialog-content>
+            <p>
+                Add a subject you would like to tutor! To verify the subject, please submit a score report, transcript,
+                resume, certificate, diploma, or any document that represents your proficiency in the material.
+                You will be notified via email once your verification has been approved, or if we need more information from you.
+            </p>
+            <div class="elements">
+                <mat-form-field class="subject-container">
+                    <input matInput placeholder="Subject" formControlName="subject" [matAutocomplete]="auto" required>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="subjectName">
+                        <mat-option *ngFor="let subject of subjects | async" [value]="subject">
+                            {{subject.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <div class="certificate-row">
+                    <learnt-upload-button formControlName="certificate" context="subjects"
+                                          placeholder="Add certificate"
+                                          [extensions]="['pdf', 'jpg', 'jpeg', 'png']" [mimes]="['application/pdf', 'image/jpeg', 'image/png']">
+                    </learnt-upload-button>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions layout="row" class="gap-10">
+            <button mat-raised-button [disabled]="form.invalid || saving" color="primary">Add subject</button>
+            <button mat-button mat-dialog-close>Cancel</button>
+        </mat-dialog-actions>
+    </form>
+</div>
+<div class="success learnt-dialog-success" *ngIf="success">
+    <h3>Thank you for adding your subject</h3>
+    <p>Your information will now be reviewed by our team</p>
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+</div>

@@ -1,0 +1,23 @@
+@import "../../../variables";
+
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    > .contents {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+
+        &.noscroll {
+            overflow: inherit;
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-md) {
+        max-width: 100vw;
+    }
+}

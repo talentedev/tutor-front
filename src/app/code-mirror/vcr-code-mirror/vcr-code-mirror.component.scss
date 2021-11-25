@@ -1,0 +1,77 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+
+    .header {
+        display: flex;
+        .title {
+            flex: 1;
+            font-size: 1.2em;
+            color: #fff;
+            font-weight: bold;
+            max-width: 127px;
+            background: rgba(0,0,0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .toolbar {
+            padding-left: 10px;
+            .language-selector {
+                cursor: pointer;
+                width: 110px;
+                height: 36px;
+                font-size: 12px;
+                color: #FFFFFF;
+                letter-spacing: 0;
+                position: relative;
+                border: 0.5px solid rgba(255,255,255,0.8);
+                border-radius: 4px;
+
+                &:hover {
+                    border: 0.5px solid #FFFFFF;
+                }
+
+                .label {
+                    margin: 8px 10px;
+                    text-overflow: ellipsis;
+                    max-width: 74px;
+                    overflow: hidden;
+                }
+
+                mat-icon {
+                    position: absolute;
+                    right: 8px;
+                    top: 9px;
+                    width: 10px;
+                    height: 8px;
+                }
+            }
+        }
+    }
+    .code-mirror {
+        background: #2A2A2A;
+        flex: 1;
+        ::ng-deep .ace_editor {
+            height: 100%;
+        }
+    }
+}
+
+.code-mirror-modes {
+    margin: 10px;
+    max-height: 200px;
+    overflow: auto;
+    .mode {
+        font-size: 14px;
+        padding: 10px;
+        display: block;
+        text-align: center;
+        &:hover {
+            background: #ddd;
+        }
+    }
+}

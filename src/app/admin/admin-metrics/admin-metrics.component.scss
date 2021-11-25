@@ -1,0 +1,61 @@
+:host {
+	
+	.inner-metric {
+		padding: 50px;
+	}
+	.mat-radio-button ~ .mat-radio-button {
+	  margin-left: 16px;
+	}
+
+	.header {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.metric-radio {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.metric-chart, .metric-chart-hourly {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	.picker {
+		margin-bottom: 20px;
+		margin-top: 20px;
+		width: 22rem;
+
+		label {
+			margin-right: 5px;
+		}
+	}
+
+	.range-picker {
+		height: 1.5rem;
+		font-size: 15px;
+		padding: 5px;
+		border-style: solid !important;
+	}
+
+	.header {
+		margin-bottom: 20px;
+	}
+
+	.toolbar {
+		button {
+		    background: #fff;
+		    color: #222;
+		    padding: 8px 17px;
+		    margin: 2px;
+		    border: 1px solid #e7e7e7;
+		}
+
+		button.active {
+		    color: #fff;
+		    background: #F37073;
+		    border: 1px solid #e7e7e7;
+		}
+	}
+}

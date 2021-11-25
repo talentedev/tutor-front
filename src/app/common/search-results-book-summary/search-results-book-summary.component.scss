@@ -1,0 +1,122 @@
+:host {
+    .header {
+        padding: 20px;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            font-weight: 100;
+        }
+    }
+    .details {
+        padding: 20px;
+        background: #FAFAFA;
+        .item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            .circle {
+                margin-right: 10px;
+                width: 43px;
+                height: 43px;
+                border-radius: 50%;
+                background: #89C0CA;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+            }
+
+            learnt-user-avatar {
+                margin-right: 10px;
+            }
+
+            .label {
+                font-size:1.8em;
+                font-weight: 100;
+            }
+            .label.tutor {
+                font-weight: bold;
+            }
+        }
+
+        .cols {
+            margin: 20px 0;
+            .col {
+                flex: 1;
+            }
+        }
+
+        .total {
+            color: #444;
+            border-top: 0.5px solid #D8D8D8;
+            padding: 10px 5px;
+            text-align: right;
+            strong {
+                font-size: 18px;
+                color: #89C0CA;
+                padding-right: 5px;
+                font-weight: 600;
+            }
+            span {
+                font-size: 18px;
+            }
+
+            em {
+                font-size: 12px;
+                font-style: normal;
+            }
+        }
+    }
+
+    .meet-info {
+        border-radius: 50%;
+        width: 21px;
+        height: 21px;
+        border: 1px solid rgba(243, 112,115, 1);
+        margin-left: 10px;
+        cursor: pointer;
+        mat-icon {
+            width: 12px;
+            height: 12px;
+            margin: 3px;
+        }
+    }
+
+    .col:first-child {
+        margin-right: 20px;
+    }
+
+    .footer {
+        padding: 0 20px;
+        height: 90px;
+        background: #fff;
+    }
+
+    .success {
+        padding: 50px 30px;
+        h1 {
+            font-size: 32px;
+            color: #89C0CA;
+            font-weight: 100;
+        }
+        p {
+            font-size: 16px;
+            color: #999999;
+        }
+        .buttons {
+            margin-top: 40px;
+            mat-icon {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        .dashboard-button {
+            margin-left: 30px;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+:host {
+    .field-row {
+        & > :not(:first-child) {
+            margin-left: 0.5rem;
+        }
+    }
+    .date-field {
+        min-width: 12.5rem;
+    }
+    .mat-table {
+        .cell-amount {
+            max-width: 6.25rem;
+            //justify-content: flex-end;
+        }
+        .mat-cell, mat-header-cell {
+            padding: 0.5rem;
+            word-break: break-word;
+        }
+        .collapsed {
+            display: none !important;
+        }
+    }
+
+    .transaction-title {
+        margin-bottom: 8px;
+        font-size: 24px;
+        font-weight: 500;
+        display: flex;
+        width: 100%;
+    }
+
+    .transaction-title-left {
+        display:inline-block;
+        float: left;
+        width: 70%;
+    }
+
+    .transaction-title-right {
+        display:inline-block;
+        float: right;
+        width: 30%;
+    }
+}

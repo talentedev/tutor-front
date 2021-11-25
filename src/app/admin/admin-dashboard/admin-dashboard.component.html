@@ -1,0 +1,70 @@
+<div class="inner" *ngIf="stats">
+    <div layout="row" layout-align="start center">
+        <h1>Stats</h1>
+        <div *ngIf="requesting" class="loading">
+            <learnt-spinner [size]="20"></learnt-spinner>
+        </div>
+    </div>
+    <div class="stats-boxes" layout="column" class="gap-15">
+        <div layout="row" class="gap-15">
+            <div class="stats-box">
+                <div class="value">{{stats.users.tutors}}</div>
+                <div class="info">Tutors</div>
+            </div>
+
+            <div class="stats-box">
+                <div class="value">{{stats.users.students}}</div>
+                <div class="info">Students</div>
+            </div>
+
+            <a routerLink="/admin/tutors/" class="stats-box">
+                <div class="value">{{stats.users.pending}}</div>
+                <div class="info">Pending Tutors</div>
+            </a>
+
+            <a routerLink="/admin/tutors/" class="stats-box">
+                <div class="value">{{stats.users.unverified}}</div>
+                <div class="info">Need Verification</div>
+            </a>
+        </div>
+
+        <div layout="row" class="gap-15">
+            <a routerLink="/admin/online" class="stats-box">
+                <div class="value">{{onlineUsers}}</div>
+                <div class="info">Online Users</div>
+            </a>
+
+            <a routerLink="/admin/online" class="stats-box">
+                <div class="value">{{onlineStudents}}</div>
+                <div class="info">Online Students</div>
+            </a>
+            <a routerLink="/admin/online" class="stats-box">
+                <div class="value">{{onlineTutors}}</div>
+                <div class="info">Online Tutors</div>
+            </a>
+            <a routerLink="/admin/online" class="stats-box">
+                <div class="value">{{onlineAdmins}}</div>
+                <div class="info">Online Admins</div>
+            </a>
+        </div>
+
+        <div layout="row" class="gap-15">
+
+            <a routerLink="/admin/chats" class="stats-box">
+                <div class="value">0</div>
+                <div class="info">Messages</div>
+            </a>
+
+            <a routerLink="/admin/reviews" class="stats-box">
+                <div class="value">0</div>
+                <div class="info">Reviews</div>
+            </a>
+
+            <a routerLink="/admin/tutoring-sessions" class="stats-box">
+                <div class="value">{{stats.currentLessons}}</div>
+                <div class="info">Current Tutoring Sessions</div>
+            </a>
+
+        </div>
+    </div>
+</div>

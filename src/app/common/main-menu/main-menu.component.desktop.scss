@@ -1,0 +1,33 @@
+@import "../../../variables";
+
+:host {
+    @media (min-width: $layout-breakpoint-sm) {
+        nav.main-nav {
+            height: 60px;
+            background-image: linear-gradient(0deg, #F37073 0%, #F84E82 100%);
+            align-items: stretch;
+            a {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+
+                svg g {
+                    fill: #fff;
+                }
+
+                &.active {
+                    border-bottom: 6px solid #F8EB76;
+                }
+
+                .icon {
+                    display: block;
+                }
+
+                .arrow {
+                    display: none;
+                }
+            }
+        }
+    }
+}

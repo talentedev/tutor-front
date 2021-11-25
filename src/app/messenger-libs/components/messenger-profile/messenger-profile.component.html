@@ -1,0 +1,43 @@
+<div *ngIf="loading; else contents" layout="row" layout-align="center center">
+    <learnt-spinner></learnt-spinner>
+</div>
+
+<ng-template #contents>
+    <div class="profile">
+        <div layout="row" class="row1">
+            <learnt-user-avatar [size]="75" [user]="user"></learnt-user-avatar>
+            <div>
+                <ng-container [ngSwitch]="user.isTutor()">
+                    <a *ngSwitchCase="true" class="name" routerLink="/main/tutor/{{user._id}}">{{user.shortName}}</a>
+                    <h1 *ngSwitchDefault>{{user.shortName}}</h1>
+                </ng-container>
+                <div class="infos gap-10" layout="row" layout-align="start center">
+                    <div class="location" *ngIf="user.location && user.location.nice !== ''" layout="row" layout-align="start center">
+                        <mat-icon svgIcon="mapmarker" id="icon-marker"></mat-icon>
+                        <span>{{user.location.nice}}</span>
+                    </div>
+
+                    <div class="rate" *ngIf="hasRating" layout="row" layout-align="start center">
+                        <mat-icon svgIcon="star"></mat-icon>
+                        <span>{{user.tutoring.rating}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="price" *ngIf="user.isTutor()">
+            {{user.tutoring.rate | currency:'USD':'symbol'}} / hour
+        </div>
+
+        <div layout="row" class="bookbuttons gap-10" layout-align="center center" *ngIf="user.isTutor()">
+            <button mat-raised-button (click)="book()" color="primary">Book Now</button>
+
+            <button mat-raised-button (click)="book(true)" color="primary" [disabled]="user.online === 0">
+                <mat-icon svgIcon="thunder" color="learnt-yellow"></mat-icon>
+                <span>Instant Session</span>
+            </button>
+        </div>
+    </div>
+
+    <learnt-lesson-listing [perMonth]="true" [other]="user" class="classes" [interactive]="true"></learnt-lesson-listing>
+</ng-template>

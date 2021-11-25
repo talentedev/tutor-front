@@ -1,0 +1,3 @@
+<button mat-raised-button *ngFor="let social of socials" (click)="serviceLogin(social)" class="social" matTooltip="Login with {{social}}">
+  <img [attr.src]="'/assets/social/'+social+'.svg'"/>
+</button>

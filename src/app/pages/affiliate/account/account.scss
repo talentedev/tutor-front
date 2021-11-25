@@ -1,0 +1,172 @@
+@import '../../../../variables.scss';
+
+:host {
+    background: rgb(243, 243, 243);
+    display: block;
+    min-height: calc(100vh - 200px);
+    color: #444444;
+    height: 100%;
+    overflow: auto;
+
+    .page-wrapper {
+        padding: 60px 0px;
+        width: 50%;
+        margin: 0 auto;
+
+        .box-title {
+            display: flex;
+            margin-bottom: 15px;
+            font-size: 80%;
+
+            h3 {
+                display: inline;
+                font-weight: 600;
+            }
+
+            p {
+                display: inline;
+                font-size: 1.7em;
+            }
+
+            mat-icon {
+                height: 10px;
+            }
+        }
+
+        ::ng-deep learnt-box {
+            &:not(:last-of-type) {
+                margin-bottom: 60px;
+            }
+
+            .contents {
+                min-width: 0;
+            }
+        }
+
+        .inner {
+            padding: 0 90px;
+        }
+    }
+
+    .icon-wrapper {
+        border-radius: 30px;
+        font-size: 0.8em;
+        padding: 4px 10px;
+        white-space: nowrap;
+        display: inline-flex;
+        position: relative;
+        text-align: left;
+
+        div {
+            float: right;
+        }
+
+        mat-icon {
+            margin-right: 4px;
+            padding-top: 1px;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        &.pending {
+            color: #444444;
+            background: #F8EB76;
+            ::ng-deep .mat-icon {
+                width: 12px;
+                height: 12px;
+                path {
+                    fill: #222;
+                }
+            }
+        }
+
+        &.approved {
+            color: #ffffff;
+            background: #89C0CA;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+
+        &.cancelled, &.dispute {
+            color: #ffffff;
+            background: #F37073;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        padding-top: 60px;
+        background: #da5558;
+        overflow: initial;
+
+        learnt-box {
+            padding: 20px 0px 10px 0px !important;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            background: #f3f3f3;
+            padding: 30px 15px 0px 15px;
+            height: 100%;
+            overflow: auto;
+
+            .box-title {
+                font-size: 100%;
+                font-weight: normal;
+                margin-bottom: 20px;
+
+                h3 {
+                    font-size: 1.7em;
+                }
+
+                > .right h3 {
+                    font-size: 15px;
+                    padding: 0px 5px;
+                    width: unset;
+                    font-weight: bold;
+                    line-height: 12px;
+                }
+            }
+
+            .inner {
+                padding: 0px 10px;
+
+                .change-avatar .text {
+                    position: initial;
+                    padding-left: 0px;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-xs) {
+    :host {
+        .form .input-row {
+            flex-direction: column;
+            height: auto !important;
+
+            .input-wrapper {
+                width: 100% !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+:host {
+    display: block;
+    background: rgba(137,192,202,0.20);
+    learnt-spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -12px;
+        margin-top: -12px;
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 0;
+    }
+}

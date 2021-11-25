@@ -1,0 +1,23 @@
+:host {
+    padding: 30px 40px;
+    display: block;
+    h1 {
+        font-size: 24px;
+        color: #454545;
+        font-weight: bold;
+    }
+    p {
+        font-size: 14px;
+        color: #999999;
+        margin-top: 20px;
+    }
+
+    learnt-social-login {
+        margin: 30px 0;
+    }
+
+    .links {
+        font-size: 1.4em;
+        a { font-weight: bold; }
+    }
+}

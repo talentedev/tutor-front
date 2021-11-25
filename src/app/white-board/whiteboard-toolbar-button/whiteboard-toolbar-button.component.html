@@ -1,0 +1,8 @@
+<mat-icon class="icon" [svgIcon]="icon" *ngIf="icon" [color]="color"></mat-icon>
+<div class="dynamic-icon">
+    <ng-content select="icon"></ng-content>
+</div>
+<mat-icon class="arrow" svgIcon="arrow-down" color="white"></mat-icon>
+<div class="submenu" #submenu>
+    <ng-content></ng-content>
+</div>

@@ -1,0 +1,44 @@
+@import "../../../variables";
+:host {
+    padding: 45px 60px;
+
+    .referrals {
+        font-weight: 300;
+        h1 {
+            font-size: 2.6em;
+            color: #444444;
+        }
+        p {
+            margin: 20px 0;
+            font-size: 1.4em;
+            color: #666666;
+        }
+
+        input {
+            color: #89C0CA;
+        }
+    }
+
+    .social-button, .invite-link {
+        border-radius: 50%;
+        border: 0.5px solid #F37073;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .invite-link {
+        border-radius: 100px;
+        background: #fff;
+        width: auto;
+        padding:0 20px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    @media(max-width: $layout-breakpoint-xs) {
+        padding: 0;
+    }
+}

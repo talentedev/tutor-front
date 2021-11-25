@@ -1,0 +1,21 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    .dot {
+        width: 10px;
+        height: 10px;
+        max-width: 10px;
+        max-height: 10px;
+        border-radius: 50%;
+        background: #ddd;
+        margin: 0 2px;
+        cursor: pointer;
+        transition: background 300ms ease-out;
+
+        &.active {
+            background: green;
+        }
+    }
+}

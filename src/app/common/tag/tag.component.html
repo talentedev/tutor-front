@@ -1,0 +1,4 @@
+<div class="contents" [class.left-icon]="iconPosition == 'left'" [class.right-icon]="iconPosition == 'right'" layout="row" layout-align="center center">
+    <mat-icon [style.width.px]="iconWidth" [style.height.px]="iconHeight" *ngIf="icon" [svgIcon]="icon"></mat-icon>
+    <span class="label"><ng-content></ng-content></span>
+</div>

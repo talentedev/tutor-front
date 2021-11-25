@@ -1,0 +1,96 @@
+@import "../../../variables";
+
+:host {
+    display: block;
+
+    head-title a {
+        font-size: 1.7em;
+        color: #F37073;
+    }
+
+    .no-results {
+        margin-top: 20px;
+        height: 100px;
+        font-size: 24px;
+        padding: 30px 0;
+
+        svg {
+            margin-right: 20px;
+        }
+    }
+
+    learnt-spinner.center-loading {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -12.5px;
+        margin-top: -12.5px;
+    }
+
+    ul {
+        margin-top: 20px;
+        max-height: 300px;
+        overflow: auto;
+
+        &.paginated {
+            max-height: unset;
+        }
+
+        li {
+            min-height: 70px;
+            padding: 10px;
+
+            &:nth-child(odd) {
+                background: #FAFAFA;
+            }
+
+            &:nth-child(even) {
+                background: #FFF;
+            }
+
+            .icon {
+                width: 50px;
+                height: 50px;
+                background: #F8EB6E;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .title {
+                font-size: 1.4em;
+
+                a {
+                    color: #2d0405;
+                }
+            }
+
+            .text {
+                font-size: 1.2em;
+                color: #999;
+            }
+
+            .close {
+                display: block;
+                border-radius: 50%;
+                border: 1px solid #DDD;
+                background: transparent;
+                width: 26px;
+                height: 26px;
+                position: relative;
+
+                .mat-icon {
+                    width: 8px;
+                    height: 8px;
+                }
+
+                &:hover {
+                    background: #eee;
+                }
+            }
+        }
+    }
+
+    @media(max-width: $layout-breakpoint-xs) {
+        padding: 0!important
+    }
+}

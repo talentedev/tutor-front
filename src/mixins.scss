@@ -1,0 +1,44 @@
+@use 'sass:map';
+@import "variables";
+
+@mixin counter {
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    background: #78C7D6;
+    color: #fff;
+    font-size: 1em;
+    min-width: 20px;
+    text-align: center;
+    padding: 4px;
+    min-height: 20px;
+    line-height: 15px;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin use-typography($name, $typography-mapping: $learnt-typography-2) {
+    $typography: map.get($typography-mapping, $name);
+    @if $typography == null {
+        @error $name 'not found in' map.keys($typography-mapping);
+    }
+    @each $property, $value in $typography {
+        #{$property}: #{$value};
+    }
+}
+
+@mixin media-breakpoint-up($breakpoint) {
+    @media screen and (min-width: #{map-get($breakpoints, $breakpoint)}) {
+        @content
+    }
+}
+
+@mixin media-breakpoint-down($breakpoint) {
+    @media screen and (max-width: #{map-get($breakpoints, $breakpoint) - 1}) {
+        @content
+    }
+}

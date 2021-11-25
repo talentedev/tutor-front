@@ -1,0 +1,467 @@
+@import "../../../../variables.scss";
+:host {
+    padding-bottom: 75px;
+    background: rgb(243, 243, 243);
+    display: block;
+    min-height: calc(100vh);
+    color: #444444;
+
+    .blank {
+        margin-top: 0;
+        padding-top: 5px;
+    }
+
+    .top {
+        background: #ffffff;
+        margin-bottom: 50px;
+        color: #000000;
+
+        .inner {
+            justify-content: center;
+            margin: 0 auto;
+            height: 251px;
+            padding-top: 20px;
+
+            h1 {
+                text-align: center;
+                margin-top: 40px;
+                font-size: 28px;
+                font-weight: 200;
+            }
+
+            ul {
+                margin-top: 50px;
+                display: flex;
+                justify-content: center;
+
+                li {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-left: 40px;
+
+                    mat-icon {
+                        margin-right: 10px;
+                        height: 36px;
+                        width: 36px;
+                    }
+
+                    div {
+                        font-size: 16px;
+                        width: 250px;
+                    }
+                }
+            }
+        }
+    }
+
+    .content-box {
+        margin: 50px auto;
+
+        learnt-box {
+            width: 65%;
+            margin: 0 auto;
+        }
+
+        @media only screen and (max-width: 1550px) {
+            learnt-box {
+                width: 85%;
+            }
+        }
+
+        .inner {
+            padding: 0 20px;
+        }
+    }
+
+    .invite-box {
+        .inner {
+            padding: 0 90px;
+
+            .login-input {
+                border-bottom: 1px solid #ddd;
+                margin-top: 10px;
+            }
+
+            .import {
+                margin-top: 50px;
+
+                h2 {
+                    display: inline;
+                }
+
+                .services {
+                    display: inline;
+
+                    a {
+                        margin-left: 30px;
+                        font-size: 18px;
+
+                        .mat-icon {
+                            margin-right: 7px;
+                            height: 15px;
+                        }
+                    }
+                }
+            }
+
+            .share-link {
+                border-top: 1px solid rgb(243, 243, 243);
+                margin-top: 50px;
+                padding-top: 50px;
+
+                h2 span {
+                    color: #89c0ca;
+                    text-transform: uppercase;
+                    padding-right: 10px;
+                }
+
+                input {
+                    color: #89c0ca;
+                    margin-right: 15px;
+                }
+
+                .share-buttons {
+                    margin-bottom: 30px;
+
+                    a {
+                        background: rgba(243, 112, 115, 0.8);
+
+                        span {
+                            padding: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .invites-payments-box {
+        display: flex;
+        margin: 0 auto;
+        width: 65%;
+
+        learnt-box {
+            width: 50%;
+        }
+
+        @media only screen and (max-width: 1550px) {
+            width: 85%;
+        }
+
+        .status-box {
+            margin-right: 10px;
+        }
+
+        .payments-box {
+            margin-left: 10px;
+        }
+
+        table.invites,
+        table.payments {
+            width: 100%;
+            border-spacing: 0;
+            padding: 10px 0;
+
+            tr:nth-child(odd) {
+                background: #fafafa;
+            }
+        }
+
+        table.invites {
+            .avatar {
+                width: 10px;
+                padding: 0 20px;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                }
+            }
+
+            .status {
+                font-size: 15px;
+                padding: 10px;
+
+                .email {
+                    color: #89c0ca;
+                    font-weight: 600;
+                }
+
+                .referral-status::first-letter {
+                    text-transform: capitalize;
+                }
+            }
+        }
+
+        .no-invites {
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .no-payments {
+            @extend .no-invites;
+        }
+
+        table.payments {
+            thead {
+                font-size: 13px;
+
+                tr {
+                    background: #ffffff;
+                }
+            }
+
+            tbody {
+                font-size: 15px;
+                text-align: center;
+
+                tr {
+                    height: 60px;
+                }
+            }
+
+            .icon-wrapper {
+                border-radius: 30px;
+                font-size: 0.8em;
+                padding: 4px 10px;
+                white-space: nowrap;
+                display: inline-flex;
+                position: relative;
+
+                text-align: left;
+                width: 90px;
+
+                div {
+                    float: right;
+                    margin-left: 4px;
+                }
+
+                mat-icon {
+                    padding-top: 1px;
+                }
+
+                &:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                &.pending {
+                    color: #444444;
+                    background: #f8eb76;
+                    ::ng-deep .mat-icon {
+                        width: 14px;
+                        height: 14px;
+                        path {
+                            fill: #222;
+                        }
+                    }
+                }
+
+                &.approved {
+                    color: #ffffff;
+                    background: #89c0ca;
+                    ::ng-deep .mat-icon {
+                        width: 11px;
+                        height: 11px;
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                &.cancelled {
+                    color: #ffffff;
+                    background: #f37073;
+                    ::ng-deep .mat-icon {
+                        width: 11px;
+                        height: 11px;
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .earned {
+        width: 100%;
+        background: #89c0ca;
+        height: 87px;
+        line-height: 87px;
+        text-align: center;
+        margin-top: 70px;
+
+        p {
+            font-size: 21px;
+            font-weight: 200;
+            color: #ffffff;
+        }
+    }
+
+    .creative-box {
+        .entry-text {
+            font-size: 15px;
+            margin: 20px 0;
+        }
+
+        h2 {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        .entry {
+            flex-grow: 1;
+            padding: 15px 0;
+            border-bottom: 2px dotted #e9e9e9;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 500px;
+            min-width: 200px;
+            font-size: 15px;
+            width: 50%;
+            &:first-child {
+                margin-right: 100px;
+            }
+
+            a {
+                border-bottom-width: 3px;
+                border-bottom-color: #f37073;
+                border-bottom-style: solid;
+            }
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        padding-bottom: 25px;
+
+        .content-box {
+            margin: 10px auto;
+            width: 100%;
+            .inner {
+                padding: 10px;
+            }
+            learnt-box {
+                width: calc(100% - 30px);
+                padding: 15px !important;
+                margin: 15px !important;
+            }
+        }
+
+        .top {
+            margin-bottom: 20px;
+
+            .inner {
+                height: auto;
+                padding-bottom: 5px;
+
+                h1 {
+                    margin-top: 0;
+                }
+
+                ul {
+                    margin-top: 20px;
+                    flex-wrap: wrap;
+                    li {
+                        margin-left: 0;
+                        padding: 5px 0;
+                        mat-icon {
+                            height: 16px;
+                            width: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .creatives {
+            flex-wrap: wrap;
+            .entry {
+                width: 100%;
+                max-width: 100%;
+                &:first-child {
+                    margin-right: unset;
+                }
+            }
+        }
+
+        .invites-payments-box {
+            flex-wrap: wrap;
+            learnt-box {
+                margin: 10px 0;
+            }
+
+            .status-box {
+                margin-right: 0;
+            }
+
+            .payments-box {
+                margin-left: 0;
+            }
+        }
+
+        .invite-box {
+            font-size: 8px;
+            margin-top: 30px;
+
+            .inner {
+                padding: 0 10px;
+                .login-input {
+                    height: 35px;
+                    margin-bottom: 5px;
+                    font-size: 2em;
+                }
+                button {
+                    float: right;
+                }
+
+                .import {
+                    h2 {
+                        display: block;
+                        margin: 10px 0;
+                    }
+
+                    .services {
+                        margin-left: 10px;
+                        font-size: 15px;
+                        font-size: 17px;
+                        display: flex;
+                        justify-content: space-between;
+
+                        a {
+                            margin-left: 5px;
+                            &:first-child {
+                                margin-left: 0;
+                            }
+                            mat-icon {
+                                margin-right: 3px;
+                            }
+                        }
+                    }
+                }
+
+                .share-link {
+                    margin-top: 20px;
+                    padding-top: 20px;
+
+                    [layout="row"] {
+                        flex-wrap: wrap;
+                        justify-content: flex-end;
+
+                        .login-input {
+                            margin: 15px 0;
+                            flex-grow: 1;
+                        }
+
+                        .share-buttons {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+:host {
+    flex: 1;
+    background: #FFF;
+    overflow: auto;
+    ::ng-deep learnt-messenger-message {
+        margin: 10px 20px;
+    }
+}
+

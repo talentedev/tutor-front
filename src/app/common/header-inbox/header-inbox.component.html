@@ -1,0 +1,83 @@
+<div class="button-with-count" (click)="click($event)">
+    <span *ngIf="count" class="counter">{{count}}</span>
+    <button class="header-button">
+        <img src="/assets/mail.svg"/>
+        <span></span>
+    </button>
+</div>
+<div class="popover-container">
+    <div #popover></div>
+</div>
+
+<!-- Popover inner content -->
+<ng-template #popoverview class="avoidOverlappingText">
+    <div class="header-popoverview-inbox">
+        <div class="header" layout="row">
+            <span>Your Inbox</span>
+            <span flex></span>
+            <a routerLink="/main/inbox" (click)="hidePopover()">View All</a>
+        </div>
+
+        <div class="no-results" *ngIf="threads && threads.length == 0" layout="row" layout-align="center center">
+            <div class="inbox-icon">
+                <svg width="77px" height="77px" viewBox="0 0 77 77">
+                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Inbox-/-PopUp--Empty" transform="translate(-163.000000, -82.000000)">
+                            <g id="Group-2" transform="translate(14.000000, 83.000000)">
+                                <g id="illustration" transform="translate(150.000000, 0.000000)">
+                                    <circle id="Oval" stroke-opacity="0.3" stroke="#89C0CA" stroke-width="0.5" cx="37.5" cy="37.5" r="37.5"></circle>
+                                    <path
+                                        d="M41.1195215,38.814432 L45.7007092,38.814432 C45.6910416,38.785439 45.6789612,38.7467785 45.6644647,38.6984536 C45.6499682,38.6501287 45.6378845,38.6114681 45.6282202,38.5824751 L42.5547686,31.3917529 L32.2905916,31.3917529 L29.217139,38.5824751 C29.207474,38.6018038 29.1953929,38.6404643 29.1808955,38.6984536 C29.166398,38.7564428 29.1543169,38.7951034 29.144652,38.814432 L33.7258386,38.814432 L35.1030933,41.5979375 L39.7422669,41.5979375 L41.1195215,38.814432 Z M48.5567004,39.2493561 L48.5567004,46.2371134 C48.5567004,46.4884035 48.4648828,46.7058626 48.2812475,46.8894974 C48.0976155,47.0731324 47.8801551,47.1649485 47.6288663,47.1649485 L27.2164948,47.1649485 C26.9652047,47.1649485 26.7477456,47.0731324 26.5641108,46.8894974 C26.3804759,46.7058626 26.2886598,46.4884035 26.2886598,46.2371134 L26.2886598,39.2493561 C26.2886598,38.6501254 26.4094704,38.0557367 26.6510952,37.4661736 L30.1014813,29.4635958 C30.1981311,29.2219713 30.3745148,29.0190106 30.6306391,28.8547041 C30.88676,28.6904007 31.1404617,28.6082474 31.3917537,28.6082474 L43.4536065,28.6082474 C43.7048985,28.6082474 43.9586001,28.6904007 44.2147211,28.8547041 C44.4708453,29.0190106 44.6472291,29.2219713 44.7438789,29.4635958 L48.1942653,37.4661736 C48.4358898,38.0557367 48.5567004,38.6501254 48.5567004,39.2493561 Z"
+                                        id="Page-1" fill="#89C0CA"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <h1>Your inbox is empty</h1>
+            <ng-container [ngSwitch]="me.isTutor() || me.isAffiliate()">
+                <ng-container *ngSwitchCase="true">
+                    <p>
+                        Here, students will write you to determine if you're the best fit, and book lessons to be held in the future.
+                        <ng-container *ngIf="!me.profileComplete">
+                            You will only appear on search once your profile is completed.
+                        </ng-container>
+                    </p>
+
+                    <ng-container *ngIf="me.profileComplete; else profileComplete">
+                        <button mat-raised-button color="primary" routerLink="/main/inbox">Go to inbox</button>
+                    </ng-container>
+
+                    <ng-template #profileComplete>
+                        <button mat-raised-button color="primary" routerLink="/main/profile/edit">Complete Your Profile</button>
+                    </ng-template>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="false">
+                    <p>
+                        Here you can chat with tutors to find out if they are a right match for you before entering a credit card.
+                        Once you determine whether the tutor is a good fit for you, you can propose a lesson.
+                        <span>Happy Learning :)</span>
+                    </p>
+
+                    <button mat-raised-button color="primary" routerLink="/tutors">Find a Tutor</button>
+                </ng-container>
+            </ng-container>
+        </div>
+
+        <ul *ngIf="threads && threads.length">
+            <li *ngFor="let thread of threads" layout="row" layout-align="start center" (click)="hidePopover()" [routerLink]="['/main/inbox', thread._id]">
+                <learnt-user-avatar [user]="thread.other" [size]="48" [mright]="14"></learnt-user-avatar>
+                <div class="texts" flex>
+                    <div class="other" layout="row">
+                        <div class="name">{{thread.other?.name}}</div>
+                        <div class="time" [matTooltip]="thread.message_time.format('LLL')">{{thread.message_time | date: 'shortDate'}}</div>
+                    </div>
+                    <div class="message" [innerHTML]="thread.headline(emojiService)|async"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+<!-- Popover inner content -->

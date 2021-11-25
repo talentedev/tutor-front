@@ -1,0 +1,17 @@
+<video #video autoplay muted="muted" class="remote-video"></video>
+<audio #audio autoplay [volume]="1"></audio>
+<div class="buttons" [class.style.display]="isConnected ? 'flex' : 'hidden'">
+        <learnt-video-button
+            (click)="toggleTrack('audio')"
+            [icon]="audioEnabled ? 'unmute' : 'mute'"
+            [class.active]="audioEnabled"
+            title="{{ audioEnabled ? 'Turn off microphone' : 'Turn on microphone' }}">
+        </learnt-video-button>
+        <learnt-video-button
+            (click)="toggleTrack('video')"
+            [icon]="videoEnabled ? 'video' : 'novideo'"
+            [class.active]="videoEnabled"
+            title="{{ videoEnabled ? 'Turn off camera' : 'Turn on camera' }}">
+        </learnt-video-button>
+</div>
+<video #localVideo class="local-video" autoplay muted="muted"></video>

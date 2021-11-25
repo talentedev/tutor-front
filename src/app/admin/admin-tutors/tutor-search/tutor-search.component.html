@@ -1,0 +1,199 @@
+<div class="controls">
+    <div class="control">
+        <mat-form-field role="search">
+            <input matInput type="text" placeholder="Search name or email" [formControl]="queryControl" role="searchbox" autocomplete="none">
+        </mat-form-field>
+    </div>
+    <div class="control">
+        <mat-checkbox [formControl]="includeDisapproved">Include disapproved tutors</mat-checkbox>
+    </div>
+    <div class="control">
+        <mat-form-field role="search" [classList]="'mat-form-field subject'">
+            <input matInput type="text" placeholder="Filter by subject" [formControl]="subjectFilter" role="combobox"
+                   [matAutocomplete]="subjectAutocomplete" aria-label="Filter by subject">
+            <mat-autocomplete #subjectAutocomplete [displayWith]="getSubjectName">
+                <mat-option *ngFor="let subject of subjects" [value]="subject" [matTooltip]="subject.name">{{ subject.name }}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</div>
+<header>
+    <h3 *ngIf="pendingTutors.length">Pending Approval</h3>
+</header>
+<table mat-table [dataSource]="pendingTutors" *ngIf="pendingTutors.length">
+    <!-- first name -->
+    <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.first_name }}</mat-cell>
+    </ng-container>
+
+    <!-- last name -->
+    <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.last_name }}</mat-cell>
+    </ng-container>
+
+    <!-- tutorname -->
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <a (click)="setUser($event, tutor)" matTooltip="View profile">{{ tutor.username }}</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- registered -->
+    <ng-container matColumnDef="registered">
+        <mat-header-cell *matHeaderCellDef>Registered</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <span>{{ tutor.registered_date.utc().format('lll') }}</span>
+        </mat-cell>
+    </ng-container>
+
+    <!-- action -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let tutor" class="actions">
+            <a mat-icon-button color="primary" (click)="editTutor($event, tutor)" class="link">
+                <mat-icon [matTooltip]="'Edit profile'">edit</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="messageTutor($event, tutor)" *ngIf="tutor.intercom">
+                <mat-icon [matTooltip]="'Message via intercom'">mail</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" [routerLink]="['/admin/tutors/pending', tutor._id]"
+               *ngIf="tutor.approval != ApprovalStatus.ApprovalStatusApproved || tutor.unverifiedDegrees().length || tutor.unverifiedSubjects().length"
+               matTooltip="View pending details"><mat-icon>pending_actions</mat-icon>
+            </a>
+            
+            <span class="status">
+                {{ approvalStatusDisplay(tutor.approval) }}
+            </span>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;" [class.loading]="loading"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay" [class.hidden]="footerToDisplay.length < 1"></mat-footer-row>
+</table>
+
+<header>
+    <h3 *ngIf="activeTutors.length">Active Tutors</h3>
+</header>
+<table mat-table [dataSource]="activeTutors" *ngIf="activeTutors.length">
+    <!-- first name -->
+    <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.first_name }}</mat-cell>
+    </ng-container>
+
+    <!-- last name -->
+    <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.last_name }}</mat-cell>
+    </ng-container>
+
+    <!-- tutorname -->
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <a (click)="setUser($event, tutor)" matTooltip="View profile">{{ tutor.username }}</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- registered -->
+    <ng-container matColumnDef="registered">
+        <mat-header-cell *matHeaderCellDef>Registered</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <span>{{ tutor.registered_date.utc().format('lll') }}</span>
+        </mat-cell>
+    </ng-container>
+
+    <!-- action -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let tutor" class="actions">
+            <a mat-icon-button color="primary" (click)="editTutor($event, tutor)" class="link">
+                <mat-icon [matTooltip]="'Edit profile'">edit</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="messageTutor($event, tutor)" *ngIf="tutor.intercom">
+                <mat-icon [matTooltip]="'Message via intercom'">mail</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" [routerLink]="['/admin/tutors/pending', tutor._id]"
+               matTooltip="View pending details"><mat-icon>pending_actions</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="grantCreditsDialog(tutor)">
+                <mat-icon [matTooltip]="'Grant credits'">payment</mat-icon>
+            </a>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;" [class.loading]="loading"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay" [class.hidden]="footerToDisplay.length < 1"></mat-footer-row>
+</table>
+
+<header>
+    <h3 *ngIf="declinedTutors.length">Disapproved Tutors</h3>
+</header>
+<table mat-table [dataSource]="declinedTutors" *ngIf="declinedTutors.length">
+    <!-- first name -->
+    <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.first_name }}</mat-cell>
+    </ng-container>
+
+    <!-- last name -->
+    <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">{{ tutor.profile.last_name }}</mat-cell>
+    </ng-container>
+
+    <!-- tutorname -->
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <a (click)="setUser($event, tutor)" matTooltip="View profile">{{ tutor.username }}</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- registered -->
+    <ng-container matColumnDef="registered">
+        <mat-header-cell *matHeaderCellDef>Registered</mat-header-cell>
+        <mat-cell *matCellDef="let tutor">
+            <span>{{ tutor.registered_date.utc().format('lll') }}</span>
+        </mat-cell>
+    </ng-container>
+
+    <!-- action -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let tutor" class="actions">
+            <a mat-icon-button color="primary" (click)="editTutor($event, tutor)" class="link">
+                <mat-icon [matTooltip]="'Edit profile'">edit</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" (click)="messageTutor($event, tutor)" *ngIf="tutor.intercom">
+                <mat-icon [matTooltip]="'Message via intercom'">mail</mat-icon>
+            </a>
+            <a mat-icon-button color="primary" [routerLink]="['/admin/tutors/pending', tutor._id]"
+               *ngIf="tutor.approval != ApprovalStatus.ApprovalStatusApproved || tutor.unverifiedDegrees().length || tutor.unverifiedSubjects().length"
+               matTooltip="View pending details"><mat-icon>pending_actions</mat-icon></a>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;" [class.loading]="loading"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay" [class.hidden]="footerToDisplay.length < 1"></mat-footer-row>
+</table>
+
+<div class="spinner-container" *ngIf="loading">
+    <learnt-spinner></learnt-spinner>
+</div>
+
+<div *ngIf="resultsCount === 0">No results</div>
+
+<mat-paginator
+    #matPaginator
+    [pageSizeOptions]="[50, 100]"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [length]="count"
+    showFirstLastButtons></mat-paginator>

@@ -1,0 +1,77 @@
+<mat-card>
+    <mat-card-title>Reviews</mat-card-title>
+    <mat-card-content>
+        <mat-table [dataSource]="reviews">
+            <ng-container matColumnDef="reviewer">
+                <mat-header-cell *matHeaderCellDef>Reviewer</mat-header-cell>
+                <mat-cell *matCellDef="let review">{{ review.reviewer.name }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+                <mat-cell *matCellDef="let review">{{ review.title }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="public_review">
+                <mat-header-cell *matHeaderCellDef>Public Review</mat-header-cell>
+                <mat-cell *matCellDef="let review">{{ review.public_review }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+                <mat-header-cell *matHeaderCellDef>Rating</mat-header-cell>
+                <mat-cell *matCellDef="let review">{{ review.average }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="approved">
+                <mat-header-cell *matHeaderCellDef>Approved</mat-header-cell>
+                <mat-cell *matCellDef="let review" [ngSwitch]="review.approved">
+                    <mat-icon *ngSwitchCase="true">check</mat-icon>
+                    <mat-icon *ngSwitchCase="false">close</mat-icon>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="com">
+                <mat-footer-cell *matFooterCellDef class="header">Communication</mat-footer-cell>>
+            </ng-container>
+            <ng-container matColumnDef="com-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.communication }}</mat-footer-cell>>
+            </ng-container>
+            <ng-container matColumnDef="clar">
+                <mat-footer-cell *matFooterCellDef class="header">Clarity</mat-footer-cell>>
+            </ng-container>
+            <ng-container matColumnDef="clar-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.clarity }}</mat-footer-cell>>
+            </ng-container>
+            <ng-container matColumnDef="prof">
+                <mat-footer-cell *matFooterCellDef class="header">Professionalism</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="prof-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.professionalism }}</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="pat">
+                <mat-footer-cell *matFooterCellDef class="header">Patience</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="pat-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.patience }}</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="help">
+                <mat-footer-cell *matFooterCellDef class="header">Helpfulness</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="help-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.helpfulness }}</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="av">
+                <mat-footer-cell *matFooterCellDef class="header">Average Rating</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="av-val">
+                <mat-footer-cell *matFooterCellDef>{{ overall.average }}</mat-footer-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+            <mat-row *matRowDef="let review; columns: columnsToDisplay"></mat-row>
+            <mat-footer-row *matFooterRowDef="['com', 'com-val']"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['clar', 'clar-val']"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['prof', 'prof-val']"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['pat', 'pat-val']"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['help', 'help-val']"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['av', 'av-val']"></mat-footer-row>
+        </mat-table>
+    </mat-card-content>
+</mat-card>

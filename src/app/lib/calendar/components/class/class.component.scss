@@ -1,0 +1,31 @@
+:host {
+    border-radius: 4px;
+    border: 0.5px solid #89C0CA;
+    background: rgba(137, 192, 202, 0.2);
+    overflow: hidden;
+    user-select: none;
+    
+    &:hover {
+        border: 0.5px solid darken(#89C0CA, 5%);
+        background: rgba(137, 192, 202, 0.3);
+    }
+
+    .avatar-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 100%;
+        float: left;
+    }
+
+    .info {
+        padding: 2px;
+        margin-left: 5px;
+        white-space: nowrap;
+        color: #444444;
+        .name {
+            font-size: 1.4em;
+        }
+    }
+}

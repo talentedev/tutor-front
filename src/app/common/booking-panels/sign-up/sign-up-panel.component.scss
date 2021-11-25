@@ -1,0 +1,37 @@
+@import "../../../../variables";
+
+:host {
+    .content {
+        margin-top: 148px;
+
+        mat-form-field {
+            transition: margin-bottom 0.5s;
+
+            mat-error::first-letter {
+                text-transform: uppercase;
+            }
+
+            &.has-error {
+                margin-bottom: 15px;
+            }
+        }
+
+        .buttons {
+            margin: 31px 0;
+
+            button {
+                background: rgba(243, 112, 115, 0.8);
+            }
+
+            a {
+                font-size: 12px;
+            }
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-md) {
+        .content {
+            margin-top: 90px;
+        }
+    }
+}

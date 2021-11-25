@@ -1,0 +1,312 @@
+@import "../../../../variables.scss";
+
+:host {
+    .panel {
+        overflow-y: auto;
+    }
+
+    .content {
+        width: 330px;
+        margin: 70px auto 30px;
+
+        .title {
+            font-size: 16px;
+            color: #222222;
+            text-align: center;
+            margin-bottom: 21px;
+            font-weight: 500;
+        }
+
+        .select {
+            ::ng-deep .mat-select-value {
+                font-size: 18px;
+            }
+        }
+
+        .location {
+            display: none;
+
+            &.visible {
+                display: block;
+            }
+        }
+
+        .month {
+            margin-top: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            a mat-icon {
+                height: 12px;
+                width: 12px;
+                vertical-align: middle;
+            }
+
+            span {
+                font-size: 18px;
+                color: #222222;
+                width: 150px;
+                text-align: center;
+            }
+        }
+
+        .day {
+            @extend .month;
+            margin-top: 33px;
+
+            span {
+                font-size: 14px;
+                color: #999999;
+
+                &.active {
+                    color: #222222;
+                }
+            }
+        }
+
+        .when {
+            display: flex;
+            margin-top: 25px;
+
+            .period {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                p {
+                    font-size: 14px;
+                    color: #444444;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        $rows: 5;
+        $columns: 3;
+
+        $rowsFull: 8;
+
+        $hourWidth: 85px;
+        $hourHeight: 50px;
+
+        .calendar {
+            height: calc(#{$rows} * #{$hourHeight});
+            width: calc(#{$columns} * #{$hourWidth});
+            margin: 10px auto;
+
+            .hours-wrapper {
+                display: flex;
+                flex-flow: column wrap;
+                max-height: 100%;
+                width: $hourWidth;
+                align-content: flex-start;
+
+                .hour {
+                    width: $hourWidth;
+                    height: $hourHeight;
+                    position: relative;
+                    border-bottom: 1px solid rgba(151, 151, 151, .2);
+                    background: #F5F5F5;
+
+                    &.hidden {
+                        display: none;
+                    }
+
+                    &.lighter {
+                        background: #FAFAFA;
+                    }
+
+                    span {
+                        color: #999999;
+                        font-size: 8px;
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                    }
+
+                    .first-half {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 50%;
+                        z-index: 2;
+                        cursor: not-allowed;
+
+                        &.available {
+                            cursor: pointer;
+                            background: rgba(137, 192, 202, .15);
+                        }
+
+                        &.start {
+                            background: rgba(243, 112, 115, .2);
+                            border-top-left-radius: 2px;
+                            border-top-right-radius: 2px;
+                            width: 81px;
+                            left: 2px;
+                            top: 2px;
+                            border: 1px solid rgba(243, 112, 115, .75);
+                            border-bottom: none;
+                        }
+
+                        &.middle {
+                            background: rgba(243, 112, 115, .2);
+                            width: 81px;
+                            height: 27px;
+                            left: 2px;
+                            border-left: 1px solid rgba(243, 112, 115, .75);
+                            border-right: 1px solid rgba(243, 112, 115, .75);
+                        }
+
+                        &.end {
+                            width: 81px;
+                            left: 2px;
+                            top: -1px;
+                            background: rgba(243, 112, 115, .2);
+                            border-bottom-left-radius: 2px;
+                            border-bottom-right-radius: 2px;
+                            border: 1px solid rgba(243, 112, 115, .75);
+                            border-top: none;
+                        }
+
+                        &.start.end {
+                            top: 2px;
+                            height: 21px;
+                            border: 1px solid rgba(243, 112, 115, .75);
+                        }
+                    }
+
+                    .second-half {
+                        @extend .first-half;
+                        top: calc(#{$hourHeight / 2});
+
+                        &.start {
+                            top: 25px;
+                        }
+
+                        &.middle {
+                            top: 27px;
+                            height: 23px;
+                        }
+
+                        &.end {
+                            top: 27px;
+                            height: 20px;
+                        }
+
+                        &.start.end {
+                            @extend .end;
+                        }
+                    }
+
+                    .available {
+                        background: rgba(137, 192, 202, .15);
+                        position: absolute;
+                        width: 100%;
+                        z-index: 1;
+                    }
+                }
+            }
+
+            &.full {
+                height: calc(#{$rowsFull} * #{$hourHeight});
+            }
+        }
+
+        .text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -5px;
+            margin-bottom: 5px;
+
+            p {
+                display: inline;
+                font-size: 13px;
+                color: #000000;
+                margin: 0;
+            }
+
+            a, span {
+                font-size: 13px;
+            }
+        }
+
+        learnt-checkbox {
+            margin: 25px 0;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #444444;
+        }
+
+        &.success {
+            margin-top: 126px;
+            width: 310px;
+
+            .subtitle {
+                font-size: 12px;
+                color: #444444;
+                text-align: center;
+            }
+
+            h3 {
+                font-size: 18px;
+                color: #444444;
+                font-weight: 500;
+                margin: 45px 0 30px;
+                text-align: center;
+            }
+
+            .summary {
+                .row {
+                    display: flex;
+
+                    p {
+                        color: #666666;
+
+                        &.dots {
+                            flex: 1;
+                            border-bottom: 1px dashed rgba(151, 151, 151, .5);
+                            margin: 0 5px 8px;
+                        }
+                    }
+
+                    &.total {
+                        background: #FAFAFA;
+                        width: 400px;
+                        padding: 0 45px 25px 45px;
+                        margin: 15px 0 0 -45px;
+                    }
+                }
+            }
+
+            .buttons {
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-xs) {
+        .content {
+           width: 100%;
+            &.success {
+                margin-top: 55px;
+                width: 90%;
+
+                .summary {
+                    &.total {
+                        background: #FAFAFA;
+                        width: 100%;
+                        padding: 0 0 15px 0px;
+                        margin: 15px 0 0 0;
+                    }
+                }
+            }
+        }
+    }
+    
+}

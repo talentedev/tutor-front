@@ -1,0 +1,70 @@
+:host {
+    position: relative;
+    z-index: 100;
+    display: flex;
+    height: 215px;
+    width: 382px;
+    
+    &.fullscreen {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        place-content: center;
+        
+        .remote-video {
+            max-height: 100%;
+        }
+        
+        .local-video {
+            width: 12rem;
+            height: 9rem;
+        }
+    }
+    
+    .vcr-features {
+        overflow: hidden;
+    }
+
+
+    .buttons {
+        display: none;
+        position: absolute;
+        bottom: 0.625rem;
+        left: 0.625rem;
+        grid-gap: 0.625rem;
+        grid-template: 1fr / 1fr 1fr;        
+    }
+    
+    .remote-video, .local-video {
+        object-fit: contain; 
+    }
+    
+    .remote-video {
+        width: 100%;
+        height: 100%;
+        background: #000;
+    }
+
+    .local-video {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 80px;
+        height: 60px;
+        opacity: 0.4;
+    }
+    
+    &.hover {
+        .buttons {
+            display: grid;
+        }
+
+        .local-video {
+            opacity: 1;
+        }
+    }
+
+}

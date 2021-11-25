@@ -1,0 +1,27 @@
+:host {
+    display: block;
+    background: #fff;
+    border-radius: 4px;
+    .header {
+        border-bottom: 0.5px solid #E9E9E9;
+        padding: 10px;
+        .title {
+            display: flex;
+            font-weight: bold;
+            span {
+                font-size: 1.8em;
+                padding-right: 10px;
+            }
+        }
+    }
+
+    ::ng-deep head-right a {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .contents {
+        position: relative;
+        //min-height: 100px;
+    }
+}

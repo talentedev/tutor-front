@@ -1,0 +1,29 @@
+<form (submit)="save($event)" class="d-flex add-subject-form">
+    <div class="p-3 d-flex flex-column">
+        <mat-form-field *ngFor="let control of subjectsForm.controls; let i = index; trackBy getIndex">
+            <input matInput type="text" [formControl]="control" placeholder="New subject">
+            <button matSuffix type="button" (click)="deleteControl(i)" *ngIf="subjectsForm.controls.length > 1"><mat-icon>clear</mat-icon></button>
+            <mat-error *ngIf="control.hasError('duplicate')">
+                {{ control.getError('duplicate') }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="p-3 mt-lg-3 action-buttons">
+        <button type="button" class="mb-2" mat-raised-button (click)="addSubject()">Add more subject</button>
+        <button type="button" class="mb-2" mat-raised-button (click)="reset()" *ngIf="subjectsForm.dirty">Reset</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="subjectsForm.status !== 'VALID'">Save</button>
+    </div>
+</form>
+
+<div class="subject-list">
+    <mat-form-field>
+        <input matInput type="text" placeholder="Search" role="searchbox" [(ngModel)]="subjectFilter">
+    </mat-form-field>
+    <div *ngIf="loading">loading subjects <learnt-spinner [size]="20"></learnt-spinner></div>
+    <mat-table [dataSource]="subjects">
+        <ng-container matColumnDef="subject">
+            <mat-cell class="subject-name" *matCellDef="let subject">{{ subject.name }}</mat-cell>
+        </ng-container>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+    </mat-table>
+</div>

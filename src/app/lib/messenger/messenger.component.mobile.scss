@@ -1,0 +1,13 @@
+:host {
+
+    @media (max-width: 960px) {
+        display: flex;
+        flex: 1;
+        padding-top: 8rem;
+
+        learnt-messenger-side {
+            width: 100%;
+            margin: 0px 15px 25px 15px;
+        }
+    }
+}

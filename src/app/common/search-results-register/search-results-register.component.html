@@ -1,0 +1,41 @@
+<h1>Sign Up</h1>
+<p>Please create an account in order to proceed</p>
+<learnt-social-login></learnt-social-login>
+<form [formGroup]="form" layout="column" class="mat-large">
+
+    <div layout="row" class="gap-20">
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="First name" formControlName="first_name" required/>
+        </mat-form-field>
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="Last name" formControlName="last_name" required/>
+        </mat-form-field>
+    </div>
+
+    <div layout="row" class="gap-20">
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="Email" formControlName="email" required/>
+        </mat-form-field>
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="Password" formControlName="password" type="password" required/>
+        </mat-form-field>
+    </div>
+
+    <div layout="row" class="gap-20">
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="Verify password" formControlName="password_verify" type="password" required/>
+        </mat-form-field>
+        <mat-form-field class="mat-block" flex>
+            <input matInput placeholder="Referal code ( Optional )" formControlName="referral"/>
+        </mat-form-field>
+    </div>
+
+    <div layout="row" layout-align="start center" class="form-actions gap-20">
+        <button (click)="register()" mat-raised-button color="primary" [disabled]="!form.valid || working">
+            {{working ? 'Working...': 'Sign Up'}}
+        </button>
+        <div layout="row" class="gap-10 links">
+            <a [disabled]="working" (click)="login()">Login</a>
+        </div>
+    </div>
+</form>

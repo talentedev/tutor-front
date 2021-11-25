@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="user.isAffiliate()">
+    <learnt-affiliate-dashboard *ngSwitchCase="true"></learnt-affiliate-dashboard>
+    <learnt-dashboard-page *ngSwitchCase="false"></learnt-dashboard-page>
+</ng-container>

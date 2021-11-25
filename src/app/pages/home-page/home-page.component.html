@@ -1,0 +1,206 @@
+<learnt-menu></learnt-menu>
+<main #main>
+    <div class="cover-top"></div>
+        <div class="points">
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 0 }" (click)="scrollStep$.next(0)"></div>
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 1 }" (click)="scrollStep$.next(1)"></div>
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 2 }" (click)="scrollStep$.next(2)"></div>
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 3 }" (click)="scrollStep$.next(3)"></div>
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 4 }" (click)="scrollStep$.next(4)"></div>
+            <div class="point" [ngClass]="{ active: (scrollStep$ | async) == 5 }" (click)="scrollStep$.next(5)"></div>
+        </div>
+
+        <button class="start-button" (click)="onStart()" *ngIf="(scrollStep$ | async) < 5">
+            <mat-icon svgIcon="full-arrow-down"></mat-icon>
+        </button>
+
+        <div class="page page--0" id="page--0" [class.visible]="(scrollStep$ | async) == 0" [@scrollAnimation]="state(0)">
+            <div class="page__container">
+                <div class="background">
+                    <span class="text-bubble text-bubble--yellow english">English</span>
+                    <span class="graphics dot--red"></span>
+                    <div class="block block--math">
+                        <div class="block__container">
+                            <span class="shape shape--diamond shape--purple"></span>
+                            <img src="assets/icons/integral.svg" class="graphics">
+                            <span class="text-bubble text-bubble--purple math">Math</span>
+                        </div>
+                    </div>
+                    <span class="text-bubble text-bubble--blue algebra">Algebra</span>
+                    <div class="block block--biology">
+                        <div class="block__container">
+                            <span class="shape shape--yellow"></span>
+                            <img src="assets/icons/biological.svg" class="graphics">
+                            <span class="text-bubble text-bubble--yellow biology">Biology</span>
+                        </div>
+                    </div>
+                    <div class="block block--history">
+                        <div class="block__container">
+                            <span class="shape shape--purple"></span>
+                            <img src="assets/icons/script.svg" class="graphics">
+                            <span class="text-bubble text-bubble--purple history">History</span>
+                        </div>
+                    </div>
+                    <div class="block block--chemistry">
+                        <div class="block__container">
+                            <span class="shape shape--diamond shape--blue"></span>
+                            <img src="assets/icons/atom.svg" class="graphics">
+                            <span class="text-bubble text-bubble--blue history">Chemistry</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <span class="graphics emoji-v-sign mb-3"></span>
+                    <header class="title mb-3">Search Subjects on <span class="title__brand">Learnt</span></header>
+                    <p class="paragraph">
+                        Learnt's team tutors a plethora of subjects and difficulty levels.
+                        Search a subject to browse tutors available. Instantly.
+                    </p>
+                    <mat-form-field appearance="outline">
+                        <mat-label><label>Search a subject&hellip;</label></mat-label>
+                        <input matInput type="text" placeholder="Search subject" [formControl]="subjectField"
+                               [matAutocomplete]="subjectAuto">
+                        <mat-icon svgIcon="search2" matPrefix></mat-icon>
+                        <mat-autocomplete #subjectAuto="matAutocomplete" [displayWith]="subjectName"
+                                          (optionSelected)="onSelectSubject($event)">
+                            <mat-option *ngFor="let option of subjectSearchResults" [value]="option">
+                                {{ option.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <div class="partners">
+                        <img src="assets/icons/nasdaq.svg" alt="Nasdaq logo">
+                        <img src="assets/icons/business-insider.svg" alt="Business Insider logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page--1" id="page--1" [class.visible]="(scrollStep$ | async) == 1" [@scrollAnimation]="state(1)">
+            <div class="page__container">
+                <div class="content content--2-col">
+                    <div class="content__left">
+                        <span class="graphics check mb-3"></span>
+                        <header class="title mb-3">Welcome to Learnt</header>
+                        <p class="paragraph">Welcome to Learnt a place where you can meet instantly with carefully
+                            selected,
+                            background-verified tutors. Find a tutor available now or schedule a future meeting when
+                            you're free.</p>
+                        <button learnt-button="red" class="my-4" routerLink="/start/register">Sign up/Log in</button>
+                    </div>
+                    <div class="welcome-animation">
+                        <img src="assets/index/animation_01.gif" class="welcome-animation">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- #2 profiles ---->
+        <div class="page page--2" id="page--2" [class.visible]="(scrollStep$ | async) == 2" [@scrollAnimation]="state(2)">
+            <div class="page__container">
+
+                <div class="content">
+                    <div>
+                        <div class="img-bubble img-bubble-1 online online--top-left"></div>
+                        <div class="img-bubble img-bubble-2 online online--bottom-right"></div>
+                        <div class="img-bubble img-bubble-3 img-bubble--dotted img-bubble--dotted-left"></div>
+                        <div class="img-bubble img-bubble-4 img-bubble--dotted"></div>
+                        <div class="img-bubble img-bubble-5 online online--bottom-left"></div>
+                        <div class="img-bubble img-bubble-6 online online--top-left"></div>
+                    </div>
+                    <span class="graphics message-cloud"></span>
+                    <header class="title my-3">Browse and Message Available Tutors</header>
+                    <p class="paragraph">
+                        Use the search interface to review candidates who match your criteria.
+                        One of them might be online when you are searching.
+                    </p>
+                    <button learnt-button="blue" class="my-4" (click)="navigate('/main/tutors')">
+                        Browse tutors
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- #3 profile & text -->
+        <div class="page page--3" id="page--3" [class.visible]="(scrollStep$ | async) == 3" [@scrollAnimation]="state(3)">
+            <div class="page__container">
+                <div class="content content--2-col">
+                    <div class="content__left">
+                        <span class="graphics light-bulb"></span>
+                        <header class="title my-3">Jump into an Instant Session</header>
+                        <p class="paragraph">
+                            Ready to roll? Great! You can turn enable instant session to jump into a virtual
+                            classroom
+                            and start tutoring right away.
+                        </p>
+                        <button learnt-button="red" class="my-4" routerLink="/main/tutors"
+                                [queryParams]="{instantSession: true}">Let's go
+                        </button>
+                    </div>
+                    <div class="content__right">
+                        <img src="assets/tutors.png" class="tutor-profile tutor-profile--mobile-only">
+                        <img src="assets/tutor1.png" class="tutor-profile tutor-profile-1">
+                        <img src="assets/tutor2.png" class="tutor-profile tutor-profile-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- #4 messages -->
+        <div class="page page--4" id="page--4" [class.visible]="(scrollStep$ | async) == 4" [@scrollAnimation]="state(4)">
+            <div class="page__container">
+                <div>
+                    <span class="graphics message-cloud"></span>
+                    <header class="title mb-3">Virtual Classroom</header>
+                    <p class="paragraph">
+                        Utilize interactive learning tools in our virtual classroom such as drawing mathematical
+                        equations, editing code, or editing text in another language.
+                    </p>
+                </div>
+                <div class="w-100 virtual-classroom__container">
+                    <img src="assets/virtual-classroom/board.png" class="virtual-classroom" alt="virtual classroom">
+                    <img src="assets/virtual-classroom/class.png" class="virtual-classroom--lg" alt="virtual classroom">
+                    <div class="person-1"></div>
+                    <div class="person-2"></div>
+                    <div class="math math-1"></div>
+                    <div class="math math-2"></div>
+                    <div class="math math-3"></div>
+                    <div class="math math-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page--5" id="page--5" [class.visible]="(scrollStep$ | async) == 5" [@scrollAnimation]="state(5)">
+            <div class="page__container">
+                <div class="content">
+                    <span class="graphics emoji-like"></span>
+                    <header class="title my-3">Ready to Learn?</header>
+                    <p class="paragraph">
+                        Learnt’s team tutors a plethora of subjects and difficulty levels.
+                        Search a subject to browse tutors available.
+                    </p>
+                    <div class="text-center">
+                        <div class="social-buttons">
+                            <learnt-social-button [social]="'google'"
+                                                  (clicked)="signupSocial('google')"></learnt-social-button>
+                            <learnt-social-button [social]="'facebook'"
+                                                  (clicked)="signupSocial('facebook')"></learnt-social-button>
+                        </div>
+                        <a class="link link--red" routerLink="/start/register">Sign up with email</a>
+                    </div>
+
+                    <div class="background">
+                        <div class="img-1__container">
+                            <div class="img-1"></div>
+                        </div>
+                        <div class="img-2__container">
+                            <div class="img-2"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <learnt-footer [alwaysOpen]="true"></learnt-footer>
+        </div>
+</main>

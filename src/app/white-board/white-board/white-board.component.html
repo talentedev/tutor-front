@@ -1,0 +1,139 @@
+<div class="header vcr-header-gradient" [style.pointerEvents]="me.isAdmin() ? 'none' : 'auto'">
+    <div class="title">Whiteboard</div>
+    <div class="toolbar" layout="row" layout-align="start center">
+        <!-- History  -->
+        <span title="undo"><learnt-whiteboard-toolbar-button (action)="undo()" [disabled]="!session?.history.canUndo" icon="undo"></learnt-whiteboard-toolbar-button></span>
+        <span title="redo"><learnt-whiteboard-toolbar-button (action)="redo()" [disabled]="!session?.history.canRedo" icon="redo"></learnt-whiteboard-toolbar-button></span>
+
+        <!-- Select, free cursor -->
+        <learnt-whiteboard-toolbar-button title="select" [active]="selecting" (action)="activateSelectionMode()" icon="pointer"></learnt-whiteboard-toolbar-button>
+
+        <!-- Drawing -->
+        <learnt-whiteboard-toolbar-button title="draw" [active]="drawing && drawingMode === 'free'" (action)="onDrawingClick()" icon="pencil"></learnt-whiteboard-toolbar-button>
+        <learnt-whiteboard-toolbar-button title="line" [active]="drawing && drawingMode === 'line'" (action)="onCustomDrawing('line')" icon="line"></learnt-whiteboard-toolbar-button>
+        <learnt-whiteboard-toolbar-button title="shapes" [active]="drawing && drawingMode === 'circle'" (action)="onCustomDrawing($event)" icon="circle" color="learnt-red">
+            <ul class="submenu-list">
+                <li data-submenu-option="square">
+                    <mat-icon svgIcon="vcr-square"></mat-icon>
+                    <span>Square</span>
+                </li>
+                <li data-submenu-option="rectangle">
+                    <mat-icon svgIcon="vcr-rectangle"></mat-icon>
+                    <span>Rectangle</span>
+                </li>
+                <li data-submenu-option="circle">
+                    <mat-icon svgIcon="vcr-circle"></mat-icon>
+                    <span>Circle</span>
+                </li>
+                <li data-submenu-option="triangle">
+                    <mat-icon svgIcon="vcr-triangle"></mat-icon>
+                    <span>Triangle</span>
+                </li>
+                <li data-submenu-option="right-triangle">
+                    <mat-icon svgIcon="vcr-right-triangle"></mat-icon>
+                    <span>Right Triangle</span>
+                </li>
+            </ul>
+        </learnt-whiteboard-toolbar-button>
+        <div class="gap"></div>
+        <!-- Delete -->
+        <span title="delete">
+            <learnt-whiteboard-toolbar-button [disabled]="!session || session.size == 0 || !session.hasSelectedObjects" 
+                                              (action)="session.deleteSelectedObjects()" icon="delete">
+            </learnt-whiteboard-toolbar-button>
+        </span>
+
+        <div class="gap"></div>
+
+        <!-- Font settings -->
+        <learnt-whiteboard-toolbar-font-button title="font" [active]="writing" (action)="write()" icon="letter">
+            <!-- Font style -->
+            <!-- Temporarily removed font icon display -->
+            <!-- <learnt-whiteboard-toolbar-button (action)="changeFont($event)">
+                <icon [style.font-family]="'serif'">F</icon>
+                <ul class="submenu-list font-families">
+                    <li *ngFor="let font of fontFamilies" [attr.data-submenu-option]="font"
+                        [style.font-weight]="font === fontFamily ? 'bold' : 'normal'"
+                        [style.font-family]="font">{{font}}
+                    </li>
+                </ul>
+            </learnt-whiteboard-toolbar-button> -->
+
+            <!-- Font size -->
+            <learnt-whiteboard-toolbar-button (action)="changeFontSize($event)">
+                <icon>
+                    <div class="font-size-label">{{fontSize}}</div>
+                </icon>
+                <ul class="submenu-list font-sizes">
+                    <li [attr.data-submenu-option]="size" *ngFor="let size of fontSizes" data-submenu-option="square">
+                        <div class="text" [style.fontSize.px]="size" [style.lineHeight.px]="size">{{size}}px</div>
+                    </li>
+                </ul>
+            </learnt-whiteboard-toolbar-button>
+
+            <!-- Font color-->
+            <learnt-whiteboard-toolbar-button #fontColorButton>
+                <icon>
+                    <div class="font-color" [style.background]="fontColor"></div>
+                </icon>
+                <learnt-whiteboard-color-picker-matrix (change)="changeFontColor($event); fontColorButton.collapse();"></learnt-whiteboard-color-picker-matrix>
+            </learnt-whiteboard-toolbar-button>
+
+            <!-- Font bold-->
+            <learnt-whiteboard-toolbar-button (action)="changeFontStyle('bold')" [active]="fontBold" icon="bold"></learnt-whiteboard-toolbar-button>
+
+            <!-- Font italic -->
+            <learnt-whiteboard-toolbar-button (action)="changeFontStyle('italic')" [active]="fontItalic" icon="italic"></learnt-whiteboard-toolbar-button>
+
+            <!-- Font underline -->
+            <learnt-whiteboard-toolbar-button (action)="changeFontStyle('underline')" [active]="fontUnderline" icon="underline"></learnt-whiteboard-toolbar-button>
+        </learnt-whiteboard-toolbar-font-button>
+
+        <!-- Color fill -->
+        <learnt-whiteboard-toolbar-button title="color" icon="fill" #fillColorButton>
+            <learnt-whiteboard-color-picker-matrix (change)="changeFillColor($event); fillColorButton.collapse();"></learnt-whiteboard-color-picker-matrix>
+        </learnt-whiteboard-toolbar-button>
+
+        <!-- Pencil/free draw color -->
+        <learnt-whiteboard-toolbar-button title="pencil width" icon="pencil-2" #lineColorButton>
+            <learnt-whiteboard-color-picker-matrix (change)="changeLineColor($event); lineColorButton.collapse();"></learnt-whiteboard-color-picker-matrix>
+        </learnt-whiteboard-toolbar-button>
+
+        <!-- Pencil/line width -->
+        <learnt-whiteboard-toolbar-button title="line width" icon="border-size" (action)="changeStrokeWidth($event)">
+            <ul class="submenu-list border-size">
+                <li [attr.data-submenu-option]="size" *ngFor="let size of borderSizes" data-submenu-option="square">
+                    <div class="line" [style.borderTopWidth.px]="size"></div>
+                    <div class="text">{{size}}px</div>
+                </li>
+            </ul>
+        </learnt-whiteboard-toolbar-button>
+
+        <!-- Line/object line/dot/dash -->
+        <learnt-whiteboard-toolbar-button title="line texture" icon="border-type" (action)="changeStrokeDashArray($event)">
+            <ul class="submenu-list border-style">
+                <li [attr.data-submenu-option]="style[1]" *ngFor="let style of borderStyles" data-submenu-option="square">
+                    <div class="line" [style.borderStyle]="style[0]"></div>
+                </li>
+            </ul>
+        </learnt-whiteboard-toolbar-button>
+        <!--
+        <div class="gap"></div>
+
+        <learnt-whiteboard-toolbar-button icon="sum"></learnt-whiteboard-toolbar-button>
+        <learnt-whiteboard-toolbar-button icon="graph"></learnt-whiteboard-toolbar-button>
+        <learnt-whiteboard-toolbar-button icon="wolfram"></learnt-whiteboard-toolbar-button>
+        -->
+    </div>
+</div>
+<div class="boards" #boards [style.pointerEvents]="me.isAdmin() ? 'none' : 'auto'"></div>
+<div class="footer vcr-whiteboard-tabs">
+    <learnt-whiteboard-tabs
+        #tabs
+        [tabs]="sessions"
+        (rename)="onSessionRename($event)"
+        (create)="onSessionCreate()"
+        (change)="onSessionChange($event)"
+        (closing)="onRemoveSession($event)">
+    </learnt-whiteboard-tabs>
+</div>

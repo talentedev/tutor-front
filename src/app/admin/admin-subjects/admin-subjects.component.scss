@@ -1,0 +1,23 @@
+@import "~variables.scss";
+:host {
+    max-width: 56.25rem;
+    display: block;
+    margin: 0 auto;
+    .add-subject-form {
+        background-color: #fff;
+        .action-buttons > button:not(:first-child) {
+            margin-left: 0.25rem;
+        }
+    }
+    .mat-form-field {
+        min-width: 20rem;
+    }
+    .subject-list {
+        background-color: #fff;
+        margin-top: 2rem;
+        padding: 1rem;
+        .mat-row:nth-child(odd) > .subject-name {
+            background-color: $background-primary;
+        }
+    }
+}

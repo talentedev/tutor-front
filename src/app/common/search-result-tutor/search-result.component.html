@@ -1,0 +1,288 @@
+<div class="arrow" *ngIf="arrow">
+    <div [class]="arrowDirection"></div>
+</div>
+
+<!-- MOBILE -->
+<div id="tutor-mobile" class="hide-gt-sm tutor-mobile" *ngIf="tutor">
+    <div id="mobile-details-card" class="mobile-details-card" #mobileDetailsCard>
+        <div class="close">
+            <p (click)="hideMobileDetailsCard()">
+                <svg width="30px" height="30px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Buttons-/-Close" transform="translate(-46.000000, -6.000000)" fill="#F37073"
+                           stroke="#F37073" stroke-width="0.2">
+                            <path
+                                d="M51.8338441,10.9995852 L54.8274615,8.00670522 C55.0575128,7.7759165 55.0575128,7.40282034 54.8274615,7.17203161 C54.5966727,6.94271757 54.2235766,6.94271757 53.9935252,7.17203161 L50.9999078,10.165649 L48.0070278,7.17203161 C47.7762391,6.94271757 47.4031429,6.94271757 47.1730915,7.17203161 C46.9423028,7.40282034 46.9423028,7.7759165 47.1730915,8.00670522 L50.1659716,10.9995852 L47.1730915,13.9924653 C46.9423028,14.223254 46.9423028,14.5963501 47.1730915,14.8271389 C47.2881172,14.9421646 47.4385355,14.9996774 47.589691,14.9996774 C47.7408466,14.9996774 47.8912648,14.9421646 48.0070278,14.8271389 L50.9999078,11.8335215 L53.9935252,14.8271389 C54.1085509,14.9421646 54.2589691,14.9996774 54.4101247,14.9996774 C54.5612802,14.9996774 54.7116984,14.9421646 54.8274615,14.8271389 C55.0575128,14.5963501 55.0575128,14.223254 54.8274615,13.9924653 L51.8338441,10.9995852 Z"
+                                id="Fill-1"></path>
+                        </g>
+                    </g>
+                </svg>
+            </p>
+        </div>
+
+        <div class="details-card-section top-section section-divider">
+            <div class="profile-wrapper">
+                <img class="details-card-avatar" [src]="tutor.avatar"/>
+                <div *ngIf="tutor.online">
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <div class="name-wrapper">
+                <span>{{tutor.shortName}}</span>
+            </div>
+
+            <div class="degree-wrapper">
+                <p *ngFor="let degree of tutor.tutoring.degrees">
+                    {{degree.degree}}
+                    <mat-icon *ngIf="degree.verified" svgIcon="tutor-card-check"></mat-icon>
+                </p>
+            </div>
+
+            <div class="price-wrapper">
+                <button mat-raised-button>
+                    <span class="price-wrapper-content">{{tutor.tutoring.rate|currency:'USD':'symbol'}}/hour</span>
+                </button>
+            </div>
+
+            <div class="location-rating-wrapper">
+                <div>
+                    <mat-icon svgIcon="tutor-card-map-pin"></mat-icon>
+                    <span *ngIf="tutor.location">{{tutor.location.city + ", " + tutor.location.state|truncate:40}}</span>
+                </div>
+                <div>
+                    <mat-icon svgIcon="tutor-card-star"></mat-icon>
+                    <span>{{tutor.tutoring.rating.toFixed(1)}}</span>
+                </div>
+                <div>
+                    <mat-icon svgIcon="tutor-card-clock"></mat-icon>
+                    <span>{{tutor.tutoring.hours_taught.toFixed(0)}}h taught</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-card-section section-divider">
+            <div class="details-card-sub-section">
+                <div class="details-card-title">
+                    About
+                </div>
+                <div class="details-card-content">
+                    <span *ngIf="tutor.profile.about">{{tutor.profile.about|truncate:250}}</span>
+                    <span *ngIf="!tutor.profile.about">Nothing yet.</span>
+                    <a routerLink="/main/tutor/{{tutor._id}}" [queryParams]="{search: true}" *ngIf="me"> See Full Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-card-section bottom-section">
+            <div class="details-card-sub-section multiple">
+                <div class="details-card-title">
+                    Education
+                </div>
+                <div class="details-card-content">
+                    <p *ngIf="noDegrees">
+                        No degrees added yet.
+                    </p>
+                    <p *ngFor="let degree of tutor.tutoring.degrees">
+                        {{degree.degree}}
+                        <mat-icon *ngIf="degree.verified" svgIcon="tutor-card-check"></mat-icon>
+                    </p>
+                </div>
+            </div>
+
+            <div class="details-card-sub-section multiple">
+                <div class="details-card-title">
+                    Subjects
+                </div>
+                <learnt-tag icon-width="10" icon-height="12" [icon]="subject.verified ? 'tick' : null"
+                            icon-position="right"
+                            *ngFor="let subject of tutor.tutoring.subjects">
+                    {{subject.subject.name|truncate:35}}
+                </learnt-tag>
+            </div>
+
+            <div class="details-card-sub-section">
+                <div class="details-card-title">
+                    Availability
+                </div>
+                <learnt-tag *ngIf="tutor.canMeetOnline" icon="pointer">
+                    Online
+                </learnt-tag>
+                <learnt-tag *ngIf="tutor.canMeetInPerson" icon="user">
+                    In Person
+                </learnt-tag>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-details-actions" [class.hidden]="!showMobileDetailsActions">
+        <div>
+            <button mat-raised-button (click)="bookNow()" class="first-row-button">
+                <div>Book Now</div>
+            </button>
+
+            <button mat-raised-button (click)="messageTutor()" class="first-row-button">
+                <mat-icon svgIcon="tutor-card-envelope" class="envelope"></mat-icon>
+                Message Tutor
+            </button>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" (click)="instantSession()"
+                    [disabled]="!(tutor.tutoring.instant_session && tutor.online)" class="second-row-button">
+                <mat-icon svgIcon="thunder" color="learnt-yellow" class="thunder"></mat-icon>
+                Instant Session
+            </button>
+        </div>
+    </div>
+
+    <div class="avatar" [style.background-image]="'url(' + tutor.avatar + ')'" (click)="showMobileDetailsCard()">
+        <div *ngIf="tutor.is_test_account" class="test-indicator">TEST ACCOUNT</div>
+        <div class="online" *ngIf="tutor.online">
+            <strong>Online now</strong>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <div class="info" (click)="showMobileDetailsCard()">
+        <div class="name-rating-wrapper">
+            <span class="name">{{tutor.shortName}}</span>
+            <div class="rating">
+                <mat-icon svgIcon="tutor-card-star-gray"></mat-icon>
+                <span>{{tutor.tutoring.rating.toFixed(1)}}</span>
+            </div>
+        </div>
+
+        <div class="price-wrapper">
+            <span>{{tutor.tutoring.rate|currency:'USD':'symbol'}}/hour</span>
+        </div>
+
+        <div class="location-wrapper">
+            <mat-icon svgIcon="tutor-card-map-pin-gray"></mat-icon>
+            <p *ngIf="tutor.location">{{tutor.location.city + ", " + tutor.location.state|truncate:40}}</p>
+        </div>
+    </div>
+
+    <div class="more" (click)="showMobileDetailsCard()">
+        <mat-icon svgIcon="tutor-card-plus"></mat-icon>
+    </div>
+</div>
+<div id="tutor" class="tutor hide-xs hide-sm" [class.shadow]="arrow" #card>
+    <div id="details-card" class="details-card" #details [class.show]="focused" [class]="position">
+        <div class="details">
+            <div class="about">
+                <p class="title">About</p>
+                <p class="bio">
+                    <span *ngIf="tutor.profile.about">{{tutor.profile.about|truncate:250}}</span>
+                    <span *ngIf="!tutor.profile.about">Nothing yet.</span>
+                </p>
+                <a routerLink="/main/tutor/{{tutor._id}}" [queryParams]="{search: true}" *ngIf="me">See Full Profile</a>
+            </div>
+
+            <div class="education" *ngIf="loading">
+                <learnt-spinner></learnt-spinner>
+            </div>
+
+            <div class="education" *ngIf="!loading">
+                <div class="wrapper-no-scrollbar">
+                    <div class="wrapper">
+                        <p class="title">Availability</p>
+
+                        <learnt-tag *ngIf="tutor.canMeetOnline" icon="pointer">
+                            Online
+                        </learnt-tag>
+
+                        <learnt-tag *ngIf="tutor.canMeetInPerson" icon="user">
+                            In Person
+                        </learnt-tag>
+                    </div>
+
+                    <div class="wrapper">
+                        <p class="title">Education</p>
+
+                        <p class="degree" *ngIf="noDegrees">
+                            No degrees added yet.
+                        </p>
+
+                        <p *ngFor="let degree of tutor.tutoring.degrees" class="degree">
+                            {{degree.degree}}
+                            <mat-icon *ngIf="degree.verified" svgIcon="tutor-card-check"></mat-icon>
+                        </p>
+                    </div>
+
+                    <div class="wrapper">
+                        <p class="title">Subjects</p>
+
+                        <p class="subject" *ngIf="noSubjects">
+                            No subjects added yet.
+                        </p>
+
+                        <learnt-tag icon-width="10" icon-height="12" [icon]="subject.verified ? 'tick' : null"
+                                    icon-position="right"
+                                    *ngFor="let subject of tutor.tutoring.subjects">
+                            {{subject.subject.name|truncate:35}}
+                        </learnt-tag>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <div class="buttons-wrapper space-evenly">
+                <div class="favorite" *ngIf="me">
+                    <mat-icon svgIcon={{favoriteIcon}} matTooltip="{{favoriteToolTip}}" (click)="addRemoveFavorite(tutor._id)" class="favorite-icon"></mat-icon>
+                    <p class="favorite-text">Favorite</p>
+                </div>
+                <button mat-raised-button (click)="bookNow()">
+                    <span>Book Now</span>
+                </button>
+
+                <button mat-raised-button color="primary" (click)="instantSession()"
+                        [disabled]="!(tutor.tutoring.instant_session && tutor.online)">
+                    <mat-icon svgIcon="thunder" color="learnt-yellow" class="thunder"></mat-icon>
+                    Instant Session
+                </button>
+
+                <button mat-raised-button (click)="messageTutor()">
+                    <mat-icon svgIcon="tutor-card-envelope" class="envelope"></mat-icon>
+                    Message Tutor
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="avatar" [style.background-image]="'url(' + tutor.avatar + ')'">
+        <div *ngIf="tutor.is_test_account" class="test-indicator">TEST ACCOUNT</div>
+        <div class="online" *ngIf="tutor.online">
+            <strong>Online now</strong>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <div class="name-wrapper">
+        <span class="name">{{tutor.shortName}}</span>
+    </div>
+
+    <div class="title-wrapper">
+        <span class="title">
+            {{tutor.tutoring.title|truncate:50}}
+        </span>
+    </div>
+
+    <div class="bottom">
+        <div class="bottom-item price">
+            <mat-icon svgIcon="tutor-card-price"></mat-icon>
+            <span>{{tutor.tutoring.rate|currency:'USD':'symbol'}}/hour</span>
+        </div>
+        <div class="bottom-item hours" *ngIf="tutor.tutoring.hours_taught > 5">
+            <mat-icon svgIcon="tutor-card-clock"></mat-icon>
+            <span>{{tutor.tutoring.hours_taught.toFixed(0)}}h taught</span>
+        </div>
+        <div class="bottom-item location">
+            <mat-icon svgIcon="tutor-card-map-pin"></mat-icon>
+            <span *ngIf="tutor.location">{{tutor.location.city + ", " + tutor.location.state|truncate:40}}</span>
+        </div>
+        <div class="bottom-item rating">
+            <mat-icon svgIcon="tutor-card-star"></mat-icon>
+            <span>{{tutor.tutoring.rating.toFixed(1)}}</span>
+        </div>
+    </div>
+</div>

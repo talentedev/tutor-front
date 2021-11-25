@@ -1,0 +1,195 @@
+<div class="page-wrapper profile" *ngIf="me">
+    <div class="terms">
+        <p class="info" *ngIf="showTerms">
+            As an affiliate on our platform you are considered an independent business owner and you are solely responsible for being compliant with
+            the tax laws of your jurisdiction. For more information, please review the affiliate contract. Learnt representatives are not
+            qualified to give tax advice and are unable to answer tax related questions.
+        </p>
+        <div layout="row" *ngIf="showTerms" class="check-link">
+            <learnt-checkbox (change)="checkTerms($event)" [disabled]="saving">I understand</learnt-checkbox>
+            <div flex></div>
+            <div>
+                <a (click)="todo('No link defined yet')">Learn More about the payment terms</a>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!showTerms" class="payment-preferences">
+        <div class="box-title">
+            <h3>Payment Preferences</h3>
+        </div>
+        <learnt-box padding="50px 0">
+            <div class="inner">
+                <div class="form">
+                    <form [formGroup]="paymentForm">
+                        <div layout="row" class="gap-15 input-row">
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <input matInput placeholder="Employer Identification Number" formControlName="employer_identification_number"
+                                           tabindex="1"/>
+                                    <mat-error *ngIf="paymentForm.get('employer_identification_number').hasError('required')">
+                                        The Employer Identification Number is required.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('employer_identification_number').hasError('pattern')">
+                                        The Employer Identification Number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('employer_identification_number').hasError('mutualExclusive')">
+                                        EIN and SSN fields are mutual exclusive.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('employer_identification_number').hasError('apiError')">
+                                        {{paymentForm.get('employer_identification_number').getError('apiError')}}
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <span class="or">or</span>
+                            </div>
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <input matInput placeholder="Social Security Number" formControlName="social_security_number" tabindex="2"
+                                           matTooltip="The SSN should look like XXX-YY-ZZZZ"/>
+                                    <mat-error *ngIf="paymentForm.get('social_security_number').hasError('required')">
+                                        The Social Security Number is required.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('social_security_number').hasError('pattern')">
+                                        The Social Security Number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('social_security_number').hasError('isSSN')">
+                                        The Social Security Number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('social_security_number').hasError('mutualExclusive')">
+                                        EIN and SSN fields are mutual exclusive.
+                                    </mat-error>
+                                    <mat-error *ngIf="paymentForm.get('social_security_number').hasError('apiError')">
+                                        {{paymentForm.get('social_security_number').getError('apiError')}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </learnt-box>
+    </div>
+
+    <div *ngIf="!showTerms" class="bank-account">
+        <div class="box-title">
+            <h3>Your Bank Account</h3>
+        </div>
+        <learnt-box padding="50px 0">
+            <div class="inner">
+                <div class="form">
+                    <form [formGroup]="bankDetailsForm">
+                        <div layout="row" class="gap-15 input-row">
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <input matInput placeholder="Name on the Account" formControlName="bank_account_name" required
+                                           tabindex="3"/>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_name').hasError('required')">
+                                        The name on the account is required.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <mat-select placeholder="Account Type" formControlName="bank_account_type" required flex>
+                                        <mat-option value="individual">Individual</mat-option>
+                                        <mat-option value="company">Company</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div layout="row" class="gap-15 input-row">
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <input matInput placeholder="Bank Account Number" formControlName="bank_account_number" required
+                                           tabindex="5"/>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_number').hasError('required')">
+                                        The bank account number is required.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_number').hasError('pattern')">
+                                        The bank account number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_number').hasError('usBankNumber')">
+                                        The bank account number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_number').hasError('apiError')">
+                                        {{bankDetailsForm.get('bank_account_number').getError('apiError')}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="input-wrapper">
+                                <mat-form-field>
+                                    <input matInput placeholder="Bank Account Routing Number" formControlName="bank_account_routing" required
+                                           tabindex="6"/>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_routing').hasError('required')">
+                                        The bank account routing number is required.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_routing').hasError('pattern')">
+                                        The bank account routing number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_routing').hasError('usBankRouting')">
+                                        The bank account routing number is invalid.
+                                    </mat-error>
+                                    <mat-error *ngIf="bankDetailsForm.get('bank_account_routing').hasError('apiError')">
+                                        {{bankDetailsForm.get('bank_account_routing').getError('apiError')}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <svg width="250px" height="56px" viewBox="0 0 250 56"
+                    >
+                                  
+                    <g id="z" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Desktop---023-Payout-Preferences" transform="translate(-698.000000, -879.000000)">
+                            <g id="Payout-Preferences" transform="translate(488.000000, 185.000000)">
+                                <g id="Bank-Account" transform="translate(146.000000, 428.000000)">
+                                    <g id="Routing" transform="translate(64.000000, 266.000000)">
+                                        <rect id="Rectangle-5" fill="#F3F3F3" x="0" y="0" width="132" height="56"></rect>
+                                        <text id="Account-Number" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                            <tspan x="169" y="39">Account Number</tspan>
+                                        </text>
+                                        <text id="Routing-Number" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                            <tspan x="169" y="21">Routing Number</tspan>
+                                        </text>
+                                        <text id="1" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                            <tspan x="153" y="21">1</tspan>
+                                        </text>
+                                        <text id="2" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                            <tspan x="153" y="39">2</tspan>
+                                        </text>
+                                        <g id="Group" transform="translate(15.000000, 31.000000)">
+                                            <circle id="Oval" fill="#FFFFFF" cx="9" cy="9" r="9"></circle>
+                                            <text id="1" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                                <tspan x="6" y="12">1</tspan>
+                                            </text>
+                                        </g>
+                                        <g id="Group-Copy" transform="translate(12.000000, 22.000000)">
+                                            <circle id="Oval" fill="#FFFFFF" cx="33" cy="18" r="9"></circle>
+                                            <text id="2" font-family=".AppleSystemUIFont" font-size="10" font-weight="normal" fill="#444444">
+                                                <tspan x="30" y="21">2</tspan>
+                                            </text>
+                                            <path d="M0.5,1.5 L98.6274681,1.5" id="Line" stroke="#FFFFFF" stroke-linecap="square"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </learnt-box>
+    </div>
+</div>
+
+<div class="save" *ngIf="(paymentForm.dirty && paymentForm.valid) || (bankDetailsForm.dirty && bankDetailsForm.valid)">
+    <button type="button" mat-raised-button color="primary" (click)="saveChanges()">
+        <learnt-spinner *ngIf="saving" class="button-spinner" [size]="13" [thickness]="1"
+                        color="#ffffff"></learnt-spinner>
+        Save Changes
+    </button>
+    <button type="button" mat-button color="primary" (click)="revert()">Cancel</button>
+</div>

@@ -1,0 +1,43 @@
+@media (min-width: 960px) {
+    :host {
+        .xmessenger-create {
+            padding: 2% 5%;
+
+            button.red {
+                border: 0.5px solid rgba(255, 255, 255, 0.5);
+                background: transparent;
+                color: rgba(255, 255, 255, 0.5);
+                border-radius: 100px;
+                min-width: 0;
+            }
+
+            .input-container {
+                width: 0; // force no overflow
+                .input {
+                    padding: 10px;
+                }
+            }
+
+            &.small {
+                padding: 30px 20px;
+                .input-container {
+                    margin-right: 0px;
+                    .input {
+                        margin-right: 30px;
+                        height: 54px;
+                        padding: 17px;
+                    }
+                    .features {
+                        top: 14px;
+                    }
+                }
+                learnt-spinner {
+                    width: 7px !important;
+                    height: 7px !important;
+                    left: 4px !important;
+                    top: 36px !important;
+                }
+            }
+        }
+    }
+}

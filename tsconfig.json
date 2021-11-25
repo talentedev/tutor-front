@@ -1,0 +1,31 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "module": "esnext",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": [],
+    "types": [
+      "hammerjs",
+      "@types/hammerjs"
+    ],
+    "lib": [
+      "ES2020",
+      "dom"
+    ],
+    "paths": {
+      "@app": ["app/*"],
+      "@services/*": ["app/services/*"],
+      "@routes": ["routes.ts"]
+    },
+    "allowSyntheticDefaultImports": true
+  },
+}

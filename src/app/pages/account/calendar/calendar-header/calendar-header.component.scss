@@ -1,0 +1,47 @@
+@import '../../../../../variables.scss';
+
+:host {
+    display: flex;
+    .left-header {
+        width: 287px;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        .loading {
+            display: flex;
+            margin-left: 20px;
+            align-items: center;
+            .text {
+                margin-left: 5px;
+            }
+        }
+    }
+    .right-header {
+        display: flex;
+        height: 70px;
+        align-items: center;
+        flex-shrink: 0;
+        position: relative;
+        justify-content: flex-end;
+        flex: 1px;
+        learnt-toggle-button {
+            margin: 0 20px;
+        }
+    }
+    
+}
+
+@media(max-width: $layout-breakpoint-sm - 1) {
+    .right-header {
+        padding-left: 0px;   
+        .mat-icon {
+            display: none;
+        }
+        learnt-toggle-button {
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

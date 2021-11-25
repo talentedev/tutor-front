@@ -1,0 +1,36 @@
+<learnt-box class="referrals" headline="Referrals" [content-paddings]="10">
+    <div [ngSwitch]="true">
+        <h1 *ngSwitchCase="balance && balance > 0">
+            <ng-container *ngIf="me?.isTutor(); else student">
+                You have earned {{balance | currency:'USD':'symbol'}} by referring users
+            </ng-container>
+            <ng-template #student>
+                You have {{balance | currency:'USD':'symbol'}} available to learn
+            </ng-template>
+        </h1>
+        <h1 *ngSwitchCase="balance === 0">You have no credit</h1>
+        <learnt-spinner *ngSwitchCase="balance === undefined"></learnt-spinner>
+    </div>
+
+    <p>
+        Invite friends to Learnt to earn more credit.
+        <ng-container *ngIf="me?.isTutor()">
+            If a student books a lesson with you through your direct link, Learnt does not take a fee.
+        </ng-container>
+    </p>
+
+    <input *ngIf="referralLink" class="dashed-input" type="text" title="Referral Link" readonly [value]="referralLink"
+           (click)="$event.target.select();"/>
+
+    <div layout="row" class="gap-2">
+        <button mat-raised-button class="invite-link" routerLink="/main/referrals">
+            Invite Friends
+        </button>
+        <a *ngIf="facebookLink" class="social-button" target="_blank" href="{{facebookLink}}" matTooltip="Share on Facebook">
+            <img src="/assets/social/facebook.svg"/>
+        </a>
+        <a *ngIf="twitterLink" class="social-button" target="_blank" href="{{twitterLink}}" matTooltip="Share on Twitter">
+            <img src="/assets/social/twitter.svg"/>
+        </a>
+    </div>
+</learnt-box>

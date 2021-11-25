@@ -1,0 +1,92 @@
+:host {
+
+    display: block;
+    padding: 0 10px;
+
+    .button-with-count span {
+        right: -9px;
+    }
+
+    .popover-container {
+        margin-left: 2px;
+        margin-top: 5px;
+    }
+
+    .counter {
+        display: inline-block;
+        border-radius: 50%;
+        background: #89c0ca;
+        color: #fff;
+        font-size: 1em;
+        min-width: 17px;
+        text-align: center;
+        padding: 4px;
+        min-height: 20px;
+        line-height: 13px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.header-popoverview-notifications {
+    .header {
+        font-size: 1.7em;
+        border-bottom: 0.5px solid #E9E9E9;
+        padding: 10px;
+        a {
+            color: #F37073;
+        }
+    }
+
+    .no-results {
+        height: 70px;
+        font-size: 1.4em;
+    }
+
+    ul {
+        max-height: 300px;
+        overflow: auto;
+
+        li {
+
+            height: 70px;
+            padding: 0 10px;
+
+            &:hover {
+                cursor: pointer;
+                background: rgba(238, 238, 238, 0.3);
+            }
+
+            .icon {
+                width: 50px;
+                height: 50px;
+                background: #F8EB6E;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .title {
+                font-size: 1.4em;
+            }
+
+            .text {
+                font-size: 1.2em;
+                color: #999;
+            }
+
+            .close {
+                border-radius: 50%;
+                border: 1px solid #DDD;
+                background: transparent;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &:hover {
+                    background: #eee;
+                }
+            }
+        }
+    }
+}

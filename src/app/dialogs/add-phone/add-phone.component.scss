@@ -1,0 +1,17 @@
+    @import '../../../variables';
+    :host {
+    display: block;
+    background: #fff;
+    padding: 40px 80px;
+    .elements {
+        margin: 30px 0;
+    }
+    .phone-container {
+        margin: 40px 0;
+        display: block;
+    }
+
+    @media(max-width: $layout-breakpoint-xs) {
+        padding: 0;
+    }
+}

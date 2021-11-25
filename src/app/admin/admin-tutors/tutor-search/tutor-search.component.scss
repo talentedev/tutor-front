@@ -1,0 +1,40 @@
+@import "~variables.scss";
+
+:host {
+    font-size: 1rem;
+    .mat-form-field {
+        font-size: 1rem;
+    }
+    header {
+        margin-top: 2rem;
+    }
+    .controls {
+        display: flex;
+        align-items: baseline;
+        margin: 0 -0.5rem;
+        .control {
+            padding: 0.5rem;
+        }
+    }
+    .hidden {
+        display: none;
+    }
+    mat-row:nth-child(odd) {
+        background-color: $lightest-accent;
+    }
+    .spinner-container {
+        text-align: center;
+        width: 100%;
+    }
+    .status {
+        padding: 0.5rem 1rem;
+        background: #EF9239;
+        border-radius: 0.625rem;
+        color: #fff;
+        font-weight: bold;
+    }
+    .subject.mat-form-field {
+        min-width: 20rem;
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,52 @@
+<header layout="row">
+  <div class="left" flex>
+    <div layout="row" class="gap-5 month-navigation">
+      <button class="navbut left" (click)="renderer.prevMonth()">
+        <mat-icon svgIcon="arrow-left"></mat-icon>
+      </button>
+      <div class="month-label">{{renderer.getMonthNavigationLabel()}}</div>
+      <button class="navbut left" (click)="renderer.nextMonth()">
+        <mat-icon svgIcon="arrow-right"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="right" flex>
+    <ng-content select="head-right"></ng-content>
+  </div>
+</header>
+
+<div layout="row">
+
+  <button class="week-nav navbut left" [disabled]="!renderer.hasPrevWeek()" (click)="renderer.prevWeek()">
+    <mat-icon svgIcon="arrow-left"></mat-icon>
+  </button>
+
+  <div class="container" flex>
+    <div class="hours" layout="row">
+      <div class="hours-nav">
+        <button class="navbut left" [disabled]="!renderer.hasPrevHours()" (click)="renderer.prevHours()">
+          <mat-icon svgIcon="arrow-left"></mat-icon>
+        </button>
+        <button class="navbut right" [disabled]="!renderer.hasNextHours()" (click)="renderer.nextHours()">
+            <mat-icon svgIcon="arrow-right"></mat-icon>
+          </button>
+      </div>
+      <div class="hour" flex *ngFor="let time of renderer.range.iterate()">
+        {{time.hours()}}
+      </div>
+    </div>
+    <div class="days">
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+      <learnt-calendar-day></learnt-calendar-day>
+    </div>
+  </div>
+
+  <button class="week-nav navbut right" [disabled]="!renderer.hasNextWeek()" (click)="renderer.nextWeek()">
+    <mat-icon svgIcon="arrow-right"></mat-icon>
+  </button>
+</div>

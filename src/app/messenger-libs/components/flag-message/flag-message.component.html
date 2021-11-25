@@ -1,0 +1,16 @@
+<h1>Flag conversation with {{thread.other.name}}</h1>
+<p>
+    When you flag a message with a tutor, Learnt's staff investigates for inappropriate activity in
+    violation of our Terms of Use. This includes bullying, harassment, or a student/tutor suggesting
+    you meet outside of the safety of the platform. Please write below why you are flagging this message.
+</p>
+<div class="input-container">
+    <textarea title="Reason for flagging the conversation" placeholder="Reason for flagging the conversation" #reason></textarea>
+</div>
+<div layout="row" layout-align="center center" class="buttons gap-10">
+    <button mat-raised-button color="primary" [disabled]="sending" (click)="send()">
+        <span *ngIf="!sending">Send</span>
+        <span *ngIf="sending">Sending...</span>
+    </button>
+    <button mat-raised-button (click)="cancel()" [disabled]="sending">Cancel</button>
+</div>

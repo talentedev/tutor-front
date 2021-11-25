@@ -1,0 +1,113 @@
+<div class="panel" #panel>
+    <div class="close">
+        <p (click)="close()">
+            Close
+
+            <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Buttons-/-Close" transform="translate(-46.000000, -6.000000)" fill="#F37073" stroke="#F37073" stroke-width="0.2">
+                        <path
+                            d="M51.8338441,10.9995852 L54.8274615,8.00670522 C55.0575128,7.7759165 55.0575128,7.40282034 54.8274615,7.17203161 C54.5966727,6.94271757 54.2235766,6.94271757 53.9935252,7.17203161 L50.9999078,10.165649 L48.0070278,7.17203161 C47.7762391,6.94271757 47.4031429,6.94271757 47.1730915,7.17203161 C46.9423028,7.40282034 46.9423028,7.7759165 47.1730915,8.00670522 L50.1659716,10.9995852 L47.1730915,13.9924653 C46.9423028,14.223254 46.9423028,14.5963501 47.1730915,14.8271389 C47.2881172,14.9421646 47.4385355,14.9996774 47.589691,14.9996774 C47.7408466,14.9996774 47.8912648,14.9421646 48.0070278,14.8271389 L50.9999078,11.8335215 L53.9935252,14.8271389 C54.1085509,14.9421646 54.2589691,14.9996774 54.4101247,14.9996774 C54.5612802,14.9996774 54.7116984,14.9421646 54.8274615,14.8271389 C55.0575128,14.5963501 55.0575128,14.223254 54.8274615,13.9924653 L51.8338441,10.9995852 Z"
+                            id="Fill-1"></path>
+                    </g>
+                </g>
+            </svg>
+        </p>
+    </div>
+
+    <div [ngSwitch]="state">
+        <!-- Add a credit card -->
+        <div class="content" *ngSwitchCase="'add'">
+            <h3>Add a Payment Method</h3>
+            <p>You need to add a credit or a debit card to your account in order to proceed</p>
+
+            <div class="card-logos">
+                <img src="/assets/card-logos/visa.svg" alt="VISA" [class.active]="cardProvider?.visa"/>
+                <img src="/assets/card-logos/mastercard.svg" alt="MasterCard" [class.active]="cardProvider?.mastercard"/>
+                <img src="/assets/card-logos/discover.svg" alt="Discover" [class.active]="cardProvider?.discover"/>
+                <img src="/assets/card-logos/amex.svg" alt="AmericanExpress" [class.active]="cardProvider?.amex"/>
+            </div>
+
+            <form [formGroup]="cardForm" (submit)="addCard($event)">
+                <mat-form-field>
+                    <input matInput #cardNumber type="text" placeholder="Credit card number" formControlName="number"
+                           (keyup)="updateProvider(cardNumber.value)"/>
+                    <mat-error *ngIf="cardForm.get('number').hasError('required')">Card number is required.</mat-error>
+                    <mat-error *ngIf="cardForm.get('number').hasError('invalidFields')">
+                        Invalid fields provided.
+                    </mat-error>
+                </mat-form-field>
+
+                <p class="expiration">expiration date</p>
+
+                <div class="select">
+                    <mat-form-field>
+                        <mat-select placeholder="month" formControlName="month">
+                            <mat-option *ngFor="let month of months; let i = index;" [value]="i+1">{{month}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                </div>
+
+                <div class="select">
+                    <mat-form-field>
+                        <mat-select placeholder="year" formControlName="year">
+                            <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-icon svgIcon="arrow-down" color="learnt-red"></mat-icon>
+                </div>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="security code" formControlName="cvc"/>
+                    <mat-error *ngIf="cardForm.get('cvc').hasError('required')">Security code is required.</mat-error>
+                </mat-form-field>
+
+                <div class="buttons">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cardForm.invalid || loading">
+                        Add Card
+                        <learnt-spinner *ngIf="loading"></learnt-spinner>
+                    </button>
+                    <button mat-raised-button type="button" (click)="close()">Cancel</button>
+                </div>
+            </form>
+
+            <div class="powered">
+                <img src="/assets/card-logos/stripe.svg" alt="Powered by Stripe"/>
+            </div>
+        </div>
+
+        <!-- Card added successfully -->
+        <div class="content success" *ngSwitchCase="'success'">
+            <h1>Yaaaaay!</h1>
+            <h3>Your credit card was added successfully!</h3>
+
+            <p *ngIf="!instantSession && payload !== undefined">
+                You will be charged {{getSum() | currency:'USD':'symbol'}} for a {{getDuration()}} hour session with {{tutor.profile.first_name}}.
+            </p>
+
+            <p *ngIf="instantSession">
+                Your are about to start an instant session with {{tutor.profile.first_name}}.
+            </p>
+
+            <div class="buttons">
+                <button mat-raised-button color="primary" (click)="toBooking()">Ok, let's go</button>
+                <button mat-raised-button (click)="close()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Card adding failed -->
+        <div class="content failed" *ngSwitchCase="'failed'">
+            <h1>Oh nooo!</h1>
+            <h3>Your credit card was declined</h3>
+            <p>{{declineMessage}}</p>
+
+            <div class="buttons">
+                <button mat-raised-button color="primary" (click)="state = 'add'">Add Card</button>
+                <button mat-raised-button (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

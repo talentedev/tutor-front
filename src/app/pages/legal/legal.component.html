@@ -1,0 +1,15 @@
+<nav layout="column" layout-gt-sm="row" layout-align="center center">
+  <a [routerLink]="['/privacy-policy']" routerLinkActive="active">Privacy Policy</a>
+  <a [routerLink]="['/terms-of-use']" routerLinkActive="active">Terms Of Use</a>
+  <a [routerLink]="['/tutor-payment-policy']" routerLinkActive="active">Tutor Payment Policy</a>
+  <a [routerLink]="['/independent-tutor-agreement']" routerLinkActive="active">Independent Tutor Agreement</a>
+  <a [routerLink]="['/cancellation-policy']" routerLinkActive="active">Cancellation Policy</a>
+</nav>
+
+<div class="container">
+  <learnt-independent-tutor-agreement *ngIf="section === 'independent-tutor-agreement'"></learnt-independent-tutor-agreement>
+  <learnt-privacy-policy *ngIf="section === 'privacy-policy'"></learnt-privacy-policy>
+  <learnt-tutor-payment-policy *ngIf="section === 'tutor-payment-policy'"></learnt-tutor-payment-policy>
+  <learnt-terms-of-use *ngIf="section === 'terms-of-use'"></learnt-terms-of-use>
+  <learnt-cancellation-policy *ngIf="section === 'cancellation-policy'"></learnt-cancellation-policy>
+</div>

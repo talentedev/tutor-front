@@ -1,0 +1,59 @@
+@import "../../../variables";
+
+:host {
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        nav.main-nav {
+            height: 60px;
+            background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+
+            &.account {
+                position: absolute;
+                top: 80px;
+                z-index: 9;
+                width: 50%;
+
+                a {
+                    font-size: 16px;
+                }
+            }
+
+            a {
+                text-align: center;
+                width: 100%;
+                
+                color: #fff;
+                &:not(.active) {
+                    display: none;
+                }
+              
+                .icon {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                }
+            }
+
+            &:not(.mobile-menu-expanded) a {
+                pointer-events: none;
+                cursor: default;
+            }
+
+            &.mobile-menu-expanded {
+                height: 266px;
+                
+                a {
+                    display: flex !important;
+                    justify-content: center;
+                    align-items: center;
+                    background-image: none;
+                    .icon {
+                        display: block;
+                    }
+                    .arrow {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<div class="header vcr-header-gradient">
+    <div class="title">Screen Sharing</div>
+    <div class="toolbar">
+        <button mat-icon-button>
+            <mat-icon svgIcon="photo-camera"></mat-icon>
+        </button>
+    </div>
+</div>
+<div class="video-container" #videoContainer layout="row" layout-align="center center" flex>
+    <div class="info" *ngIf="!videoEl" layout="column">
+        <div>There is no screen shared</div>
+        <button mat-raised-button (click)="toggleSharing()" [disabled]="!peer" *ngIf="!me?.isAdmin()">
+            <span *ngIf="isScreenSharing; else: shareText;">Stop Screen Sharing</span>
+            <ng-template #shareText>Share Screen</ng-template>
+        </button>
+    </div>
+</div>

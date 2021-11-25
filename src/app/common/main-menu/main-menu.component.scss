@@ -1,0 +1,25 @@
+:host {
+    display: block;
+
+    nav.main-nav {
+        min-height: 60px;
+        list-style-type: none;
+        overflow: hidden;
+        transition: height 0.2s cubic-bezier(0, 0, 0, 1);
+
+        a {
+            display: block;
+            color: #444444;
+            font-size: 18px;
+            padding: 18px 18px 12px 18px;
+            
+            .arrow {
+                margin-left: 10px;
+            }
+        }
+
+        .inactive {
+            margin-bottom: 6px; // align inactive items
+        }
+    }
+}

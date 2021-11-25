@@ -1,0 +1,210 @@
+<div class="inner">
+    <h1>{{tutor?.shortName}}</h1>
+    <div layout="row" class="gap-20">
+        <div class="video-container" [style.display]="tutor?.tutoring.video?'block':'none'">
+            <video preload="auto" controls #video crossorigin="anonymous">
+            </video>
+            <div class="overlay-text" *ngIf="videoError" #videoOverlay>Video failed to load</div>
+            <div>
+                <button mat-raised-button color="primary" class="mt-1" (click)="downloadVideo()" 
+                        [disabled]="downloading || videoError || !videoLoaded">
+                    Download
+                    <learnt-spinner *ngIf="downloading"></learnt-spinner>
+                    <mat-icon *ngIf="!downloading">file_download</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="youtube__container" *ngIf="tutor?.tutoring.youtube_video">
+            <iframe width="460" height="315" [src]="getYoutubeEmbedUrl()" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div>
+            <a mat-raised-button [attr.href]="tutor?.tutoring.resume.href" target="_blank">
+                Preview Resume
+            </a>
+
+            <div class="info">
+                <div>
+                    <label>Email:</label>
+                    <a [attr.href]="'mailto:' + tutor?.email">{{tutor?.email}}</a>
+                </div>
+                <div>
+                    <label>Telephone:</label>
+                    <a [attr.href]="'tel:' + tutor?.profile.telephone">{{tutor?.profile.telephone}}</a>
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <span>{{tutor?.location}}</span>
+                </div>
+                <div *ngIf="tutor?.profile.birthday">
+                    <label>Age:</label>
+                    <span>{{tutor?.age + ' ( '+tutor?.profile.birthday.format('D MMMM YYYY')+' ) '}}</span>
+                </div>
+                <div *ngIf="tutor?.tutoring.youtube_video">
+                    <label>YouTube video: </label>
+                    <a [href]="tutor?.tutoring.youtube_video" target="_blank">
+                        <mat-icon svgIcon="youtube-tiny" style="height: 1rem"></mat-icon>Watch on YouTube</a>
+                </div>
+                <div>
+                    <label>Video promotion:</label>
+                    <span *ngIf="tutor?.tutoring.promote_video_allowed" class="text-red">
+                        Allowed
+                    </span>
+                    <span *ngIf="!tutor?.tutoring.promote_video_allowed">
+                        Disallowed
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="tutor?.tutoring && tutor?.tutoring.degrees">
+        <h2>Education</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th align="left">Course</th>
+                    <th align="left">School</th>
+                    <th align="left">Degree</th>
+                    <th align="left">Certificate</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tutor?.tutoring.degrees">
+                    <td>{{item.course}}</td>
+                    <td>{{item.university}}</td>
+                    <td>{{item.degree}}</td>
+                    <td>
+                        <ng-container *ngIf="item.certificate; else: noCert;">
+                            <a [attr.href]="item.certificate.href" target="_blank">{{item.certificate.name}}</a>
+                            <em>{{item.certificate.size | filesize}}</em>
+                        </ng-container>
+                        <ng-template #noCert><i>No certificate</i></ng-template>
+                    </td>
+                    <td align="right" *ngIf="!item.verified">
+                        <button mat-raised-button (click)="verify(item)">
+                            Mark as Verified
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="tutor?.tutoring && tutor?.tutoring.subjects">
+        <h2>Subjects</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th align="left">Subject</th>
+                    <th align="left">Certificate</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tutor?.tutoring.subjects">
+                    <td>{{item.subject.name}}</td>
+                    <td>
+                        <div *ngIf="item.certificate">
+                            <a [attr.href]="item.certificate.href" target="_blank">{{item.certificate.name}}</a>
+                            <em>{{item.certificate.size | filesize}}</em>
+                        </div>
+                        <div *ngIf="!item.certificate">No certificate</div>
+                    </td>
+                    <td align="right" *ngIf="!item.verified">
+                        <button mat-raised-button (click)="verify(item)">
+                            Mark as Verified
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div 
+        class="bgcheck-data-wrapper" 
+        style="margin-top: 30px;" 
+        *ngIf="tutor?.approval!=ApproveStatus.ApprovalStatusNew && tutor?.approval!=ApproveStatus.ApprovalStatusBackgroundCheckRequested">
+        <mat-accordion>
+            <mat-expansion-panel expanded hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Retrieve report</mat-panel-title>
+                    <mat-panel-description>Get the candidate's report</mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                <ng-container *ngIf="tutor?.has_checkr_data">
+                    <button mat-stroked-button (click)="getCheckrCandidate()" [disabled]="dataLoading">Retrieve report</button>
+                    <span> or </span>
+                    <a href="https://dashboard.checkr.com/candidates/{{userData?.candidate_id}}?test={{!isProd}}" target="_blank">Go to Checkr report</a>
+                </ng-container>
+
+                <ng-container *ngIf="tutor?.has_bgcheck_data">
+                    <button mat-stroked-button (click)="getBGCheckReport()" [disabled]="dataLoading">Retrieve Report</button>
+                    <span> or </span>
+                    <a href="https://partners.turning.io/workers/{{userData?.candidate_id}}">Go to Turn report</a>
+                </ng-container>
+
+            </mat-expansion-panel>
+
+            <ng-container *ngIf="tutor?.has_checkr_data">
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': ssnTrace?.status == 'clear' ? 'green' : 'black' }">
+                        <mat-panel-title>SSN Trace</mat-panel-title>
+                        <mat-panel-description>Status: {{ssnTrace?.status}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': sexOffenderSearch?.status == 'clear' ? 'green' : 'black' }">
+                        <mat-panel-title>Sex Offender Search</mat-panel-title>
+                        <mat-panel-description>Status: {{sexOffenderSearch?.status}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': nationalCriminalSearch?.status == 'clear' ? 'green' : 'black' }">
+                        <mat-panel-title>Criminal Searches</mat-panel-title>
+                        <mat-panel-description>Status: {{nationalCriminalSearch?.status}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+            </ng-container>
+
+            <ng-container *ngIf="tutor?.has_bgcheck_data">
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': ssnStatus == 'valid' ? 'green' : 'black' }">
+                        <mat-panel-title>SSN Trace</mat-panel-title>
+                        <mat-panel-description>Status: {{ssnStatus}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': sexOffenderStatus == 'clear' ? 'green' : 'black' }">
+                        <mat-panel-title>Sex Offender Search</mat-panel-title>
+                        <mat-panel-description>Status: {{sexOffenderStatus}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+                <mat-expansion-panel disabled>
+                    <mat-expansion-panel-header [ngStyle]="{'color': criminalSearchStatus == 'clear' ? 'green' : 'black' }">
+                        <mat-panel-title>Criminal Searches</mat-panel-title>
+                        <mat-panel-description>Status: {{criminalSearchStatus}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+            </ng-container>
+
+        </mat-accordion>
+    </div>
+
+    <div class="approve-button-container" layout="row" layout-align="center center">
+        <button mat-raised-button color="primary" *ngIf="approvalStatus==ApproveStatus.ApprovalStatusNew" (click)="createBGCheckInvitation()">
+            REQUEST BACKGROUND CHECK
+        </button>
+
+        <button mat-raised-button color="primary" *ngIf="approvalStatus==ApproveStatus.ApprovalStatusBackgroundCheckRequested" [disabled]=true>
+            BACKGROUND CHECK REQUESTED
+        </button>
+
+        <button mat-raised-button color="primary" (click)="approve()">
+            {{tutor?.approval != ApproveStatus.ApprovalStatusApproved ? "APPROVE TUTOR" : "You've been approved"}}
+        </button>
+
+        <button mat-stroked-button color="primary" (click)="reject()" *ngIf="tutor?.approval != ApproveStatus.ApprovalStatusRejected">
+            REJECT TUTOR
+        </button>
+    </div>
+</div>

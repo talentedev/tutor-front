@@ -1,0 +1,30 @@
+<div class="top">
+    <div class="timezone">
+        <span>Your account is set to </span>
+        <a (click)="changeTimezone($event)">{{timezone ? timezone : 'Set timezone'}}</a>
+    </div>
+
+    <div class="picker-wrapper">
+        <div class="arrow" (click)="navigateWeek(-1)">
+            <mat-icon svgIcon="arrow-left" color="learnt-red"></mat-icon>
+        </div>
+
+        <div class="days-wrapper">
+            <div *ngFor="let date of selectorDates" class="day-wrapper" [class.sunday]="date.weekday() === 0">
+                <div class="day" [class.active]="isCurrentDay(date)" [class.disabled]="isDisabled(date)" (click)="setDate(date)">
+                    <div class="weekday">{{date.format('ddd')}}</div>
+                    <div class="date">{{date.format('MMM DD')}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow" (click)="navigateWeek(1)">
+            <mat-icon svgIcon="arrow-right" color="learnt-red"></mat-icon>
+        </div>
+    </div>
+</div>
+
+<div class="bottom">
+    <learnt-time-interval [interval]="intervalRange" [max]="12 * 60" [fromRange]="fromRange" [toRange]="toRange" (change)="timeChanged($event)">
+    </learnt-time-interval>
+</div>

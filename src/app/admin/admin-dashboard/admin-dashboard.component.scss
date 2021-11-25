@@ -1,0 +1,32 @@
+:host {
+    .stats-box {
+        border: 1px solid #F37073;
+        padding: 30px;
+        height: 150px;
+        width: 214px;
+        text-align: center;
+        color: #F37073;
+        display: grid;
+        grid-template-rows: 60px auto;
+
+        .value {
+            font-size: 60px;
+            line-height: 1.2;
+            font-weight: 200;
+        }
+        .info {
+            font-size: 14px;
+            font-weight: 200;
+            text-transform: uppercase;
+        }
+
+        &[routerlink]:hover {
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+        }
+    }
+
+    .loading {
+        margin-left: 10px;
+        margin-top: 3px;
+    }
+}

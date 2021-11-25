@@ -1,0 +1,41 @@
+@import "../../../variables";
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+    :host {
+        padding-bottom: 30px;
+        .days {
+            width: 100%;
+            display: block;
+            justify-content: center;
+            text-align: center;
+
+            .day {
+                min-width: 45px;
+                min-height: 45px;
+                width: 45px;
+                height: 45px;
+                margin-right: 3px;
+                
+                span { 
+                    line-height: 50px;
+                    font-size: 12px;
+                }
+            }
+        }
+        .day-parts {
+            width: 100%;
+            padding: 0 20px 0;
+            > div:first-child {
+                margin-bottom: 20px;
+            }
+        }
+        .day-part {
+            width: 100%;
+            font-size: 14px;
+            
+            span {
+                line-height: 50px;
+            }
+        }
+    }
+}

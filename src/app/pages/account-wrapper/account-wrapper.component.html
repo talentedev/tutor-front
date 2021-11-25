@@ -1,0 +1,32 @@
+<div class="content">
+    <learnt-menu [transparent]="true"></learnt-menu>
+    <div class="main-content">
+        <div class="bg">
+            <div class="img img-biology">
+                <img src="assets/classes/drawing-biology.png" class="img__drawing">
+                <img src="assets/classes/txt-biology.svg" class="img__text img__text--bottom-left">
+            </div>
+            <div class="img img-math img--diamond">
+                <img src="assets/classes/drawing-math.png" class="img__drawing">
+                <img src="assets/classes/txt-math.svg" class="img__text img__text--bottom-right">
+            </div>
+            <div class="img img-history">
+                <img src="assets/classes/drawing-history.png" class="img__drawing">
+                <img src="assets/classes/txt-history.svg" class="img__text img__text--bottom-right">
+            </div>
+            <div class="img img-chemistry img--diamond">
+                <img src="assets/classes/drawing-chemistry.png" class="img__drawing">
+                <img src="assets/classes/txt-chemistry.svg" class="img__text img__text--top-right">
+            </div>
+            <div class="img img-algebra">
+                <img src="assets/classes/txt-algebra.svg" class="img__text"> 
+            </div>
+            <div class="img img-english">
+                <img src="assets/classes/txt-english.svg" class="img__text"> 
+            </div>
+            <span class="dot"></span>
+        </div>
+        <router-outlet></router-outlet>
+    </div>
+    <learnt-footer [alwaysOpen]="true"></learnt-footer>
+</div>

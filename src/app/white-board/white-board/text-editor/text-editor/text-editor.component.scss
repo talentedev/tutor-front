@@ -1,0 +1,75 @@
+:host {
+    
+    display: flex;
+    height: 100%;
+
+    ::ng-deep .mce-tinymce {
+        box-shadow: none;
+        min-height: 100% !important;
+        border: none;
+        display: flex;
+        
+        > .mce-container-body {
+            display: flex;
+            flex-direction: column;
+            flex:1;   
+        }
+
+        .mce-toolbar-grp {
+            background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+            .mce-toolbar {
+                height: 60px;
+                > .mce-container-body {
+                    height: 60px;
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                }
+
+                .mce-btn {
+                    background: transparent;
+                    i, .mce-txt {
+                        color: #fff;
+                    }
+                }
+
+                .title {
+                    height: 60px;
+                    font-size: 12px;
+                    color: #fff;
+                    font-weight: bold;
+                    width: 127px;
+                    background: rgba(0,0,0, 0.1);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .mce-edit-area {
+            flex: 1;
+            iframe {
+                height: 100%!important;
+                #tinymce {
+                    background: #F3F3F3;
+                }
+            }
+        }
+
+        .mce-top-part {
+            min-height: 60px;   
+        }
+
+        .mce-statusbar {
+            height: 64px;
+            background: #D8D8D8;
+        }
+
+        .mce-branding {
+            display: none;
+        }
+    }
+
+}

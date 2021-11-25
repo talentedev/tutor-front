@@ -1,0 +1,39 @@
+@import "src/variables";
+
+a.link {
+    $hoverColor: transparentize($text, 0.3);
+    font-family: Quicksand, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: left;
+    color: $text;
+    display: inline-block;
+    &:hover {
+        color: $hoverColor;
+    }
+    &[disabled], &.disabled {
+        color: $text-lighter
+    }
+    &--red {
+        color: $red;
+        &[disabled], &.disabled {
+            color: $red-lighter;
+        } 
+    }
+    &--white {
+        color: #fff;
+        &:hover {
+            color: $text-lighter;
+        }
+        &[disabled], &.disabled {
+            color: transparentize(#fff, 0.5);
+        }
+    }
+    &--nowrap {
+        white-space: nowrap;
+    }
+    &--inherit {
+        font-size: 1em;
+    }
+}

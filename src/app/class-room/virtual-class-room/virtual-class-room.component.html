@@ -1,0 +1,123 @@
+<div class="vcr-header">
+    <div class="logo">
+        <img src="/assets/logo.svg"/>
+    </div>
+    <learnt-class-room-menu #menu joyrideStep="firstStep" [stepContent]="firstStepContent" ></learnt-class-room-menu>
+
+    <div flex layout-align="center center" layout="row">
+        <div flex></div>
+        <div class="share-screen-button" layout-align="center center" layout="row" 
+             *ngIf="!isObserverMode() && peer && moduleName == 'sharescreen' && !(classroomService.isRemoteScreensharing$ | async)">
+            <label *ngIf="(classroomService.isScreensharing$ | async); else: shareText" (click)="stopScreenSharing()">
+                <span>Stop Screen Sharing</span>
+                <svg width="20px" height="17px" viewBox="0 0 20 17" xmlns="http://www.w3.org/2000/svg">
+                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Header-/-Desktop-LogedIn" transform="translate(-1558.000000, -32.000000)" fill="#F37073">
+                            <path
+                                d="M1576.17021,44.7234043 L1576.17021,33.8297872 L1559.82979,33.8297872 L1559.82979,44.7234043 L1576.17021,44.7234043 Z M1576.17021,32 C1576.65248,32 1577.07801,32.1773045 1577.44681,32.5319135 C1577.8156,32.8865253 1578,33.3191462 1578,33.8297872 L1577.95745,44.7234043 C1577.95745,45.2056756 1577.78014,45.6241117 1577.42553,45.9787234 C1577.07092,46.3333351 1576.65248,46.5106383 1576.17021,46.5106383 L1571.61702,46.5106383 L1571.61702,48.3404255 L1564.38298,48.3404255 L1564.38298,46.5106383 L1559.82979,46.5106383 C1559.31915,46.5106383 1558.88653,46.3333351 1558.53191,45.9787234 C1558.1773,45.6241117 1558,45.2056756 1558,44.7234043 L1558,33.8297872 C1558,33.3191462 1558.1773,32.8865253 1558.53191,32.5319135 C1558.88653,32.1773045 1559.31915,32 1559.82979,32 L1576.17021,32 Z"
+                                id="Page-1"></path>
+                            <path
+                                d="M1565.14414,41.8558576 C1565.34051,42.0522255 1565.53261,42.0479566 1565.72044,41.8430511 L1568,39.5891009 L1570.27956,41.8430511 C1570.46739,42.0479566 1570.65949,42.0522255 1570.85586,41.8558576 C1571.05223,41.6594897 1571.04796,41.4673936 1570.84305,41.2795635 L1568.5891,39.0000002 L1570.84305,36.720437 C1571.04796,36.5326067 1571.05223,36.3405111 1570.85586,36.1441421 C1570.65949,35.9477746 1570.46739,35.9520432 1570.27956,36.1569494 L1568,38.4108996 L1565.72044,36.1569494 C1565.53261,35.9520432 1565.34051,35.9477746 1565.14414,36.1441421 C1564.94777,36.3405111 1564.95204,36.5326067 1565.15695,36.720437 L1567.4109,39.0000002 L1565.15695,41.2795635 C1564.95204,41.4673936 1564.94777,41.6594897 1565.14414,41.8558576 Z"
+                                id="Page-1"></path>
+                        </g>
+                    </g>
+                </svg>
+            </label>
+            <ng-template #shareText>
+                <label (click)="toggleScreenSharing()">
+                    <span>Share Screen</span>
+                    <svg width="20" height="17" viewBox="0 0 20 17" xmlns="http://www.w3.org/2000/svg">
+                        <g class="layer">
+                            <title>Layer 1</title>
+                            <g fill="none" fill-rule="evenodd" id="Symbols">
+                                <g fill="#F37073" id="Header-/-Desktop-LogedIn">
+                                    <path d="m18.17021,12.7234l0,-10.89361l-16.34042,0l0,10.89361l16.34042,0zm0,-12.7234c0.48227,0 0.9078,0.1773 1.2766,0.53191c0.36879,0.35462 0.55319,0.78724 0.55319,1.29788l-0.04255,10.89361c0,0.48228 -0.17731,0.90071 -0.53192,1.25532c-0.35461,0.35462 -0.77305,0.53192 -1.25532,0.53192l-4.55319,0l0,1.82979l-7.23404,0l0,-1.82979l-4.55319,0c-0.51064,0 -0.94326,-0.1773 -1.29788,-0.53192c-0.35461,-0.35461 -0.53191,-0.77304 -0.53191,-1.25532l0,-10.89361c0,-0.51064 0.1773,-0.94326 0.53191,-1.29788c0.35462,-0.35461 0.78724,-0.53191 1.29788,-0.53191l16.34042,0z" id="Page-1"/>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </label>
+            </ng-template>
+        </div>
+    </div>
+    <div class="count-down-timer">
+        <h2>
+            <countdown *ngIf="!isInstantSession" [config]="{leftTime: [timeRemaining], notify: [ 30, 120, 300, 900 ]}" (event)="handleCountDown($event)"></countdown>
+            <div *ngIf="isInstantSession">{{ durationInSecs | date:'HH:mm:ss':'UTC'}}</div>
+        </h2>
+    </div>
+    <div class="end-session-wrapper">
+        <button mat-raised-button color="primary" type="button" (click)="endSession()" *ngIf="!isObserverMode()">End Session</button>
+        <button mat-raised-button color="primary" type="button" (click)="backToAdmin()" *ngIf="isObserverMode()">Back to Admin</button>
+    </div>
+</div>
+<div layout="row" flex>
+    <div class="vcr-side-menu" >
+        <ul>
+            <li [class.active]="moduleName == 'whiteboard'" joyrideStep="whiteboard" title="This is the whiteboard. Here, you can draw shapes or formulas" >
+                <a (click)="onChangeModule('whiteboard')" [class.loading]="moduleLoading">
+                    <mat-icon svgIcon="edit"></mat-icon>
+                </a>
+            </li>
+            <li [class.active]="moduleName == 'word'" joyrideStep="texteditor" title="Here is the text editor. If you are working on word problems or academic writing, here is a good place to access writing simultaneously, in real time.">
+                <a (click)="onChangeModule('word')" [class.loading]="moduleLoading">
+                    <mat-icon svgIcon="letter"></mat-icon>
+                </a>
+            </li>
+            <li [class.active]="moduleName == 'code'" joyrideStep="codeeditor" title="Here is the code editor. If you are learning coding, select the language you are studying and type in the code.">
+                <a (click)="onChangeModule('code')" [class.loading]="moduleLoading">
+                    <mat-icon svgIcon="code"></mat-icon>
+                </a>
+            </li>
+            <li [class.active]="moduleName == 'sharescreen'" joyrideStep="sharescreen" title="Here is screenshare. If you have an assignment or question you’d like to show your tutor/student, then click screen share to show what’s on your computer.">
+                <a (click)="onChangeModule('sharescreen')" [class.loading]="moduleLoading">
+                    <mat-icon svgIcon="screen"></mat-icon>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="vcr-features" flex layout="row" >
+        <div [class.loading]="moduleLoading" [class.locked]="editLocked" class="vcr-dynamic-view" flex joyrideStep="board" title="Class Room Black Board">
+            <ng-container #moduleContainer></ng-container>
+            <div class="editlocker">
+                <div class="message">Edit is locked by someone. Wait a couple of seconds until edit is released!</div>
+            </div>
+            <div *ngIf="moduleLoading" class="loading-container">
+                <learnt-spinner></learnt-spinner>
+            </div>
+        </div>
+        <div class="vcr-side-media" joyrideStep="chats" [class.dual-video]="isObserverMode()">
+
+            <div class="vcr-header-gradient gap-10 vcr-side-media-states" layout="row" layout-align="center center">
+                <a (click)="setDisplayMode(DisplayMode.VideoAndChat)" [class.active]="displayMode === DisplayMode.VideoAndChat">Video & Chat</a>
+                <a (click)="setDisplayMode(DisplayMode.FullBoard)" title="Click to make the whiteboard fullscreen" [class.active]="displayMode === DisplayMode.FullBoard">Full Board</a>
+                <a (click)="setDisplayMode(DisplayMode.FullVideo)" title="Click to make the video fullscreen" [class.active]="displayMode === DisplayMode.FullVideo">Full Video</a>
+            </div>
+
+            <div class="vcr-video">
+                <learnt-class-room-video *ngIf="!me.isAdmin()" [fullscreen]="displayMode === DisplayMode.FullVideo">
+                </learnt-class-room-video>
+                <learnt-video-admin [fullscreen]="displayMode === DisplayMode.FullVideo" *ngIf="me.isAdmin()"></learnt-video-admin>
+            </div>
+
+            <div class="vcr-chat" flex layout="column">
+                <learnt-messages-tiny [thread-id]="threadId"></learnt-messages-tiny>
+                <learnt-messenger-create title="Attach a file" mode="small" [emoji]="false" [settings]="false" 
+                                         *ngIf="!me.isAdmin()"></learnt-messenger-create>
+            </div>
+
+            <!--<div class="vcr-whiteboard-tabs"></div>-->
+        </div>
+    </div>
+</div>
+
+<learnt-video-button
+    *ngIf="displayMode === DisplayMode.FullVideo"
+    (click)="setDisplayMode(DisplayMode.VideoAndChat)"
+    [icon]="'fullscreen-close'"
+    class="minimize-btn"
+></learnt-video-button>
+
+<ng-template #firstStepContent >
+	Hello
+</ng-template>

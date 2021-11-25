@@ -1,0 +1,19 @@
+<div class="notification">
+
+    <div class="content">
+        <div class="instant-icon">
+            <mat-icon svgIcon="thunder" color="learnt-yellow"></mat-icon>
+        </div>
+
+        <div class="texts">
+            <div class="title">{{title}}</div>
+            <div class="text">{{message}}</div>
+            <div class="timeout">( request will be cancelled in {{timeout}} seconds )</div>
+        </div>
+    </div>
+
+    <div class="buttons" *ngIf="controls">
+        <button mat-raised-button type="button" color="primary" (click)="acceptRequest()">Start Session</button>
+        <button mat-raised-button type="button" (click)="declineRequest()">Decline Request</button>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+@import "src/variables";
+@import "src/mixins";
+
+:host {
+    @include media-breakpoint-down(sm) {
+        .about-us-close {
+            top: 1%;
+            right: 2%;
+            left: unset;
+        }
+
+        .footer-wrapper {
+            height: fit-content;
+
+            .footer {
+                display: grid;
+                grid-template: repeat(2, auto) / 1fr;
+
+                .container {
+                    grid-template: repeat(3, auto) / 1fr;
+                    .left {
+                        place-content: center;
+                        margin: 3rem;
+                    }
+                    .links {
+                        display: flex;
+                        flex-flow: column;
+                        > * {
+                            text-align: center;
+                        }
+                        > :not(:first-child) {
+                            margin-top: 2rem;
+                        }
+                    }
+                    .right {
+                        margin: 2rem 0;
+                        justify-content: center;
+                    }
+                }
+
+                .main-logo {
+                    display: flex;
+                    justify-content: center;
+                    padding: 3rem 0;
+
+                    .logo {
+                        width: 95px;
+                        height: 35px;
+                    }
+
+                    .logo-tm {
+                        font-size: 1rem;
+                        font-weight: 800;
+                        align-self: flex-start;
+
+                        &-footer {
+                            font-size: 1em;
+                            padding: 0 0.5em;
+                        }
+                    }
+                }
+
+                .terms {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 20px;
+
+                    .title {
+                        font-size: 12px;
+                        color: #ffffff;
+                        line-height: 18px;
+                    }
+                }
+
+                .copyright {
+                    padding: 21px 3rem;
+                    text-align: center;
+                    line-height: 1.5;
+                    grid-row-start: 4;
+                }
+
+                .logos {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 20px;
+
+                    .facebook {
+                        margin-right: calc(24px - 17px);
+                    }
+
+                    .instagram {
+                        margin-right: calc(24px - 10px);
+                    }
+
+                    .twitter {
+                        margin-right: calc(24px - 7px);
+                    }
+
+                    .youtube {
+                        margin-right: calc(24px - 8px);
+                    }
+                }
+            }
+
+            .footer-divider {
+                margin: 20px 20px;
+            }
+
+            .footer-menu {
+                padding: 0 0 50px 50px;
+                font-size: 12px;
+
+                .header {
+                    font-size: 12px;
+                }
+
+                .content {
+                    padding: 20px 0 0;
+                }
+            }
+        }
+    }
+}

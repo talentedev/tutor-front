@@ -1,0 +1,446 @@
+@import '../../../../../variables.scss';
+
+$maxWidth: calc(100vw - 75px); // full page - left aside
+
+:host {
+    .wrapper {
+        background: #fff;
+        border-left: 1px solid #E9E9E9;
+        position: relative;
+        max-width: $maxWidth;
+        height: 100%;
+
+        .backdrop {
+            z-index: 50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #000;
+            opacity: 0.6;
+        }
+
+        .warning {
+            z-index: 60;
+            position: absolute;
+            height: 286px;
+            width: 100%;
+            display: block;
+            bottom: 0;
+            background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+            color: #fff;
+            padding: 45px 150px;
+
+            .title {
+                font-size: 24px;
+            }
+
+            .content {
+                font-size: 14px;
+                margin-top: 10px;
+                line-height: 25px;
+            }
+
+            .buttons {
+                text-align: center;
+                padding: 30px 0;
+
+                button {
+                    border: 1px solid #fff;
+                }
+            }
+        }
+    }
+
+    .calendar-header {
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 150px;
+
+        font-size: 18px;
+        color: #444444;
+        font-weight: 600;
+
+        .left, .right {
+            display: flex;
+            align-items: center;
+        }
+
+        .left p {
+            margin: 0px 20px;
+        }
+
+        .right {
+            cursor: pointer;
+
+            mat-icon {
+                height: 10px;
+                margin-top: -10px;
+            }
+        }
+    }
+
+    .calendar-footer {
+        position: fixed;
+        bottom: 0;
+        width: $maxWidth;
+        background: #fff;
+
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+
+        button {
+            margin: 0 10px;
+        }
+    }
+
+    .content-wrapper {
+        background: #FAFAFA;
+        min-height: calc(100vh - 140px - 100px); // remove global menu & footer
+        padding-bottom: 100px; // padding for abs footer
+        overflow: auto;
+
+        .content {
+            padding: 50px 150px;
+            font-size: 1.125rem;
+            .text {
+                color: #444444;
+            }
+            .charged, .paid {
+                margin-left: 15px;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                height: 60px;
+                align-items: center;
+
+                p {
+                    color: #444444;
+                    margin-left: 15px;
+                }
+
+                &.separator {
+                    border-top: 1px dashed #777777;
+                    margin-top: 35px;
+                    margin-bottom: 18px;
+                    height: 0;
+                }
+
+                &.earned {
+                    .text {
+                        color: #89C0CA;
+
+                        span {
+                            color: #444444;
+                            margin: 0 25px;
+                        }
+                    }
+                }
+
+                &.message {
+                    button {
+                        margin-left: 50px;
+                        min-width: 150px;
+                    }
+                }
+            }
+
+            .icon-circle {
+                height: 43px;
+                min-height: 43px;
+                width: 43px;
+                min-width: 43px;
+                background: #89C0CA;
+                border-radius: 50%;
+
+                mat-icon {
+                    height: 15px;
+                    width: 15px;
+                    margin-top: 14px;
+                    margin-left: 14px;
+
+                    ::ng-deep g {
+                        fill: #ffffff;
+                    }
+                }
+            }
+
+            .date, .time, .meet, .recurring, .subject {
+                display: flex;
+                align-items: center;
+                width: 50%;
+            }
+
+            .meet {
+                p mat-icon {
+                    height: 10px;
+                }
+            }
+
+            .select-wrapper {
+                display: flex;
+                margin-bottom: 50px;
+
+                .select {
+                    display: flex;
+                    height: 30px;
+                    align-items: center;
+                    cursor: pointer;
+                    margin-right: 20px;
+
+                    span {
+                        margin: 0 5px;
+                        font-size: 14px;
+                        color: #222222;
+                        font-weight: 600;
+                        line-height: 30px;
+                    }
+
+                    mat-icon {
+                        &:first-of-type {
+                            height: 20px;
+                        }
+
+                        &:last-of-type {
+                            height: 9px;
+                            width: 9px;
+                            margin-top: -2px;
+                        }
+                    }
+                }
+            }
+
+            .note-input {
+                font-size: 18px;
+                color: #444444;
+
+                background: #f5f5f5;
+                border-radius: 5px;
+                padding: 5px;
+
+                &.input {
+                    width: 100%;
+                    height: 120px;
+                    resize: none;
+                    box-shadow: none;
+                    border: none;
+                }
+
+                &.note {
+                    font-size: 13px;
+                    margin-bottom: 25px;
+
+                    h4 {
+                        color: #89C0CA;
+                        font-size: 17px;
+                    }
+
+                    p {
+                        white-space: pre-line;
+                        word-break: break-all;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.booking-listing {
+    font-size: 16px;
+    color: #444;
+    list-style-type: none;
+    padding: 10px;
+    max-height: 200px;
+    overflow: auto;
+
+    li {
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        &:hover {
+            background: #E8E8E8;
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            min-width: 30px;
+            height: 25px;
+            margin-right: 10px;
+        }
+
+        mat-icon {
+            width: 30px;
+            height: 20px;
+        }
+    }
+}
+
+.edit-meet-location {
+    .editing {
+        input {
+            font-size: 14px;
+            width: 100%;
+            background: #FAFAFA;
+            display: block;
+            padding: 20px 40px;
+            min-height: 80px;
+            resize: vertical;
+            border: none;
+        }
+    }
+
+    .preview {
+        > div {
+            font-size: 14px;
+            color: #999999;
+            line-height: 24px;
+            margin-left: 55px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            font-size: 12px;
+            display: block;
+            margin-left: 55px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.buttons.location {
+    padding: 10px 0;
+}
+
+::ng-deep learnt-specific-availability {
+    .timezone {
+        top: 450px !important;
+        left: unset !important;
+        right: 150px;
+    }
+
+    learnt-time-interval {
+        overflow: hidden;
+    }
+}
+
+@media(max-width: $layout-breakpoint-sm - 1) {
+    :host {
+       .wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+            max-width: unset;
+            overflow: auto;
+            background: #fafafa;
+
+            .warning {
+                position: fixed;
+                height: fit-content;
+                padding: 25px 25px 0px 25px;
+            }
+       }
+
+       .calendar-header {
+            width: 100%;
+            background: white;
+            height: fit-content;
+
+            .right {
+                p {
+                    display: none;
+                }
+
+                mat-icon {
+                    height: 20px;
+                    margin-top: 0px;
+                }
+            }
+        }
+
+        .content-wrapper {
+            height: fit-content !important;
+
+            .row {
+                &.date-time {
+                    flex-direction: column !important;
+                    height: fit-content !important;
+        
+                    .date, .time {
+                        height: 60px;
+                        width: 100% !important;
+                    }
+                }
+
+                &.message {
+                    &:not(:last-child) {
+                        margin-bottom: 15px;
+                    }
+
+                    button {
+                        margin: auto 0px auto 10px !important;
+                    }
+                }
+            }
+
+            ::ng-deep .timezone a {
+                margin-left: 5px;
+            }
+
+            .input {
+                max-width: unset !important;
+            }
+
+            .details {
+                margin-bottom: 50px;
+            }
+        }
+
+        .calendar-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: fit-content !important;
+            line-height: initial !important;
+
+            button:not(:nth-child(3)) {
+                border-radius: 0px;
+                width: 50%;
+                height: 60px;
+                box-shadow: none;
+                border-top: 1px dotted #E8E8E8;
+                border-right: 1px dotted #E8E8E8;
+                border-bottom: none;
+                border-left: none;
+                margin: 0px;
+            }
+
+            button:first-child:nth-last-child(1), button:nth-child(3) {
+                border-radius: 0px;
+                width: 100%;
+                height: 60px;
+                box-shadow: none;
+                border: 1px solid #f37073;
+                background-color: #f37073;
+                color: #ffffff;
+                margin: 0px;
+            }
+        }
+    }   
+}

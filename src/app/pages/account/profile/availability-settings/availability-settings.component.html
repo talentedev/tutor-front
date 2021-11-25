@@ -1,0 +1,176 @@
+<div class="loading" [hidden]="!(loadingAvailabilities || loadingBlackouts)">
+    <learnt-spinner [size]="12" [thickness]="1"></learnt-spinner>&nbsp;
+    <span class="text">Loading data...</span>
+</div>
+<table *ngIf="availabilities.length">
+    <thead>
+        <tr>
+            <th colspan="2">Availability</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let group of scheduleGroups; let groupIndex = index; trackBy: trackByIndex">
+            <ng-container *ngIf="group.length > 0">
+                <tr><th colspan="2">{{ weekDays[groupIndex] }}</th></tr>
+                <tr *ngFor="let slot of group; let slotIndex = index; trackBy: trackById">
+                    <td>
+                        {{ slot.from | date: 'shortTime' | lowercase }} to
+                        {{ slot.to | date: 'shortTime' | lowercase }}
+                    </td>
+                    <td class="actions">
+                        <learnt-spinner [size]="14" *ngIf="isDeleting(slot.id)" class="center-loading"></learnt-spinner>
+                        <a class="delete" (click)="deleteAvailability(slot.id)" *ngIf="!isDeleting(slot.id)">Delete</a>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+        <tr *ngIf="!scheduleGroups.length">
+            <td colspan="2">No availability.</td>
+        </tr>
+    </tbody>
+</table>
+<table *ngIf="blackoutList.length" [class.margined]="availabilities.length">
+    <thead>
+        <tr>
+            <th>Blackout</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let blackout of blackoutList; trackBy: trackById">
+            <tr>
+                <td>
+                    {{ blackout.from | date: 'M/d/y h:mm a' | lowercase }} to
+                    {{ blackout.to | date: 'M/d/y h:mm a' | lowercase }}
+                </td>
+                <td class="actions">
+                    <learnt-spinner [size]="14" *ngIf="isDeleting(blackout.id)" class="center-loading"></learnt-spinner>
+                    <a class="delete" (click)="deleteBlackout(blackout.id)" *ngIf="!isDeleting(blackout.id)">Delete</a>
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+<div [class.margined]="availabilities.length || blackoutList.length">
+    <div class="actions" *ngIf="!toCreate">
+        <button mat-raised-button color="primary" (click)="initAddAvailability()">Add availability</button>
+        <button mat-raised-button color="primary" (click)="initAddBlackout()">Add blackout</button>
+    </div>
+
+    <form [formGroup]="availForm" class="avail-form" *ngIf="toCreate == 'availability'">
+        <h3 class="header">Add availability</h3>
+        <div class="checkbox__container form__row" [formArrayName]="'days'">
+            <label>Repeat every</label>
+            <learnt-checkbox *ngFor="let day of daysControl.controls; index as dayIndex" [formControlName]="dayIndex">
+                {{ dayOptions[dayIndex] }}
+            </learnt-checkbox>
+        </div>
+        <div class="form__row">
+            <mat-form-field>
+                <mat-label>From</mat-label>
+                <mat-select [formControlName]="'from'" (selectionChange)="updateToOptions()">
+                    <mat-option>unset</mat-option>
+                    <mat-option *ngFor="let fromOption of fromOptions" [value]="fromOption">{{ fromOption | date: 'shortTime' | lowercase }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>To</mat-label>
+                <mat-select [formControlName]="'to'" (selectionChange)="updateFromOptions()">
+                    <mat-option>unset</mat-option>
+                    <mat-option *ngFor="let toOption of toOptions" [value]="toOption">{{ toOption | date: 'shortTime' | lowercase }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="resetCreateAvailability()">Cancel</button>
+            <button mat-raised-button
+                    color="primary"
+                    class="add-btn"
+                    [class.loading]="loading"
+                    (click)="saveAvailability()" [disabled]="!availForm.valid || loading">
+                <learnt-spinner class="center-loading" *ngIf="loading"></learnt-spinner>
+                Create Availability
+            </button>
+        </div>
+    </form>
+
+    <form [formGroup]="blackoutForm" *ngIf="toCreate == 'blackout'" class="blackout-form">
+        <h3 class="header">Add blackout</h3>
+        <div class="form__row">
+            <mat-form-field color="accent">
+                <mat-label>Start Date</mat-label>
+                <input matInput
+                       [matDatepicker]="pickerFrom"
+                       placeholder="mm/dd/yyyy"
+                       [min]="blackout.minDate"
+                       formControlName="startDate"
+                       autocomplete="off"
+                       [value]="blackoutForm.get('startDate').value"
+                       [errorStateMatcher]="startDateErrorMatcher"
+                >
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom color="primary"></mat-datepicker>
+                <mat-error *ngIf="blackoutForm.hasError('startDate')">
+                    {{ blackoutForm.getError('startDate') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Start Time</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    formControlName="startTime"
+                    [errorStateMatcher]="startTimeErrorMatcher"
+                    (change)="parseTimeInput($event)"
+                    placeholder="hour:minute am/pm"
+                >
+                <mat-error *ngIf="blackoutForm.hasError('startTime')">
+                    {{ blackoutForm.getError('startTime') }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form__row">
+            <mat-form-field color="accent">
+                <mat-label>End Date</mat-label>
+                <input matInput
+                       [matDatepicker]="pickerTo"
+                       placeholder="mm/dd/yyyy"
+                       [min]="blackout.minDate"
+                       formControlName="endDate"
+                       autocomplete="off"
+                       [errorStateMatcher]="endDateErrorMatcher"
+                >
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo color="primary" ></mat-datepicker>
+                <mat-error *ngIf="blackoutForm.hasError('endDate')">
+                    {{ blackoutForm.getError('endDate') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>End Time</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    formControlName="endTime"
+                    [errorStateMatcher]="endTimeErrorMatcher"
+                    (change)="parseTimeInput($event)"
+                    placeholder="hour:minute am/pm"
+                >
+                <mat-error *ngIf="blackoutForm.hasError('endTime')">
+                    {{ blackoutForm.getError('endTime') }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="resetCreateBlackout()" *ngIf="!loading">Cancel</button>
+            <button mat-raised-button color="accent"
+                    (click)="createBlackout()"
+                    [disabled]="!blackoutForm.valid || loading"
+                    class="add-btn"
+                    [class.loading]="loading"
+            >
+                <learnt-spinner class="center-loading" *ngIf="loading"></learnt-spinner>
+                Create blackout
+            </button>
+        </div>
+    </form>
+</div>

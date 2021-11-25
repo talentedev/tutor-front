@@ -1,0 +1,47 @@
+<div [class.small]="mode == 'small'" class="xmessenger-create" [class.mobile]="mobile" *ngIf="thread">
+    <div class="input-container" [class.disabled]="!thread || sending">
+        <div class="popover-container">
+            <div #popover></div>
+        </div>
+        <learnt-spinner *ngIf="sending" [size]="16" [thickness]="1" color="#ffffff"></learnt-spinner>
+        <!-- *ngIf="!mobile" -->
+        <div class="features avoidOverlapping" >
+
+            <button [disabled]="!thread" class="file" (click)="attachmentInput.click()">
+                <input type="file" (change)="attachFile($event)" #attachmentInput [accept]="allowedMimeTypes.toString()"/>
+                <img class="icon" src="/assets/attachment.svg"/>
+            </button>
+            
+            <button *ngIf="emoji" [disabled]="!thread" class="popover-trigger emoticons" (click)="showEmoticons($event)">
+                <img class="icon" src="/assets/emoji.svg"/>
+            </button>
+
+        </div>
+        <textarea class="input" placeholder="Write a message ..." #input [disabled]="sending"
+            (keydown)="onInputKeyDown($event)" (keyup)="onInputKeyUp($event)"></textarea>
+        <div>
+            <button class="popover-trigger send-btn" (click)="showSettings($event)" [disabled]="!thread || sending">
+                <img class="icon" src="/assets/send 1.svg"/>
+            </button>
+        </div>
+    </div>
+     <!-- *ngIf="!mobile && mode == 'full'; else mobileSendButton" -->
+    <!-- <ng-template #mobileSendButton>
+        <div style="margin-top: 10px;">
+            <mat-icon (click)="onSubmitClick($event)" [disabled]="!canSend || !thread || sending">
+                <img src="/assets/send.svg"/>
+            </mat-icon>
+        </div>
+    </ng-template> -->
+</div>
+
+<ng-template #popovercontents>
+    <learnt-view-stack [swipe]="false" [index]="popoverViewStackIndex">
+        <view>
+            <learnt-messenger-emoticons (change)="onEmojiSelect($event)"></learnt-messenger-emoticons>
+        </view>
+        <view>
+            <learnt-messenger-settings [initialMode]="enterMode" (mode)="onSettingsChange($event)" (close)="onPopoverCloseRequest()"></learnt-messenger-settings>
+        </view>
+    </learnt-view-stack>
+</ng-template>

@@ -1,0 +1,49 @@
+:host {
+    .video-container {
+        width: 400px;
+        position: relative;
+        video {
+            background: #000;
+            height: 225px;
+            width: 100%;
+        }
+        .overlay-text {
+            height: 225px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: red;
+            font-size: 1rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .info {
+        margin: 30px 0;
+        font-size: 20px;
+    }
+    .approve-button-container {
+        margin: 30px 0;
+        padding-top: 30px;
+        border-top: 1px solid #DDD;
+        flex-direction: column;
+
+        button {
+            margin: 0.5rem;
+        }
+    }
+
+    .bgcheck-data-wrapper {
+        .mat-expansion-panel-header-description {
+            justify-content: flex-end;
+        }
+    }
+
+    .reports-warning {
+        color: #F37073;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+}

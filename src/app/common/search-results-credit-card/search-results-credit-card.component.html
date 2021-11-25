@@ -1,0 +1,45 @@
+<h1>Add Credit Card</h1>
+
+<div [ngSwitch]="state">
+    <div *ngSwitchCase="'form'" class="mat-large">
+        <p>You need to add a credit card to your account in order to proceed</p>
+
+        <form [formGroup]="form">
+
+            <learnt-credit-card-icon-matcher [number]="cardNumber.value"></learnt-credit-card-icon-matcher>
+
+            <mat-form-field class="mat-block" flex>
+                <input matInput #cardNumber placeholder="credit card number" formControlName="number" required/>
+            </mat-form-field>
+
+            <div layout="row" layout-align="start center" class="gap-15">
+                <mat-select class="learnt-select" placeholder="month" formControlName="month" flex required>
+                    <mat-option *ngFor="let month of months; let monthNumber = index" value="{{monthNumber + 1}}">{{month}}</mat-option>
+                </mat-select>
+                <mat-select class="learnt-select" placeholder="year" formControlName="year" flex required>
+                    <mat-option *ngFor="let year of years" value="{{year}}">{{year}}</mat-option>
+                </mat-select>
+                <mat-form-field class="mat-block" flex>
+                    <input matInput placeholder="security code" formControlName="cvc" required/>
+                </mat-form-field>
+            </div>
+
+            <div layout="row" layout-align="start center" class="buttons gap-15">
+                <button mat-raised-button color="primary" [disabled]="!form.valid || saving" (click)="save()">
+                    <span *ngIf="!saving">Add Card</span>
+                    <span *ngIf="saving">Please wait...</span>
+                </button>
+                <button mat-raised-button (click)="cancel()" [disabled]="saving">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div *ngSwitchCase="'completed'">
+        <div class="complete-message">Yay! Your credit card was added sucessfully!</div>
+        <p>You will be charged ${{tutor.tutoring.rate}} for a 1 hour session with {{tutor.shortName}}.</p>
+        <div layout="row" layout-align="start center" class="buttons gap-15">
+            <button mat-raised-button color="primary" (click)="continue()">OK Lets Go</button>
+            <button mat-raised-button (click)="cancel()" [disabled]="saving">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="button-with-count" (click)="click($event)">
+    <span *ngIf="count" class="counter">{{count}}</span>
+    <button class="header-button">
+        <img src="/assets/bell.svg"/>
+        <span></span>
+    </button>
+</div>
+<div class="popover-container">
+    <div #popover></div>
+</div>

@@ -1,0 +1,51 @@
+<aside *ngIf="me">
+    <div class="icons">
+        <a class="avatar" [routerLink]="me.isTutor() ? ['/main/profile'] : ['/main/profile/edit']">
+            <learnt-user-avatar [link]="false" [user]="me" [size]="66"></learnt-user-avatar>
+        </a>
+
+        <a class="icon calendar" matTooltip="Calendar" matTooltipPosition="after" routerLink="/main/account/calendar" routerLinkActive #rlaCalendar="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaCalendar.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaCalendar.isActive}">
+                <mat-icon svgIcon="calendar"></mat-icon>
+            </div>
+        </a>
+
+        <a class="icon transactions" matTooltip="Transaction history" matTooltipPosition="after" routerLink="/main/account/transactions"  [routerLinkActiveOptions]="{exact: true}" routerLinkActive #rlaTransactions="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaTransactions.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaTransactions.isActive}">
+                <mat-icon svgIcon="history"></mat-icon>
+            </div>
+        </a>
+
+        <a class="icon payment" matTooltip="Payment Preferences" matTooltipPosition="after" routerLink="/main/account/payments" routerLinkActive #rlaPayment="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaPayment.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaPayment.isActive}">
+                <mat-icon svgIcon="payout"></mat-icon>
+            </div>
+        </a>
+
+        <a class="icon security" matTooltip="Security &amp; Notifications" matTooltipPosition="after" routerLink="/main/account/settings" routerLinkActive #rlaSecurity="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaSecurity.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaSecurity.isActive}">
+                <mat-icon svgIcon="locked"></mat-icon>
+            </div>
+        </a>
+        <a class="icon account" matTooltip="Edit Profile" matTooltipPosition="after" routerLink="/main/profile/edit" routerLinkActive #rlaEditProfile="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaEditProfile.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaEditProfile.isActive}">
+                <mat-icon svgIcon="profile"></mat-icon>
+            </div>
+        </a>
+        <a class="icon account" matTooltip="File Library" matTooltipPosition="after" routerLink="/main/account/files" routerLinkActive #rlaFileLib="routerLinkActive">
+            <!-- <div class="active" *ngIf="rlaFileLib.isActive"></div> -->
+            <div class="icon-wrapper" [ngClass]="{active: rlaFileLib.isActive}">
+                <mat-icon svgIcon="folder"></mat-icon>
+            </div>
+        </a>
+    </div>
+</aside>
+
+<div class="router">
+    <router-outlet></router-outlet>
+</div>

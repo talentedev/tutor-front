@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="7" height="14">
+    <defs>
+        <clipPath id="clip_0">
+            <rect x="-1156" y="-918" width="1600" height="1025" clip-rule="evenodd"/>
+        </clipPath>
+        <linearGradient id="gradient_0" gradientUnits="userSpaceOnUse" x1="3.6544118" y1="12.104762" x2="3.6544118"
+                        y2="-6.8133335">
+            <stop offset="0" stop-color="rgb(243,112,115)"/>
+            <stop offset="1" stop-color="rgb(248,78,130)"/>
+        </linearGradient>
+    </defs>
+    <g clip-path="url(#clip_0)">
+        <path fill="url(#gradient_0)" stroke="none"
+              d="M1.75 14L4.375 14L4.375 7L6.75391 7L7 4.59375L4.375 4.59375L4.375 3.39063C4.375 3.02604 4.42969 2.77083 4.53906 2.625C4.64844 2.47917 4.91276 2.40625 5.33203 2.40625L7 2.40625L7 0L4.59375 0C3.49999 0 2.75261 0.259763 2.35156 0.779296C1.95052 1.29883 1.75 2.09635 1.75 3.17188L1.75 4.59375L0 4.59375L0 7L1.75 7L1.75 14Z"/>
+    </g>
+</svg>

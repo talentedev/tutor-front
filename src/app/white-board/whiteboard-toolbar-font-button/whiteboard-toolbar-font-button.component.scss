@@ -1,0 +1,98 @@
+:host {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 5px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0);
+    transition: width 150ms ease-out;
+
+    mat-icon.a {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        margin-left: 7px;
+    }
+
+    &.active:not(.disabled) {
+        background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+        box-shadow: inset 0 0 154px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    &:hover:not(.active) {
+        background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+        box-shadow: inset 0 0 154px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    ::ng-deep learnt-whiteboard-toolbar-button.active:not(.disabled), learnt-whiteboard-toolbar-button:hover:not(.disabled) {
+        background: rgb(247, 65, 123);
+        box-shadow: inset 0 0 154px 0 rgba(0, 0, 0, 0.08);
+        &:hover {
+            background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+            box-shadow: inset 0 0 154px 0 rgba(0, 0, 0, 0.1);
+        }
+        &:active {
+            background-image: linear-gradient(0deg, #F37073 14%, #F84E82 100%);
+            box-shadow: inset 0 0 154px 0 rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    ::ng-deep mat-icon.arrow {
+        opacity: 0;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        top: 17px;
+        right: 7px;
+        polygon {
+            fill: white;
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+        filter: grayscale(100%);
+        opacity: 0.4;
+    }
+
+    .font-style {
+        display: none;
+        ::ng-deep learnt-whiteboard-toolbar-button {
+            width: 25px;
+            height: 25px;
+            mat-icon.icon {
+                width: 10px;
+                height: 10px;
+                min-width: 10px;
+                min-height: 10px;
+            }
+            mat-icon.arrow {
+                width: 6px;
+                height: 6px;
+                min-width: 6px;
+                min-height: 6px;
+                top: 12px;
+                right: 8px;
+            }
+        }
+    }
+
+    &.expanded {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        justify-content: flex-start;
+        width: 220px;
+
+        .font-style {
+            display: flex;
+        }
+
+        > mat-icon.a {
+            margin-right: 10px;
+        }
+    }
+}

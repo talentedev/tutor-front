@@ -1,0 +1,21 @@
+<learnt-messenger-header class="header" *ngIf="pagination && pagination.items.length"></learnt-messenger-header>
+<div class="scrollarea">
+    <div (wheel)="onWheel($event)" class="scroller" #scroller>
+        <div class="loading" *ngIf="fetching" layout-align="center center" layout="row">
+            <learnt-spinner></learnt-spinner>
+        </div>
+        <div class="list" *ngIf="pagination && pagination.items.length; else nomessages">
+            <learnt-messenger-message [message]="message" [me]="me" *ngFor="let message of pagination.items; trackBy: trackByMessageId"></learnt-messenger-message>
+        </div>
+        <ng-template #nomessages>
+            <div class="nomessages">
+                No messages
+                <img class="icon triple" src="/assets/mail-triple-msg.svg"/>
+                <img class="icon double1" src="/assets/mail-double-msg.svg"/>
+                <img class="icon double2" src="/assets/mail-double-msg.svg"/>
+                <img class="icon paperplane" src="/assets/mail-paper-plane.svg"/>
+            </div>
+        </ng-template>
+    </div>
+<div>
+<div className="new-messages" *ngIf="this.newMessages">↓ {{this.newMessages}} new message(s) bellow ↓</div>

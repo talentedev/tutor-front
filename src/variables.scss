@@ -1,0 +1,143 @@
+@import "~@angular/material/theming";
+
+$red-color: #F37073;
+$secondary-color: #EE999C;
+$blue-color: #89C0CA;
+$light-accent: #F7E5E6;
+$lightest-accent: #FBF5F6;
+$background-1: #F3F3F3;
+$gray-1: #D3D3D3;
+$gray-2: #757575;
+$gray-3: #444444;
+$layout-breakpoint-xxs:    320px !default; //iPhone 7 and less
+$layout-breakpoint-xs:     450px !default;
+$layout-breakpoint-sm:     960px !default;
+$layout-breakpoint-md:     1280px !default;
+$layout-breakpoint-lg:     1920px !default;
+$breakpoints: (
+    xxs: $layout-breakpoint-xxs,
+    xs: $layout-breakpoint-xs,
+    sm: $layout-breakpoint-sm,
+    md: $layout-breakpoint-md,
+    lg: $layout-breakpoint-lg,
+);
+
+// new theme colors
+$red: #ff676b;
+$red-dark: #F5484C;
+$red-darker: darken($red-dark, 20%);
+$red-light: #E1B6B7;
+$red-lighter: #FFE8E9;
+$blue: #78C7D6;
+$blue-dark: #3FB1C6;
+$blue-darker: darken($blue-dark, 10%);
+$blue-light: #9BC2CA;
+$blue-lighter: #E2F3F6;
+$blue-100: #e6f1f4;
+$text: #3e1011;
+$text-light: #785859;
+$text-lighter: #B29FA0;
+$label-color: #8f7677;
+$background-primary: #fcf5f5;
+$yellow: #FDB441;
+$green: #65D1AD;
+$purple: #6C7FD8;
+$border-color: #f0e5e5;
+
+$learnt-overlay-dark-backdrop-background: rgba(62, 16, 17, 0.2) !default;
+$learnt-font-family-2: Quicksand, sans-serif;
+$learnt-typography-2: map-merge(mat-typography-config(
+    $font-family:   $learnt-font-family-2,
+    $display-4:     mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+    $display-3:     mat-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+    $display-2:     mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+    $display-1:     mat-typography-level(34px, 40px, 400),
+    $headline:      mat-typography-level(3.125rem, 1.25, 700),  // h1
+    $title:         mat-typography-level(2.625rem, 1.2, 700),  // h2
+    $subheading-1:  mat-typography-level(2rem, 1.2, 700),  // h3
+    $subheading-2:  mat-typography-level(1.25rem, 3.5, 700),  // h4
+    $body-2:        mat-typography-level(1rem, 1.8, 500),
+    $body-1:        mat-typography-level(1rem, 1.8, 400),
+    $caption:       mat-typography-level(0.75rem, 1.25rem, 400),
+    $button:        mat-typography-level(0.875rem, 1.25, 700),
+        // Line-height must be unit-less fraction of the font-size.
+    $input:         mat-typography-level(1.125rem, 1.25, 500)
+), (
+    label: mat-typography-level(0.875rem, 1.25, 400, $learnt-font-family-2),
+    error: mat-typography-level(0.75rem, 1.2, 400, $learnt-font-family-2),
+));
+
+$learnt-base-color: (
+    50: #feeeee,
+    100: #fbd4d5,
+    200: #f9b8b9,
+    300: #f79b9d,
+    400: #f58588,
+    500: $red,
+    600: #f1686b,
+    700: #ef5d60,
+    800: #ed5356,
+    900: #ea4143,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffd4d5,
+    A700: #ffbbbc,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #ffffff,
+        400: #ffffff,
+        500: #ffffff,
+        600: #ffffff,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000
+    )
+);
+$learnt-theme-2-foreground: (
+    base: $text,
+    divider: $dark-dividers,
+    dividers: $dark-dividers,
+    disabled: $dark-disabled-text,
+    disabled-button: rgba(#000, 0.12),
+    disabled-text: $dark-disabled-text,
+    elevation: transparent,
+    hint-text: $dark-disabled-text,
+    secondary-text: $label-color,
+    icon: rgba(#000, 0.54),
+    icons: rgba(#000, 0.54),
+    text: #000,
+    slider-min: rgba(#000, 0.87),
+    slider-off: rgba(#000, 0.26),
+    slider-off-active: rgba(#000, 0.38),
+);
+$learnt-theme-2-background: (
+    status-bar: map-get($mat-grey, 300),
+    app-bar: map-get($mat-grey, 100),
+    background: map-get($mat-grey, 50),
+    hover: rgba(black, 0.04),
+    card: white,
+    dialog: white,
+    disabled-button: rgba(black, 0.12),
+    raised-button: white,
+    focused-button: $dark-focused,
+    selected-button: map-get($mat-grey, 300),
+    selected-disabled-button: map-get($mat-grey, 400),
+    disabled-button-toggle: map-get($mat-grey, 200),
+    unselected-chip: map-get($mat-grey, 300),
+    disabled-list-option: map-get($mat-grey, 200),
+    tooltip: map-get($mat-grey, 700),
+);
+$learnt-color-config-2: (
+    primary: mat-palette($learnt-base-color),
+    accent: mat-palette($learnt-base-color),
+    warn: mat-palette($learnt-base-color),
+    is-dark: true,
+    foreground: $learnt-theme-2-foreground,
+    background: $learnt-theme-2-background,
+);

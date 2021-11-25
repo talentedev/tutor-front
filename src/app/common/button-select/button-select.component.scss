@@ -1,0 +1,10 @@
+:host {
+    .select__container {
+        display: flex;
+        ::ng-deep {
+            learnt-button-option:not(:first-child) {
+                margin-left: 0.625rem;
+            }
+        }
+    }
+}

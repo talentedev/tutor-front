@@ -1,0 +1,65 @@
+@import "../../../variables";
+
+:host {
+    @media (max-width: $layout-breakpoint-md) {
+        header.search {
+            .left, .right {
+                width: 35%;
+            }
+        }
+        
+        
+    }
+
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        header.account .right-states {
+            width: 90px;
+            .state {
+                width: 400px;
+            }
+        }
+
+        header.search > .right-states {
+            .state {
+                width: 300px;
+            }
+        }
+        .searchbox {
+            display: none;
+        }
+        .logo {
+            display: none;
+        }
+        .mobile-logo {
+            display: block;
+        }
+
+        .searchbox > input {
+            min-width: 150px;
+        }
+        .center {
+            display: none;
+        }
+        header {
+            max-width: calc(100vw - 2rem);
+            padding: 1.5rem 0.5rem;
+        }
+        .logo {
+            width: 80px;
+        }
+        .searchbox {
+            left: 70px;
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-xxs) {
+        header {
+            // messages icon to sacrifice. We have access from the main menu
+            learnt-header-inbox {
+                display: none;
+            }
+        }
+    }
+
+}
+

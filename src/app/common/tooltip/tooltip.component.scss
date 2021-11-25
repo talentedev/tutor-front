@@ -1,0 +1,11 @@
+@import '~variables.scss';
+:host {
+    position: absolute;
+    top: -2rem;
+    background: $blue-color;
+    padding: 0.125rem;
+    border-radius: 5px;
+    color: #fff;
+    width: 100px;
+    left: calc(50% - 50px);
+}

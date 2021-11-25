@@ -1,0 +1,381 @@
+<div class="main-body">
+    <div class="to-search"  [class.fixed-back-button]="!mobile">
+        <a [routerLink]="[routes.ROUTE_TUTORS]">
+            <mat-icon svgIcon="arrow-left" color="#78C7D6"></mat-icon>
+            Back to search
+        </a>
+    </div>
+    
+    <header>
+        <div class="spacer" *ngIf="isSearch"></div>
+        <!--    <learnt-map [interactive]="false" [zoom]="14" [center]="userCoords"></learnt-map>-->
+    
+        <div class="sub" *ngIf="user">
+            <div class="ava-group">
+                <div class="avatar">
+                    <img [src]="user.avatar" />
+                    <span class="online" *ngIf="user.online">Online</span>
+                    <span class="offline" *ngIf="!user.online">Offline</span>
+                </div>
+                <div class="info mobile">
+                    <div style="display: flex;">
+                        <div class="name">{{user.shortName}}</div>
+                        <div class="background-verified" (click)="openDialog()">
+                            <!-- <mat-icon svgIcon="background-verified"></mat-icon> -->
+                            <img src="/assets/verification.svg" alt="verification">
+                        </div>
+                    </div>
+                    
+                    <div class="degree-wrapper">
+                        <p><span *ngFor="let degree of user.tutoring.degrees; let i = index;">{{degree.degree}} <span *ngIf="i != user.tutoring.degrees.length-1">&nbsp; / &nbsp;</span></span> </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-wrapper">
+                <div class="info desktop">
+                    <div style="display: flex;">
+                        <div class="name">{{user.shortName}}</div>
+                        <div class="background-verified" show-event="mouseenter" [learntPopoverTooltip]="verificationPopover" [autoclose]="false"
+                        [popoverSettings]="{width: 360, padding: 20, height: 120}" (click)="openDialog()">
+                            <!-- <mat-icon svgIcon="background-verified"></mat-icon> -->
+                            <img src="/assets/verification.svg" alt="verification">
+                        </div>
+                    </div>
+                    <ng-template #verificationPopover>
+                        <div class="verify-tooltip">
+                            <div class="title">How do we verify?</div>
+                            <div class="body">
+                                All Learnt tutors are background verified. <a href="https://turning.io/partner-agreement/" target="_blank">Read more about your background checks.</a>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <div class="degree-wrapper">
+                        <p >
+                            <span *ngFor="let degree of user.tutoring.degrees; let i = index;">{{degree.degree}} <span *ngIf="i != user.tutoring.degrees.length-1">&nbsp; / &nbsp;</span></span> 
+                            
+                        </p>
+                    </div>
+                </div>
+                <div class="info-1">
+                    <div class="location">
+                        <img src="/assets/location-1.svg" alt="location">
+                        <span>{{user.location.city}}, {{user.location.state}}</span>
+                    </div>
+                    <div class="hours-wrapper" *ngIf="user.tutoring.hours_taught.toFixed(0) > 5">
+                        <img src="/assets/clock.svg" alt="clock">
+                        <span>{{user.tutoring.hours_taught.toFixed(0)}}h taught</span>
+                    </div>
+                    <div class="rating">
+                        <span>{{user.tutoring.rating.toFixed(1)}}</span>
+                        <learnt-rating [interactive]="hasUser && !alreadyReviewed" (select)="tutorRate($event)" [rating]="user.tutoring.rating"></learnt-rating>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons" [class.additional-button]="user._id === me?._id">
+                <div class="rate desktop" *ngIf="!headless"><p>{{user.tutoring.rate | currency:'USD':'symbol'}} <span>/h</span></p></div>
+                <div class="public-button">
+                    <div class="rate mobile" *ngIf="!headless"><p>{{user.tutoring.rate | currency:'USD':'symbol'}} <span>/h</span></p></div>
+                    <button class="instant" *ngIf="user._id === me?._id" mat-raised-button color="primary" routerLink="/main/profile/edit">Edit Profile</button>
+                    <div class="favorite" *ngIf="me && user._id !== me?._id">
+                        <mat-icon class="icon" color="primary" matTooltip="{{favoriteToolTip}}" (click)="addRemoveFavorite(tutor._id)">{{favoriteIcon}}</mat-icon>
+                    </div>
+                    <button *ngIf="user.tutoring.instant_session" mat-raised-button class="instant" color="primary" [disabled]="!user.tutoring.instant_session || !user.online || user._id === me?._id" (click)="instantSession()">
+                        <!-- <mat-icon svgIcon="thunder" color="learnt-yellow"></mat-icon> -->
+                        Instant Session
+                    </button>
+                </div>
+            </div>
+    
+        </div>
+    </header>
+    <!-- <div class="navigation">
+        <div class="items">
+            <a class="item" [routerLink]="['./']" routerLinkActive="active" [fragment]="'bio'">Bio</a>
+    
+            <a class="item" [routerLink]="['./']" [fragment]="'education'">Education</a>
+    
+            <a class="item" [routerLink]="['./']" [fragment]="'subjects'">Subjects</a>
+    
+            <a class="item" [routerLink]="['./']" [fragment]="'reviews'">Reviews</a>
+    
+        </div>
+    </div> -->
+    <div class="content" *ngIf="user">
+        <div class="left-side">
+            <!-- <mat-accordion multi> -->
+                <!--BIO -->
+                <div class="panel-title" >
+                    <p>Bio</p>
+                </div>
+    
+                    <div class="body">
+                        <div *ngIf="user.tutoring.title">
+                            <div style="font-weight: 600;">
+                               {{user.tutoring.title}}
+                            </div>
+    
+                        </div>
+                        {{user.profile.about || 'No Bio provided so far'}}
+                    </div>
+    
+                <!--Education -->
+                <div class="panel-title" >
+                    <p>Education</p>
+                    <div>
+                        <a class="small" show-event="mouseenter" [learntPopoverTooltip]="howDoWeVerify"
+                            [popoverSettings]="{width: 360, padding: 20, height: 200}">
+                            How do we verify?
+                        </a>
+                    </div>
+                </div>
+                    <div class="table education body">
+                        <ng-container *ngIf="user.tutoring.degrees.length > 0; else noEducation">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>School</th>
+                                        <th>Degree</th>
+                                        <th>Certificate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let d of user.tutoring.degrees">
+                                        <td>{{d.course}}</td>
+                                        <td>{{d.university}}</td>
+                                        <td>{{d.degree}}</td>
+                                        <td>
+                                            <ng-container *ngIf="d.verified; else notVerified">
+                                                <div class="status approved">
+                                                    <mat-icon svgIcon="tick"></mat-icon>
+                                                    <div>Approved</div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #notVerified>
+                                                <!-- <div class="status pending">
+                                                    <mat-icon svgIcon="time" color="learnt-dark"></mat-icon>
+                                                    <div>In Review</div>
+                                                </div> -->
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-container>
+    
+                        <ng-template #noEducation>
+                            <div class="no-entries">
+                                <span>No data yet</span>
+                            </div>
+                        </ng-template>
+                    </div>
+    
+                <!-- Subjects -->
+                <div class="panel-title" >
+                    <p>Subjects</p>
+                    <div>
+                        <a class="small" show-event="mouseenter" [learntPopoverTooltip]="howDoWeVerify"
+                            [popoverSettings]="{width: 360, padding: 20, height: 200}">
+                            How do we verify?
+                        </a>
+                    </div>
+                </div>
+    
+                    <div class="table subjects body">
+                        <ng-container *ngIf="user.tutoring.subjects.length > 0; else noSubjects">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Certificate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of user.tutoring.subjects">
+                                        <td>{{s.subject.name}}</td>
+                                        <td>
+                                            <ng-container *ngIf="s.verified; else notVerified">
+                                                <div class="status approved">
+                                                    <mat-icon svgIcon="tick"></mat-icon>
+                                                    <div>Approved</div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #notVerified>
+                                                <div *ngIf="s.certificate" class="status pending">
+                                                    <mat-icon svgIcon="time" color="learnt-dark"></mat-icon>
+                                                    <div>In Review</div>
+                                                </div>
+                                                <div *ngIf="!s.certificate" class="status" style="padding-left: 10px">
+                                                    <div>No Certificate</div>
+                                                </div>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-container>
+                        <ng-template #noSubjects>
+                            <div class="no-entries">
+                                <span>No subjects yet</span>
+                            </div>
+                        </ng-template>
+                    </div>
+    
+                <!-- Reviews -->
+                <ng-container name="reviews">
+                <div class="panel-title" >
+                    <p>Reviews <span *ngIf="reviewsTotal > 0">({{reviewsTotal}})</span></p>
+                </div>
+                    <div class="reviews body" *ngIf="hasReviews; else noReviews">
+                        <div class="overall">
+                            Overall &nbsp; &nbsp;
+                            <span class="rating">
+                                {{user.tutoring.rating.toFixed(1)}}
+                            </span>
+                            <learnt-rating [rating]="user.tutoring.rating"></learnt-rating>
+                            <div class="icon info" [learntPopoverTooltip]="reviewDetailed" [popoverSettings]="{width: 305, padding: 20 }"> i
+                            </div>
+                        </div>
+    
+                        <div class="items">
+                            <div class="item" *ngFor="let r of reviews">
+                                <div class="avatar">
+                                    <learnt-user-avatar [user]="r.reviewer" [size]="50"></learnt-user-avatar>
+                                </div>
+    
+                                <div class="item-body">
+                                    <div class="name overall">
+                                        <span>{{r.reviewer.shortName}}</span>
+                                        <div class="rating">
+                                            {{r.average.toFixed(1)}}
+                                            <learnt-rating [rating]="r.average"></learnt-rating>
+                                        </div>
+                                    </div>
+    
+                                    <h3>{{r.title}}</h3>
+                                    <p>{{r.public_review}}</p>
+                                </div>
+    
+    
+                            </div>
+                        </div>
+    
+                        <ng-container *ngIf="reviews">
+                            <div class="more" *ngIf="reviews.length < reviewsTotal">
+                                <a (click)="loadMore()">Load more</a>
+                            </div>
+                        </ng-container>
+                        <ng-template #reviewDetailed>
+                            <div class="review-tooltip">
+    
+                                <div class="body">
+                                    <div class="specific">
+                                        <div class="entry">
+                                            <span class="type">Communication</span>
+                                            <mat-icon svgIcon="star"></mat-icon>
+                                            <span class="grade">{{reviewsOverall.communication.toFixed(1)}}</span>
+                                        </div>
+                                        <div class="entry">
+                                            <span class="type">Clarity</span>
+                                            <mat-icon svgIcon="star"></mat-icon>
+                                            <span class="grade">{{reviewsOverall.clarity.toFixed(1)}}</span>
+                                        </div>
+                                        <div class="entry">
+                                            <span class="type">Professionalism</span>
+                                            <mat-icon svgIcon="star"></mat-icon>
+                                            <span class="grade">{{reviewsOverall.professionalism.toFixed(1)}}</span>
+                                        </div>
+                                        <div class="entry">
+                                            <span class="type">Patience</span>
+                                            <mat-icon svgIcon="star"></mat-icon>
+                                            <span class="grade">{{reviewsOverall.patience.toFixed(1)}}</span>
+                                        </div>
+                                        <div class="entry">
+                                            <span class="type">Helpfulness</span>
+                                            <mat-icon svgIcon="star"></mat-icon>
+                                            <span class="grade">{{reviewsOverall.helpfulness.toFixed(1)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <ng-template #noReviews>
+                        <div class="body">
+                            <div class="no-entries">
+                                <span>No reviews yet</span>
+                            </div>
+                        </div>
+                        
+                    </ng-template>
+                </ng-container>
+            <!-- </mat-accordion> -->
+
+            <ng-template #howDoWeVerify>
+                <div class="verify-tooltip">
+                    <div class="title">What is This?</div>
+                    <div class="body">
+                        Tutors upload supporting documents (i.e. transcript, diploma, certificate, etc.) to verify subjects
+                        and/or education. For subjects, tutors must receive high scores to be verified. The Learnt team
+                        investigates each tutor's verification submission carefully to ensure they know their stuff.
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    
+        <div class="right-side">
+
+            <!-- Video widget-->
+            <div class="video" *ngIf="checkVideo">
+                <video [src]="videourl" #videoPlayer controls ></video>
+                <!-- <video ></video> -->
+                <!-- <img src="/assets/Btt.svg" alt="" class="btt"> -->
+                <img src="/assets/button-play.svg" alt="play" class="play" (click)="videoPlay()" #playBtn>
+                <!-- <div class="lesson">
+                    <p class="title">Math Lesson</p>
+                    <p class="description">Lesson one: higher mathematics</p>
+                </div> -->
+            </div>
+
+            <!-- Booking widget -->
+            <div class="booking" *ngIf="!me || (me && user._id !== me._id)">
+                <learnt-booking [tutor]="user"></learnt-booking>
+            </div>
+    
+            <!-- Sharing widget -->
+            <div class="sharing" *ngIf="this.profileLink">
+                <h1>Share this profile: <a (click)="copyLinkToClipboard()">Copy Link</a></h1>
+                <!-- <div class="terms">
+                    <a target="_blank" routerLink="/main/terms-of-use">Terms and Conditions</a>
+                </div> -->
+                <div class="icons">
+                    <a class="icon" [href]="facebookLink" >
+                        <mat-icon svgIcon="facebook" color="#ffffff"></mat-icon>
+                    </a>
+                    <a class="icon" [href]="twitterLink" target="_blank">
+                        <mat-icon svgIcon="twitter" color="#ffffff"></mat-icon>
+                    </a>
+    
+                </div>
+            </div> 
+    
+            <!-- Messaging widget -->
+            <div class="messaging" *ngIf="!me || (me && user._id !== me._id)">
+                <div class="box">
+                    <h1>Have a question?</h1>
+                    <div class="name">
+                        <learnt-user-avatar [user]="user" [size]="27" [link]="false"></learnt-user-avatar>
+                        <span>Message {{user.shortName}}</span> 
+                    </div>
+                    <div class="message-input" contenteditable="true" #messageInput (click)="clearMessageIfPristine()" (input)="changedMessage($event)">
+                        Your message here...
+                    </div>
+                    <button mat-raised-button color="primary" type="button" (click)="sendMessage()" [disabled]="messageInputPristine">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

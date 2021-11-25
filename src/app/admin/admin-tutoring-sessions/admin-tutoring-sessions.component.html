@@ -1,0 +1,85 @@
+<a [routerLink]="['/admin']" mat-stroked-button color="accent" class="back-btn">
+    Back <mat-icon>chevron_left</mat-icon>
+</a>
+<h1 style="margin-bottom: 1em;">Current Tutoring Sessions</h1>
+<table mat-table [dataSource]="dataSource">
+    <!-- Start date -->
+    <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">{{ lesson.starts_at | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+    </ng-container>
+
+    <!-- Tutor Name -->
+    <ng-container matColumnDef="tutorName">
+        <mat-header-cell *matHeaderCellDef>Tutor Name</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">
+            <a [routerLink]="['/admin/tutors/', lesson.tutor._id]" matTooltip="View profile">{{ lesson.tutor.name }}</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Student Name -->
+    <ng-container matColumnDef="studentName">
+        <mat-header-cell *matHeaderCellDef>Student Name</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">
+            <a [routerLink]="['/admin/students/', lesson.students[0]._id]" matTooltip="View profile">{{ lesson.students[0].name }}</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Subject -->
+    <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">{{ lesson.subject.name }}</mat-cell>
+    </ng-container>
+
+    <!-- Tutor Rate -->
+    <ng-container matColumnDef="tutorRate">
+        <mat-header-cell *matHeaderCellDef>Tutor Rate</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">{{ lesson.rate }}</mat-cell>
+    </ng-container>
+
+    <!-- Session Type -->
+    <ng-container matColumnDef="sessionType">
+        <mat-header-cell *matHeaderCellDef>Type of Session</mat-header-cell>
+        <mat-cell *matCellDef="let lesson">{{ lesson.lessonType=='instant'? 'Instant': 'Scheduled' }}</mat-cell>
+    </ng-container>
+    
+    <!-- Buttons -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let lesson">
+            <a [routerLink]="'/main/class/' + lesson.room">Watch session</a>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Refresh Button -->
+    <ng-container matColumnDef="refresh">   
+        <mat-footer-cell *matFooterCellDef>
+            <button mat-stroked-button color="accent" (click)="refresh()">
+                Refresh <mat-icon>refresh</mat-icon>
+            </button>
+        </mat-footer-cell>
+    </ng-container>
+
+    <!-- Refresh Spinner -->
+    <ng-container matColumnDef="spinner">
+        <mat-footer-cell *matFooterCellDef>
+            <learnt-spinner></learnt-spinner>
+        </mat-footer-cell>
+    </ng-container>
+
+    <!-- No Results Label -->
+    <ng-container matColumnDef="noResults">
+        <mat-footer-cell *matFooterCellDef>No results</mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay"></mat-footer-row>
+</table>
+<mat-paginator
+    #matPaginator
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[10, 20, 50]"
+    showFirstLastButtons>
+</mat-paginator>

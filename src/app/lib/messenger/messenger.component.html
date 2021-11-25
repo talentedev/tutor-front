@@ -1,0 +1,15 @@
+<learnt-messenger-side></learnt-messenger-side>
+<div class="contents" *ngIf="!mobile" layout="column">
+    <learnt-messenger-messages class="messages"></learnt-messenger-messages>
+    <learnt-messenger-create class="create"></learnt-messenger-create>
+</div>
+<!-- <div [ngif]="mobile">
+    <learnt-viewstack (change)="onViewStackChange($event)" [index]="index" [swipe]="true" width="100%" height="100%">
+        <view>
+            <learnt-messenger-messages class="messages"></learnt-messenger-messages>
+        </view>
+        <view>
+            <learnt-messenger-create class="create"></learnt-messenger-create>
+        </view>
+    </learnt-viewstack>
+</div> -->

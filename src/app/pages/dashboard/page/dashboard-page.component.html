@@ -1,0 +1,62 @@
+<div class="top">
+    <div class="inner" layout="row">
+        <img width="182" height="194" src="/assets/dashboard-ilustration.png"/>
+        <div>
+            <h1>Earn Money By Inviting Users</h1>
+            <p *ngIf="user?.isTutor()">Get paid for every user that signs up using your link.</p>
+            <p *ngIf="!user?.isTutor()">Earn Learnt credits for every user that signs up using your link.</p>
+            <a routerLink="/main/referrals">Invite Users</a>
+        </div>
+    </div>
+</div>
+
+<div class="boxes" layout="column" layout-gt-sm="row">
+    <div class="boxes-wrapper left">
+        <learnt-box *ngIf="user?.isTutor() && earnings > 0" class="earnings">
+            <div class="earnings">
+                <div class="title">This month you have earned</div>
+                <div class="amount">{{earnings|currency:'USD':'symbol'}} on Learnt</div>
+            </div>
+        </learnt-box>
+
+        <learnt-box class="activity" headline="Activity" layout="column">
+            <head-right>
+                <a class="head-link" routerLink="/main/account/lessons">See Lesson History</a>
+            </head-right>
+            <div class="lessons-listing">
+                <learnt-lesson-listing [paginated]="true" [limit]="5"></learnt-lesson-listing>
+            </div>
+        </learnt-box>
+
+        <learnt-referral-box [referralLink]="referralLink" [facebookLink]="facebookLink" [twitterLink]="twitterLink"></learnt-referral-box>
+    </div>
+
+    <div class="boxes-wrapper right">
+        <learnt-notifications-list class="notifications" [paginated]="true" [limit]="5"></learnt-notifications-list>
+
+        <learnt-box class="inboxbox" headline="My Inbox">
+            <head-left>
+                <div class="counter" *ngIf="unreadCount > 0">{{unreadCount}}</div>
+            </head-left>
+            <head-right>
+                <a routerLink="/main/inbox">View All</a>
+            </head-right>
+            <div class="threads">
+                <div #threads></div>
+                <div *ngIf="threadCount === 0" class="inbox-promote gap-10" layout="row" layout-align="start center">
+                    <div>
+                        Promote your profile and
+                        <a routerLink="/referrals">refer</a>
+                        users!
+                    </div>
+                    <a class="social-button" target="_blank" [href]="facebookLink" matTooltip="Share on Facebook">
+                        <img src="/assets/social/facebook.svg"/>
+                    </a>
+                    <a class="social-button" target="_blank" [href]="twitterLink" matTooltip="Share on Twitter">
+                        <img src="/assets/social/twitter.svg"/>
+                    </a>
+                </div>
+            </div>
+        </learnt-box>
+    </div>
+</div>

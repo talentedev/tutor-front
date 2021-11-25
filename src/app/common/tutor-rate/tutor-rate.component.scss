@@ -1,0 +1,279 @@
+@import '../../../variables';
+
+:host {
+    display: block;
+    background: #FFFFFF;
+    box-shadow: 0 15px 12px 0 rgba(0, 0, 0, 0.10), 0 19px 38px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    width: 90vw;
+    max-height: 80vh;
+    // padding: 50px;
+    position: relative;
+    max-width: 900px;
+    overflow: auto;
+
+    .close {
+        position: absolute;
+        right: 30px;
+        cursor: pointer;
+        color: #444444;
+        font-size: 14px;
+        font-style: normal;
+        font-stretch: normal;
+        font-weight: 700;
+        top: 20px;
+        mat-icon {
+            height: 10px;
+            width: 12px;
+        }
+    }
+
+    .head {
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 50px 20px;
+        border-bottom: 1px solid #F0E5E5;;
+        h1 {
+            font-family: Quicksand;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 30px;
+            line-height: 120%;
+            text-align: center;
+            color: #3E1011;
+        }
+
+    }
+
+    .body {
+        padding: 20px 50px;
+        display: grid;
+        grid-template-columns: 50% 50%;
+
+        .ratings {            
+            background: #FAFAFA;
+            border-radius: 8px;
+            padding: 20px;
+            .row {
+                padding: 20px 0;
+                justify-content: space-between;
+                border-bottom: 1px solid #F0E5E5;
+                span {
+                    font-family: Quicksand;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 100%;
+                    color: #3E1011;
+                }
+                .rate {
+                    display: flex;
+                    .value {
+                        font-family: Quicksand;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 100%;
+                        color: #3E1011;
+                        margin-right: 20px;
+                    }
+                }
+            }
+            .row:last-child {
+                border: 0;
+            }
+        }
+        .reviews {
+            padding: 20px;
+            .review {
+                margin-bottom: 20px;
+                p {
+                    font-family: Quicksand;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #3E1011;
+
+                    span {
+                        font-weight: 300;
+                    }
+                }
+                .review-input {
+                    background: #FFFFFF;
+                    border: 1px solid #F0E5E5;
+                    box-sizing: border-box;
+                    border-radius: 20px;
+                    height: 130px;
+                    overflow: auto;
+                    padding: 15px;
+                    line-height: 19px;
+                    font-weight: 400;
+                    font-size: 15px;
+                    text-align: left;
+                    color: #3E1011;
+                }
+            }
+            .buttons {
+                text-align: right;
+            }
+            .cancel {
+                border: 1px solid #E2CDCD;
+                box-sizing: border-box;
+                border-radius: 14px;
+                color: #8F7677;
+                padding: 0px 30px;
+                margin: 10px;
+            }
+            .submit {
+                background: #78C7D6;
+                box-shadow: 0px 18px 37px rgba(120, 199, 214, 0.3);
+                border-radius: 14px;
+                border: 0;
+                color: #fff;
+                padding: 0px 30px;
+                margin: 10px;
+            }
+        }
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm) {
+    :host {
+        display: block;
+        background: #FFFFFF;
+        box-shadow: 0 15px 12px 0 rgba(0, 0, 0, 0.10), 0 19px 38px 0 rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        width: 95vw;
+        max-height: 95vh;
+        // padding: 50px;
+        position: relative;
+        // max-width: 900px;
+        overflow: auto;
+    
+        .close {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: #444444;
+            font-size: 14px;
+            font-style: normal;
+            font-stretch: normal;
+            font-weight: 700;
+            top: 10px;
+            mat-icon {
+                height: 10px;
+                width: 12px;
+            }
+        }
+    
+        .head {
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #F0E5E5;;
+            h1 {
+                font-family: Quicksand;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 30px;
+                line-height: 120%;
+                text-align: center;
+                color: #3E1011;
+            }
+    
+        }
+    
+        .body {
+            padding: 10px;
+            display: block;
+            // grid-template-columns: 50% 50%;
+    
+            .ratings {            
+                background: #FAFAFA;
+                border-radius: 8px;
+                padding: 5px;
+                .row {
+                    padding: 15px 0;
+                    justify-content: space-between;
+                    border-bottom: 1px solid #F0E5E5;
+                    span {
+                        font-family: Quicksand;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 16px;
+                        line-height: 100%;
+                        color: #3E1011;
+                    }
+                    .rate {
+                        display: flex;
+                        .value {
+                            font-family: Quicksand;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 16px;
+                            line-height: 100%;
+                            color: #3E1011;
+                            margin-right: 20px;
+                        }
+                    }
+                }
+                .row:last-child {
+                    border: 0;
+                }
+            }
+            .reviews {
+                padding: 10px;
+                .review {
+                    margin-bottom: 20px;
+                    p {
+                        font-family: Quicksand;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: #3E1011;
+    
+                        span {
+                            font-weight: 300;
+                        }
+                    }
+                    .review-input {
+                        background: #FFFFFF;
+                        border: 1px solid #F0E5E5;
+                        box-sizing: border-box;
+                        border-radius: 20px;
+                        height: 130px;
+                        overflow: auto;
+                        padding: 15px;
+                        line-height: 19px;
+                        font-weight: 400;
+                        font-size: 15px;
+                        text-align: left;
+                        color: #3E1011;
+                    }
+                }
+                .buttons {
+                    text-align: right;
+                }
+                .cancel {
+                    border: 1px solid #E2CDCD;
+                    box-sizing: border-box;
+                    border-radius: 14px;
+                    color: #8F7677;
+                    padding: 0px 30px;
+                    margin: 10px;
+                }
+                .submit {
+                    background: #78C7D6;
+                    box-shadow: 0px 18px 37px rgba(120, 199, 214, 0.3);
+                    border-radius: 14px;
+                    border: 0;
+                    color: #fff;
+                    padding: 0px 30px;
+                    margin: 10px;
+                }
+            }
+        }
+    }
+}

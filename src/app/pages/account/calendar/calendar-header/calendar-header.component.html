@@ -1,0 +1,22 @@
+<div class="left-header">
+    <div *ngIf="loading" class="loading">
+        <learnt-spinner [size]="12" [thickness]="1"></learnt-spinner>
+        <div class="text">Loading data...</div>
+    </div>
+</div>
+<div class="right-header" *ngIf="me && me.isTutor()">
+    <ng-template #instantSessionHelp>
+        <div class="tooltip">
+            <strong>Instant Session</strong>
+            <p>
+                If you toggle this on, students will be able to request an instant lesson with you while you are online on Learnt. You will receive a notification that you have 120 seconds to accept if a student requests this.
+            </p>
+        </div>
+    </ng-template>
+
+    <learnt-toggle-button [active]="me.tutoring?.instant_session" [offsetX]="-85" (change)="onInstantSessionChange($event)"
+                          [learntPopoverTooltip]="instantSessionHelp" class="instant-session" direction="top">
+        <mat-icon svgIcon="thunder" color="learnt-yellow"></mat-icon>
+        Instant Session
+    </learnt-toggle-button>
+</div>

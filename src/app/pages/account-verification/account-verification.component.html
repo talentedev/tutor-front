@@ -1,0 +1,144 @@
+<div class="steps">
+    <div class="step step-{{step+1}}">
+        Step {{step+1}} of 3
+    </div>
+</div>
+
+<div class="title" #title>
+    <div class="logo">
+        <mat-icon svgIcon="learnt-logo"></mat-icon>
+    </div>
+
+    <h1>Account verification</h1>
+</div>
+
+<div class="body">
+    <ng-container [ngSwitch]="step">
+        <ng-container *ngSwitchCase="0">
+            <p>
+                Sed vehicula pretium congue. Nunc facilisis iaculis libero, eu aliquam sem. Etiam vitae massa nisi. Sed dapibus quam sit amet bibendum porta. Vestibulum at
+                ullamcorper mi. Maecenas luctus magna sed arcu semper, nec mollis ligula rutrum. Nulla quis sem ac massa suscipit placerat eget at dolor. Cras lobortis
+                magna
+                nec ex iaculis, non ultricies nulla blandit.
+            </p>
+
+            <p>
+                Aliquam eu euismod magna. Suspendisse nulla turpis, fringilla id iaculis nec, molestie aliquet libero. Mauris nec pulvinar justo, sit amet accumsan tellus.
+                Pellentesque vitae pretium est, vel porta dui.
+            </p>
+
+            <form class="form" [formGroup]="form">
+                <div class="input-wrapper">
+                    <mat-form-field>
+                        <input matInput required tabindex="1" type="text" placeholder="First Name" formControlName="firstName" [errorStateMatcher]="matcher"/>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput tabindex="2" type="text" placeholder="Middle Name" formControlName="middleName"/>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput required tabindex="3" type="text" placeholder="Last Name" formControlName="lastName"/>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput required readonly tabindex="4" [matDatepicker]="picker" placeholder="DOB" formControlName="dob" (click)="picker.open()"
+                               [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput required tabindex="5" placeholder="SSN" formControlName="ssn"/>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput required tabindex="6" placeholder="Current Zip Code" formControlName="zipCode"/>
+                    </mat-form-field>
+
+                    <p class="small">* mandatory</p>
+                </div>
+
+                <p class="title">A summary of your rights under the fair credit reporting act</p>
+
+                <p>
+                    Morbi finibus, velit vel luctus venenatis, sem nisi lobortis dolor, id consectetur justo ante non ligula. Donec tristique sollicitudin mauris eu rhoncus. Ut
+                    quis accumsan enim. Etiam congue ipsum eget nibh fringilla aliquam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+                    egestas. Donec malesuada quis enim nec dictum. Sed a rhoncus risus. Pellentesque convallis sapien risus, vitae consequat elit varius et.
+                </p>
+
+                <learnt-checkbox formControlName="ackSummary">
+                    I acknowledge receipt of the summary of your rights under the fair credit reporting act
+                </learnt-checkbox>
+            </form>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="1">
+            <p class="title">Disclosure regarding background check investigation</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elementum sagittis blandit. Cras et gravida tellus. Duis et accumsan nulla. Sed tincidunt, lacus sit
+                amet efficitur sollicitudin, justo urna venenatis magna, in porttitor sapien mauris non augue. Donec leo diam, cursus vel tellus at, fermentum iaculis ante. Fusce
+                commodo quam quis mi egestas faucibus. Aenean auctor lacus nec leo ultrices euismod et sit amet nisi.
+            </p>
+            <p>
+                Duis est lectus, convallis ac leo non, lobortis semper diam. Aliquam commodo dui consectetur pellentesque lacinia. Etiam fringilla ipsum rutrum ligula egestas, ut
+                ornare orci hendrerit. Morbi eget erat nulla. Suspendisse pharetra sapien eu arcu gravida, a viverra urna vulputate. Ut in felis auctor, ullamcorper lectus ac,
+                fringilla leo. Maecenas id mi hendrerit, suscipit ligula vel, molestie risus. Ut sapien urna, interdum sit amet purus ut, mollis aliquam diam.
+            </p>
+            <p>
+                Mauris risus tellus, tempor vel suscipit in, tincidunt et est. Mauris ac pharetra felis. Suspendisse finibus dui tristique ultrices egestas. In pellentesque varius
+                lectus ac porttitor. Aliquam interdum consequat dignissim. Duis scelerisque magna a ipsum scelerisque, ac ultrices lacus interdum. Morbi egestas tincidunt ex at
+                viverra. Donec consectetur, ligula nec semper consectetur, lorem felis auctor purus, eget dictum metus diam a nisi.
+            </p>
+
+            <learnt-checkbox (change)="ackDisclosure = $event">
+                I acknowledge receipt of the disclosure regarding background investigation and certify that I have read and understood this document.
+            </learnt-checkbox>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+            <p class="title">Acknowledgement and authorization for background check</p>
+            <p>
+                Donec varius eleifend sodales. In blandit pellentesque interdum. Maecenas a suscipit mauris. Fusce tempor, massa vel feugiat auctor, diam purus iaculis metus, nec
+                vehicula sem risus id nibh. Fusce feugiat lacus massa, nec viverra risus pharetra in. Vestibulum commodo magna sed est volutpat, non pulvinar massa porttitor. Proin
+                consectetur nunc magna, quis cursus risus posuere vitae. Integer quis nisi iaculis, bibendum augue et, vehicula velit.
+            </p>
+
+            <p class="title subtitle">New York applicants only</p>
+            <p>
+                Donec varius eleifend sodales. In blandit pellentesque interdum. Maecenas a suscipit mauris. Fusce tempor, massa vel feugiat auctor, diam purus iaculis metus, nec
+                vehicula sem risus id nibh. Fusce feugiat lacus massa, nec viverra risus pharetra in. Vestibulum commodo magna sed est volutpat, non pulvinar massa porttitor. Proin
+                consectetur nunc magna, quis cursus risus posuere vitae. Integer quis nisi iaculis, bibendum augue et, vehicula velit.
+            </p>
+
+            <p class="title subtitle">Washington State applicants only</p>
+            <p>
+                Donec varius eleifend sodales. In blandit pellentesque interdum. Maecenas a suscipit mauris. Fusce tempor, massa vel feugiat auctor, diam purus iaculis metus, nec
+                vehicula sem risus id nibh. Fusce feugiat lacus massa, nec viverra risus pharetra in. Vestibulum commodo magna sed est volutpat, non pulvinar massa porttitor. Proin
+                consectetur nunc magna, quis cursus risus posuere vitae. Integer quis nisi iaculis, bibendum augue et, vehicula velit.
+            </p>
+
+            <p class="title subtitle">California applicants only</p>
+            <p>
+                Donec varius eleifend sodales. In blandit pellentesque interdum. Maecenas a suscipit mauris. Fusce tempor, massa vel feugiat auctor, diam purus iaculis metus, nec
+                vehicula sem risus id nibh. Fusce feugiat lacus massa, nec viverra risus pharetra in. Vestibulum commodo magna sed est volutpat, non pulvinar massa porttitor. Proin
+                consectetur nunc magna, quis cursus risus posuere vitae. Integer quis nisi iaculis, bibendum augue et, vehicula velit.
+            </p>
+
+            <div class="signature-wrapper">
+                <div class="description">
+                    <strong>Electronic Signature</strong>
+                    <span>Full Name</span>
+                </div>
+                <div #signature class="signature" contenteditable></div>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <div class="buttons">
+        <button mat-raised-button color="primary" [disabled]="nextStepDisabled()" (click)="nextStep()">
+            <ng-container *ngIf="step < 2">Next</ng-container>
+            <ng-container *ngIf="step === 2">Submit</ng-container>
+        </button>
+    </div>
+</div>

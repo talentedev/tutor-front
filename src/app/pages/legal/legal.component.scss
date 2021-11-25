@@ -1,0 +1,92 @@
+@import "src/variables";
+:host {
+    padding-bottom: 20px;
+    font-size: 1.7em;
+    font-family: "proximasoft-regular", sans-serif;
+    line-height: 2;
+    color: #484848;
+    ::ng-deep {
+        .heading1 {
+            font-size: 2.4rem;
+        }
+        .heading4 {
+            font-size: 1.4rem;
+        }
+        .marker-h3::marker {
+            font-size: 1.5rem;
+        }
+        .content {
+            margin-bottom: 1rem;
+        }
+        .address {
+            margin-top: 2rem;
+            p {
+                margin: 0;
+                line-height: 1.5;
+            }
+        }
+        .underlined {
+            text-decoration: #919191 underline;
+        }
+        ol {
+            margin-left: 1.125rem;
+            &.toplevel {
+                margin-left: 2rem;
+            }
+            &.level2 {
+                margin-left: 1.75rem;
+            }
+            li {
+                margin-top: 0.5rem;
+            }
+        }
+        p, li {
+            text-align: justify;
+        }
+    }
+
+    .container {
+        max-width: 740px;
+        margin: 0 auto;
+        padding: 4rem 1rem 1rem;
+        @media screen and (min-width: $layout-breakpoint-sm) {
+            padding: 4rem 1rem 1rem;
+        }
+    }
+
+    nav {
+        width: 100%;
+        background-color: #fff;
+        justify-content: center;
+        align-items: stretch;
+        font-size: 14px;
+        border-bottom: 0.5px solid #E9E9E9; 
+        @media screen and (min-width: $layout-breakpoint-sm) {
+            position: fixed;
+            height: 44px;
+        }
+        
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 18px;
+            border-bottom: 5px solid transparent;
+
+            &.active {
+                border-bottom: 5px solid #88bfca;
+            }
+        }
+    }
+
+    ul li {
+        text-decoration: none;
+        font-weight: normal;
+        margin-bottom: 15px;
+    }
+
+    p,
+    ol li {
+        margin-bottom: 15px;
+    }
+}

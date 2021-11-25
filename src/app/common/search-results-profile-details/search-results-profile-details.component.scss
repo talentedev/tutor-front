@@ -1,0 +1,145 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .contents {
+        flex: 1;
+
+        .summary {
+            border-right: 0.5px solid #E8E8E8;
+            width: 250px;
+            height: 100%;
+            margin-right: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .top {
+                margin-top: 30px;
+            }
+
+            .name {
+                color: #222222;
+                font-size: 2.4em;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            .rating {
+                margin-top: 10px;
+
+                .num {
+                    margin-left: 4px;
+                }
+            }
+
+            .pricelocation {
+                margin-top: 10px;
+
+                > div {
+                    font-size: 14px;
+                    color: #444444;
+                    letter-spacing: -0.28px;
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        .details {
+            height: 240px;
+            width: 100%;
+
+            .about {
+                padding-top: 30px;
+                border-right: 0.5px solid #E8E8E8;
+                position: relative;
+                width: 50%;
+
+                .about-text {
+                    font-size: 12px;
+                    color: #999999;
+                    letter-spacing: -0.24px;
+                    line-height: 20px;
+                    margin: 10px 0;
+                    height: 150px;
+                    overflow: auto;
+                }
+
+                .about-inner {
+                    margin: 0 10px;
+
+                    a {
+                        font-weight: bold;
+                    }
+                }
+
+                a {
+                    position: absolute;
+                    bottom: 10px;
+                    left: 10px;
+                }
+            }
+
+            .tutoring {
+                padding-top: 30px;
+                display: block;
+                overflow: auto;
+                width: 50%;
+
+                .tutoring-inner {
+                    margin: 0 10px;
+                }
+
+                .subjects learnt-tag {
+                    margin-right: 5px;
+                    margin-bottom: 5px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+
+                .degrees {
+                    font-size: 12px;
+                    color: #999999;
+                    letter-spacing: -0.24px;
+
+                    .mat-icon {
+                        width: 16px;
+                        height: 16px;
+                        margin-left: 5px;
+                    }
+                }
+            }
+        }
+
+        .details-loading {
+            height: 100%;
+        }
+    }
+
+    .nodata {
+        font-style: italic;
+        color: #ddd;
+        font-size: 12px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 12px;
+        color: #222222;
+        letter-spacing: -0.67px;
+        line-height: 19px;
+        padding: 5px 0;
+    }
+
+    .footer {
+        height: 70px;
+        border-top: 0.5px solid #E8E8E8;
+        padding-left: 30px;
+        padding-right: 30px;
+        button {
+            font-weight: bold;
+        }
+    }
+}

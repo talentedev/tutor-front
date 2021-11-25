@@ -1,0 +1,31 @@
+<input
+    #input
+    [attr.name]="name"
+    [attr.id]="id"
+    [attr.type]="type"
+    (focus)="focused = true"
+    (blur)="focused = false"
+    (change)="onValueChange($event)"
+    [(ngModel)]="checked"/>
+
+<ng-container *ngIf="style === 'old'">
+<div [class.disabled]="disabled">
+    <svg *ngIf="checked" width="7px" height="7px" viewBox="0 0 7 7">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g transform="translate(-7.000000, -7.000000)" fill="#444444">
+                <path d="M13.6361887,7.12761906 C13.7799732,7.23822256 13.8684553,7.38477084 13.9016363,7.56726709 C13.9348172,7.74976228 13.8961065,7.91843084 13.785503,8.07327595 L10.3512753,13.0835984 C10.2406718,13.2273832 10.0996544,13.3158649 9.92821774,13.349046 C9.75678216,13.3822271 9.59917427,13.3435164 9.45538982,13.2329127 C9.3669066,13.1665505 9.13464212,12.9315211 8.75859001,12.5278176 C8.3825379,12.1241138 8.02861095,11.7342415 7.69679981,11.3581894 L7.18249519,10.7941133 C7.06083112,10.6613885 7,10.5010157 7,10.3129896 C7,10.1249636 7.06636123,9.96459079 7.19908566,9.83186596 C7.33181007,9.69914112 7.48665295,9.6355452 7.66361887,9.641075 C7.84058479,9.64660587 7.98989755,9.72126246 8.11156161,9.8650469 L9.75401832,11.6402274 L12.7403032,7.2769333 C12.8509067,7.13314886 12.9919242,7.0446667 13.1633608,7.01148575 C13.3347964,6.97830481 13.4924043,7.01701556 13.6361887,7.12761906 Z" id="Page-1"></path>
+            </g>
+        </g>
+    </svg>
+</div>
+</ng-container>
+
+<ng-container *ngIf="style == 'new'">
+<div [class.disabled]="disabled" class="checkbox" [class.checked]="checked" *ngIf="style === 'new'">
+    <svg *ngIf="checked" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="6" fill="#FF676B"/>
+        <path d="M8 12.6923L10.5263 15L16 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
+</ng-container>
+<label [attr.for]="id" [class.checkbox__label]="style==='new'"><ng-content></ng-content></label>

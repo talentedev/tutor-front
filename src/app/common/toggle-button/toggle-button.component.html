@@ -1,0 +1,9 @@
+<div class="label">
+  <ng-content></ng-content>
+</div>
+<div class="toggle">
+  <!-- <mat-slide-toggle></mat-slide-toggle> -->
+  <div class="circle" [@circle]="state"></div>
+  <div class="off" [@off]="state">OFF</div>
+  <div class="on" [@on]="state">ON</div>
+</div>

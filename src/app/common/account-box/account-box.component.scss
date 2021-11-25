@@ -1,0 +1,151 @@
+@import '../../../variables.scss';
+:host {
+
+    display: block;
+
+    ::ng-deep table {
+        width: 100%;
+        border-collapse: collapse;
+        thead {
+            font-size: 1.2em;
+            font-weight: 300;
+            th {
+                color: #444444;
+                padding: 5px 20px;
+            }
+        }
+        tbody {
+            font-size: 1.4em;
+            tr {
+                td {
+                    color: #444444;
+                    padding: 5px 20px;
+                }
+                th {
+                    color: #444444;
+                    padding: 5px 20px;
+                }
+                &:nth-child(odd) td, &:nth-child(odd) th {
+                    // background: #FAFAFA;
+                }
+            }
+        }
+    }
+
+    ::ng-deep .box {
+        width: 100%;
+        margin-top: 0;
+        .header {
+            display: flex;
+            .title {
+                margin-right: 10px;
+                font-size: 1.7em;
+                color: #444444;
+            }
+
+            a {
+                font-size: 1.4em;
+            }
+        }
+        .contents {
+            margin: 20px 0;
+            border-radius: 20px;
+            background: #fff;
+            padding: 25px;
+        }
+    }
+
+    ::ng-deep  .status {
+        border-radius: 30px;
+        font-size: 0.8em;
+        padding: 4px 10px;
+        white-space: nowrap;
+        display: inline-block;
+        position: relative;
+        margin-right: 5px;
+        cursor: pointer;
+
+        mat-icon {
+            margin-right: 4px;
+            position: absolute;
+        }
+
+        > div {
+            float: left;
+            margin-left: 19px;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            clear:both;
+        }
+
+        &.pending {
+            color: #444444;
+            background: $gray-1;
+            ::ng-deep .mat-icon {
+                width: 14px;
+                height: 14px;
+                path {
+                    fill: #222;
+                }
+            }
+        }
+
+        &.approved {
+            color: #fff;
+            background: #89C0CA;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+        &.cancelled, &.dispute {
+            color: #ffffff;
+            background: #F37073;
+            ::ng-deep .mat-icon {
+                width: 11px;
+                height: 11px;
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+
+
+    }
+}
+
+@media (max-width: $layout-breakpoint-sm) {
+    :host{
+        ::ng-deep .box {
+            margin-top: 30px;
+
+            .contents {
+                padding: 15px;
+
+                .inedu {
+                    padding: 20px 15px 15px 15px;
+                }
+
+                .col-12 .inedu:nth-child(even) {
+                    background: #fafafa;
+                }
+            }
+
+            .header {
+                .title {
+                    font-weight: bold;
+                }
+                .add-degree, .add-subjects {
+                    width: 100%;
+                    text-align: right;
+                }
+            }
+        }
+    }
+}

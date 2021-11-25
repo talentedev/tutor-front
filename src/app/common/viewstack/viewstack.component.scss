@@ -1,0 +1,39 @@
+:host {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    min-width: 50px;
+    min-height: 50px;
+    
+    ::ng-deep view {
+      display: block;
+      top: 0;
+      transition: transform 0.4s cubic-bezier(.35,0,.25,1);
+      // overflow: hidden auto;
+      transform: translateX(0);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      @media (max-width: 960px) {
+          border-radius: 15px;
+          background: white;
+      }
+      @media (min-width: 960px) {
+        background: transparent;
+      }
+
+      &.left {
+        transform: translateX(-100%);
+      }
+
+      &.right {
+        transform: translateX(100%);
+      }
+
+      &.left, &.right {
+        transition: transform 0.4s cubic-bezier(.35,0,.25,1), visibility 0s 0.4s;
+        visibility: hidden;
+      }
+    }
+}

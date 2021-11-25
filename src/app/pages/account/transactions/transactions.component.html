@@ -1,0 +1,118 @@
+<div class="content">
+    <learnt-account-box>
+        <div class="header">
+            <div class="title">Transaction History</div>
+            <div flex></div>
+            <div layout="row" class="navigate">
+                <a (click)="navigate(-1)">
+                    <mat-icon svgIcon="arrow-left"></mat-icon>
+                </a>
+                <div class="date">{{from.toDate() | date:'MMMM yyyy'}}</div>
+                <a (click)="navigate(1)">
+                    <mat-icon svgIcon="arrow-right"></mat-icon>
+                </a>
+            </div>
+        </div>
+        <div class="contents">
+            <div *ngIf="working" class="results" layout="row" layout-align="center center">
+                <learnt-spinner></learnt-spinner>
+            </div>
+            <div class="no-results" *ngIf="!working && transactions.length == 0" layout="row" layout-align="center center">
+                There are no transactions for {{from.toDate() | date:'MMMM yyyy'}}
+            </div>
+
+            <div class="paytable" *ngIf="!working && transactions.length > 0">
+                <div class="row" *ngFor="let t of transactions">                        
+                    <div class="flex-div">
+                        <p>{{t.reference}}</p>
+                        <h2>{{math.abs(t.amount) | currency:'USD':'symbol'}}</h2>
+                    </div>                    
+                    <div class="flex-div r">
+                        <p>{{t.time | date:'MM/dd/yyyy hh:mma'}}</p>
+                        <div [ngSwitch]="t.state">
+                            <div class="icon-wrapper approved" *ngSwitchCase="t.getState('approved')">
+                                <mat-icon svgIcon="tick"></mat-icon>
+                                <span>Approved</span>
+                            </div>
+
+                            <div class="icon-wrapper pending" *ngSwitchCase="t.getState('pending')">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <span>Pending</span>
+                            </div>
+
+                            <div class="icon-wrapper cancelled" *ngSwitchCase="t.getState('cancelled')">
+                                <mat-icon svgIcon="close"></mat-icon>
+                                <span>Cancelled</span>
+                            </div>
+
+                            <div class="icon-wrapper pending" *ngSwitchCase="t.getState('sent')">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <span *ngIf="(me.isTutor() && t.amount >= 0) || (me.isStudent() && t.amount < 0)">Received</span>
+                                <span *ngIf="(me.isStudent() && t.amount >= 0) || (me.isTutor() && t.amount < 0)">Sent</span>
+                            </div>
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+            <table class="resre" *ngIf="!working && transactions.length > 0">
+                <thead>
+                <tr>
+                    <th align="left">Reference</th>
+                    <th align="left">Details</th>
+                    <th align="left">Date</th>
+                    <th align="left">Amount</th>
+                    <th align="left">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let t of transactions">
+                    <td>{{t.reference}}</td>
+                    <td>{{t.details}}</td>
+                    <td>{{t.time | date:'MM/dd/yyyy hh:mma'}}</td>
+                    <td><strong>{{math.abs(t.amount) | currency:'USD':'symbol'}}</strong></td>
+                    <td [ngSwitch]="t.state">
+                        <div class="icon-wrapper approved" *ngSwitchCase="t.getState('approved')">
+                            <mat-icon svgIcon="tick"></mat-icon>
+                            <div>Approved</div>
+                        </div>
+
+                        <div class="icon-wrapper pending" *ngSwitchCase="t.getState('pending')">
+                            <mat-icon svgIcon="time"></mat-icon>
+                            <div>Pending</div>
+                        </div>
+
+                        <div class="icon-wrapper cancelled" *ngSwitchCase="t.getState('cancelled')">
+                            <mat-icon svgIcon="close"></mat-icon>
+                            <div>Cancelled</div>
+                        </div>
+
+                        <div class="icon-wrapper pending" *ngSwitchCase="t.getState('sent')">
+                            <mat-icon svgIcon="time"></mat-icon>
+                            <span *ngIf="(me.isTutor() && t.amount >= 0) || (me.isStudent() && ((t.amount < 0 && t.status != 'credit') || (t.amount >= 0 && t.status == 'credit')))">Received</span>
+                            <span *ngIf="(me.isStudent() && (t.amount >= 0 && t.status != 'credit')) || (me.isTutor() && t.amount < 0)">Sent</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination" *ngIf="transactionCount > 0 && transactionCount > limit">
+                <a (click)="navPage(-1)" *ngIf="page > 1">
+                    <mat-icon svgIcon="arrow-left"></mat-icon>
+                </a>
+                <span class="page">{{ page }}</span>
+                <a (click)="navPage(1)" *ngIf="page * limit < transactionCount">
+                    <mat-icon svgIcon="arrow-right"></mat-icon>
+                </a>
+            </div>
+        </div> 
+    </learnt-account-box>
+</div>
+<div class="footer" *ngIf="!working && transactions.length > 0">
+    <div class="earnings">Total Paid {{from.toDate() | date:'MMMM yyyy'}}: {{earnings | currency:'USD':'symbol'}}</div>
+    <div class="actions">
+        <button (click)="download()" mat-raised-button color="primary" [disabled]="downloading">
+            <mat-icon svgIcon="download" color="learnt-yellow"></mat-icon>
+            Download as PDF
+        </button>
+    </div>
+</div>

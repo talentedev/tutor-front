@@ -1,0 +1,151 @@
+@import "../../../variables.scss";
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .header {
+        padding: 10px 5px;
+
+        .navigate {
+            mat-icon {
+                width: 11px;
+                height: 11px;
+            }
+            div {
+                padding: 4px 0;
+                width: 120px;
+                text-align: center;
+                font-size: 14px;
+                color: #444444;
+            }
+        }
+
+        a {
+            font-size: 12px;
+            text-decoration: underline;
+        }
+    }
+
+    .list {
+        overflow: auto;
+        &.paginated {
+            overflow: unset;
+        }
+
+        li {
+            height: 96px;
+            padding: 0 20px;
+            border-radius: 5px;
+
+            &:nth-child(n) {
+                background: #FAFAFA;
+            }
+
+            &:nth-child(4n-1) {
+                background: #FFF;
+            }
+
+            &.clickable {
+                cursor: pointer;
+            }
+
+            &.lesson-menu {
+                background: #444444;
+                transition: height 0.2s, opacity 0.2s;
+                height: 0;
+                opacity: 0;
+
+                &.visible {
+                    height: 96px;
+                    opacity: 1;
+
+                    button {
+                        visibility: visible;
+                    }
+                }
+
+                button {
+                    margin: 0 10px;
+                    background: #444444;
+                    color: #fff;
+                    visibility: hidden;
+                }
+            }
+        }
+
+        .date {
+            background: #FFFFFF;
+            border: 1px solid #ECECEC;
+            font-size: 10px;
+            color: #444444;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 55px;
+            max-height: 55px;
+            min-width: 55px;
+            min-height: 55px;
+        }
+
+        .info {
+            margin-left: 10px;
+
+            .subject {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .status {
+        border-radius: 100px;
+        color: #fff;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        mat-icon {
+            width: 12px;
+            height: 12px;
+            float: left;
+            margin-top: 1px;
+        }
+        span {
+            margin-left: 4px;
+        }
+        &.pending {
+            background: #f7ea7e;
+            color: #222222;
+        }
+        &.confirmed {
+            background: #8bc0c9;
+        }
+        &.progress {
+            background: #91EA89;
+            color: #222222;
+        }
+        &.completed {
+            background: #DDD;
+            color: #222222;
+        }
+        &.cancelled {
+            background: #f17175;
+        }
+    }
+
+    .empty-list {
+        color: #444;
+        padding: 30px 0;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        svg {
+            margin-right: 20px;
+        }
+    }
+
+    @media (max-width: $layout-breakpoint-xs) { 
+        .list {
+            overflow: unset;
+        }
+    }
+}

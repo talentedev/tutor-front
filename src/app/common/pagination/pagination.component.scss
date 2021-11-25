@@ -1,0 +1,27 @@
+:host {
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+
+        .dot-wrapper {
+            display: flex;
+            max-width: 300px;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .dot {
+                margin: 1px 3px;
+                height: 10px;
+                width: 10px;
+                background: #ECECEC;
+                border-radius: 100%;
+                cursor: pointer;
+
+                &.active {
+                    background: #F37073;
+                }
+            }
+        }
+    }
+}

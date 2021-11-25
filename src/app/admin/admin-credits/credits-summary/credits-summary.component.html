@@ -1,0 +1,98 @@
+<h1 style="margin-bottom: 1em;">Credits Summary Report</h1>
+
+<div class="field-row">
+    <mat-form-field class="date-field">
+        <mat-label>From:</mat-label>
+        <input matInput [matDatepicker]="fromPicker" [(ngModel)]="from" [placeholder]="'M/D/YYYY'" #fromInput
+               (dateChange)="fromChange()" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="date-field">
+        <mat-label>To:</mat-label>
+        <input matInput [matDatepicker]="toPicker" [(ngModel)]="to" [placeholder]="'M/D/YYYY'" #toInput
+               (dateChange)="toChange()" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+    <button mat-stroked-button color="accent" (click)="refresh()">
+        <mat-icon>refresh</mat-icon>
+    </button>
+</div>
+
+<mat-form-field appearance="standard">
+    <mat-label>User filter</mat-label>
+    <mat-select (selectionChange)="selectOnchange($event)">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="4">Tutors</mat-option>
+        <mat-option value="2">Students</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource">
+    <!-- Date -->
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let transaction">{{ transaction.time | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <!-- Name -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let transaction">
+            <a [routerLink]="transaction.user.role==2 ? ['/admin/students/', transaction.user._id] : ['/admin/tutors/', transaction.user._id]" matTooltip="View profile">{{ transaction.user.name }}</a>
+            <!-- <a *ngIf="transaction.user.role==2" [routerLink]="['/admin/students/', transaction.user._id]" matTooltip="View profile">{{ transaction.user.name }}</a>
+            <a *ngIf="transaction.user.role!=2" [routerLink]="['/admin/tutors/', transaction.user._id]" matTooltip="View profile">{{ transaction.user.name }}</a> -->
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <!-- Details -->
+    <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+        <mat-cell *matCellDef="let transaction">{{ transaction.details }}</mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <!-- State -->
+    <ng-container matColumnDef="state">
+        <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+        <mat-cell *matCellDef="let transaction">{{ transaction.stateDisplay }}</mat-cell>
+        <mat-footer-cell class="total-field" *matFooterCellDef>
+            Total Credits: 
+        </mat-footer-cell>
+    </ng-container>
+
+    <!-- Amount -->
+    <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+        <mat-cell *matCellDef="let transaction">{{ transaction.amount | currency: "USD" }}</mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+            <strong>{{ calculateTotal() | currency: "USD" }}</strong>
+        </mat-footer-cell>
+    </ng-container>
+
+    <!-- Refresh Spinner -->
+    <ng-container matColumnDef="spinner">
+        <mat-footer-cell *matFooterCellDef>
+            <learnt-spinner></learnt-spinner>
+        </mat-footer-cell>
+    </ng-container>
+
+    <!-- No Results Label -->
+    <ng-container matColumnDef="noResults">
+        <mat-footer-cell *matFooterCellDef>No results</mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    <mat-footer-row *matFooterRowDef="footerToDisplay"></mat-footer-row>
+</table>
+<mat-paginator
+    #matPaginator
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[10, 20, 50]"
+    showFirstLastButtons>
+</mat-paginator>

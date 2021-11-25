@@ -1,0 +1,89 @@
+<learnt-spinner *ngIf="fetching; else contents"></learnt-spinner>
+
+<ng-template #contents>
+    <div class="contents" *ngIf="threads?.size > 0; else noresults">
+        <!-- <input (keyup)="onSearchInputKeyUp($event)" class="search" type="text" name="search" placeholder="Search ..."> -->
+        <div class="scrollarea">
+            <ul *ngIf="!paginated">
+                <li class="thread" [class.active]="isSelectedThread(t)" (click)="select(t, $event)"
+                    *ngFor="let t of threads; trackBy:getThreadId">
+                    <learnt-user-avatar *ngIf="!t.isRoomConversation" [user]="t.other" [size]="48" [mright]="14"></learnt-user-avatar>
+                    <div *ngIf="t.isRoomConversation" class="room-conversation-icon">
+                        <mat-icon svgIcon="virtual-room"></mat-icon>
+                    </div>
+                    <div class="texts">
+                        <div class="name">
+
+                            <span *ngIf="t.isRoomConversation">{{t.shortName}}</span>
+                            <span *ngIf="!t.isRoomConversation">{{t.other?.shortName}}</span>
+
+                            <div class="time" [attr.title]="t?.message_time.format('lll')">{{t.message_time | date: 'shortDate'}}</div>
+                        </div>
+                        <div class="description" [innerHTML]="t.headline(emojiService)|async"></div>
+                    </div>
+                </li>
+            </ul>
+
+            <ul *ngIf="paginated">
+                <li class="thread" [ngClass]="{margins: margin, active: isSelectedThread(t)}" (click)="select(t, $event)"
+                    *ngFor="let t of paginatedThreads[pageNum]">
+                    <learnt-user-avatar *ngIf="!t.isRoomConversation" [user]="t.other"></learnt-user-avatar>
+                    <div *ngIf="t.isRoomConversation" class="room-conversation-icon">
+                        <mat-icon svgIcon="virtual-room"></mat-icon>
+                    </div>
+                    <div class="texts">
+                        <div class="name">
+
+                            <span *ngIf="t.isRoomConversation">{{t.name}}</span>
+                            <span *ngIf="!t.isRoomConversation">{{t.other?.name}}</span>
+
+                            <div class="time" [attr.title]="t.message_time.format('lll')">{{t.formattedTime}}</div>
+                        </div>
+                        <div *ngIf="t.isRoomConversation" class="description" [innerHTML]>{{t.other?.name}}</div>
+                        <div *ngIf="!t.isRoomConversation" class="description" [innerHTML]="t.headline(emojiService)|async"></div>
+                    </div>
+                </li>
+            </ul>
+
+            <learnt-pagination *ngIf="paginated" [pages]="pages" (page)="pageNum = $event"></learnt-pagination>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #noresults>
+    <div class="no-results">
+        <div class="inbox-icon">
+            <img class="icon" src="/assets/mail-inbox.svg"/>
+        </div>
+
+        <h1>Welcome to Your Inbox!</h1>
+        <ng-container [ngSwitch]="me?.isTutor() || me?.isAffiliate()">
+            <ng-container *ngSwitchCase="true">
+                <p>
+                    Here, students will write you to determine if you're the best fit, and book lessons to be held in the future.
+                    <ng-container *ngIf="!me.profileComplete">
+                        You will only appear on search once your profile is completed.
+                    </ng-container>
+										<ng-container *ngIf="me.profileComplete">
+                        Help students find you!
+                    </ng-container>
+                </p>
+
+                <button *ngIf="!me.profileComplete" mat-raised-button color="primary" routerLink="/main/profile/edit">Complete Your Profile</button>
+								<button *ngIf="me.profileComplete" mat-raised-button color="primary" routerLink="/main/referrals">Refer students to Learnt</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="false">
+                <p>
+                    Here you can chat with tutors to find out if they are a right match for you before entering a credit card.
+                    Once you determine whether the tutor is a good fit for you, you can propose a lesson.
+                </p>
+               <!--  <p>
+                    <b>Happy Learning :)</b>
+                </p> -->
+
+                <button mat-raised-button routerLink="/main/tutors">Find a Tutor</button>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-template>

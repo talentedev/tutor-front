@@ -1,0 +1,361 @@
+
+<div class="content" [style.padding-bottom.px]="form.dirty ? 122 : 0">
+        <form [formGroup]="form">
+            <!-- PERSONAL INFO -->
+            <learnt-account-box>
+                <div class="header">
+                    <div class="title">Personal info</div>
+                </div>
+                <div class="contents profile-contents">
+                    <div class="change-avatar" *ngIf="me">
+                        <div class="avatar">
+                            <img [src]="me.avatar" alt="{{me.shortName}}'s Avatar" *ngIf="!uploading">
+                            <learnt-spinner *ngIf="uploading"></learnt-spinner>
+                            <label class="online"></label>
+                            <mat-icon svgIcon="camera"></mat-icon>
+                        </div>
+                        <div class="text">
+                            <label for="avatar">
+                                <strong>Change Photo</strong>
+                            </label>
+                            <input (change)="onUserAvatarSelect($event)" type="file" id="avatar"/>
+                            <p class="avatar-guide-info">For optimal quality, make sure it's a head shot and formatted in square ratio.</p>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <mat-form-field formGroupName="profile">
+                            <input matInput placeholder="First Name" tabindex="1" formControlName="first_name" required>
+                            <mat-error *ngIf="form.get('profile').get('first_name').hasError('required')">The first name is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field formGroupName="profile">
+                            <input matInput placeholder="Last Name" tabindex="2" formControlName="last_name" required>
+                            <mat-error *ngIf="form.get('profile').get('last_name').hasError('required')">The last name is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput type="email" placeholder="Email" tabindex="8" formControlName="email" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div layout="row" formGroupName="location">
+                        <mat-form-field>
+                            <input matInput matGoogleMapsAutocomplete type="text" name="address" placeholder="Address" formControlName="address" required>
+                            <mat-error *ngIf="locationForm.get('address').hasError('required')">
+                                Address is required
+                            </mat-error>
+                            <div class="locateicon">
+                                <div *ngIf="locating">
+                                    <learnt-spinner [thickness]="1" [size]="15"></learnt-spinner>
+                                </div>
+                            </div>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="text" name="city" placeholder="City" formControlName="city"
+                                   [matAutocomplete]="cityAutocomplete" required>
+                            <mat-autocomplete #cityAutocomplete="matAutocomplete">
+                                <mat-option *ngFor="let city of locationService.cities" [value]="city.name">
+                                    {{ city.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="locationForm.get('city').hasError('required')">
+                                City is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>State</mat-label>
+                            <mat-select formControlName="state" placeholder="State" [dir]="'bottom'" required>
+                                <mat-option *ngFor="let state of locationService.states" [value]="state.code">
+                                    {{ state.name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="locationForm.get('state').hasError('required')">
+                                State is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div layout="row">
+                        <mat-form-field formGroupName="location">
+                            <input matInput type="text" name="zip" placeholder="ZIP Code" [maxLength]="9" formControlName="postal_code" required>
+                            <mat-error *ngIf="locationForm.get('postal_code').hasError('zipCode')">
+                                {{ locationForm.get('postal_code').getError('zipCode') }}
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-select placeholder="Timezone" tabindex="7" formControlName="timezone" required [value]="me.timezone">
+                                <mat-option *ngFor="let t of timezones" [value]="t.zone">{{t.zone}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.get('timezone').hasError('required')">
+                                The timezone is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field formGroupName="profile">
+                            <input matInput readonly [matDatepicker]="picker" placeholder="Date of birth" tabindex="3" formControlName="birthday" required [min]="minDate" [max]="maxDate"
+                                    (click)="picker.open()"/>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="form.get('profile').get('birthday').hasError('required')">The date of birth is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div layout="row">
+                        <mat-form-field formGroupName="profile" [class.single]="!me.isTutor()">
+                            <input matInput type="tel" placeholder="Telephone" tabindex="9" formControlName="telephone" required>
+                            <mat-error *ngIf="form.get('profile').get('telephone').hasError('required')">The phone number is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field formGroupName="tutoring" *ngIf="me.isTutor()">
+                            <input matInput placeholder="Price per hour" type="number" formControlName="rate" tabindex="4" required>
+                            <mat-error *ngIf="form.get('tutoring').get('rate').hasError('required')">The price per hour is required</mat-error>
+                            <mat-error *ngIf="form.get('tutoring').get('rate').hasError('min')">The price per hour must be at least $30</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div layout="row" *ngIf="me.isTutor()">
+                        <mat-form-field formGroupName="tutoring">
+                            <input matInput placeholder="Lesson buffer period (minutes)" type="number" tabindex="5" formControlName="lesson_buffer" required
+                                    matTooltip="Add a buffer time before or after your events">
+                            <mat-error *ngIf="form.get('tutoring').get('lesson_buffer').hasError('required')">The lesson buffer time is required</mat-error>
+                            <mat-error *ngIf="form.get('tutoring').get('lesson_buffer').hasError('min')">The lesson buffer time must be higher than 15 minutes</mat-error>
+                        </mat-form-field>
+
+                        <div class="meet-checkboxes gap-20" layout="row">
+                            <learnt-checkbox formControlName="meet_online" tabindex="10" [checked]="me.tutoring?.meet === 2 || me.tutoring?.meet === 6">Online</learnt-checkbox>
+                            <learnt-checkbox formControlName="meet_live" tabindex="11" [checked]="me.tutoring?.meet === 4 || me.tutoring?.meet === 6">In Person</learnt-checkbox>
+
+                            <learnt-checkbox *ngIf="!savingInstantSession" [checked]="me.tutoring?.instant_session" tabindex="12" (change)="toggleInstantSession($event)" [disabled]="savingInstantSession">
+                                Instant Session
+                            </learnt-checkbox>
+                        </div>
+                    </div>
+
+                </div>
+            </learnt-account-box>
+            <!-- PERSONAL INFO END -->
+
+            <!-- SEARCH PRIVACY SETTING -->
+            <learnt-account-box *ngIf="me.isTutor()">
+                <div class="header">
+                    <div class="title">Search Setting</div>
+                </div>
+                <div class="contents">
+                    <div layout="row">
+                        <p class="search-title">I don't want my profile to be publicly available on search result/s.</p>
+                        <div class="search-toggle">
+                            <mat-slide-toggle (change)="onSearchSettingChange($event)" [checked]="me.preferences.is_private">Private</mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </learnt-account-box>
+            <!-- SEARCH PRIVACY SETTING END -->
+
+            <!-- ABOUT -->
+            <learnt-account-box *ngIf="me.isTutor()">
+                <div class="header">
+                    <div class="title">About</div>
+                </div>
+                <div class="contents">
+                    <mat-form-field formGroupName="tutoring">
+                        <input matInput #title placeholder="This is the tagline that appears on search." type="text" formControlName="title" required
+                               minlength="10" maxlength="100" matTooltip='An example would be "Boston MFA writing, essay editing, and reading comprehension tutor."'/>
+                        <mat-hint align="end">{{title.value.length}} / 100</mat-hint>
+
+                        <mat-error *ngIf="form.get('tutoring').get('title').hasError('required')">The tagline is required</mat-error>
+                        <mat-error *ngIf="form.get('tutoring').get('title').hasError('minlength') || form.get('tutoring').get('title').hasError('maxlength')">
+                            The tagline must be between 10 and 100 characters
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field formGroupName="profile">
+                        <textarea rows="5" matInput formControlName="about" title="A few words about yourself" maxlength="10000" placeholder="A few words about yourself" required></textarea>
+                        <mat-error *ngIf="form.get('profile').get('about').hasError('required')">The about text is required</mat-error>
+                        <mat-error *ngIf="form.get('profile').get('about').hasError('maxLength')">The about text must be shorter than 10000 characters</mat-error>
+                    </mat-form-field>
+                </div>
+            </learnt-account-box>
+            <!-- ABOUT -->
+        </form>
+
+        <ng-template #howDoWeVerify>
+            <div class="verify-tooltip">
+                <div class="title">How do we verify?</div>
+                <div class="body">
+                    Tutors upload supporting documents (i.e. transcript, diploma, certificate, etc.) to verify subjects
+                    and/or education. For subjects, tutors must receive high scores to be verified. The Learnt team
+                    investigates each tutor's verification submission carefully to ensure they know their stuff.
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- EDUCATION -->
+        <learnt-account-box *ngIf="me.isTutor()">
+            <div class="header">
+                <div class="title">Education</div>
+                <a class="add-degree" (click)="addDegree()" *ngIf="me.isTutor()">Add Degree</a>
+                <div flex></div>
+                <a *ngIf="!mobile" [learntPopoverTooltip]="howDoWeVerify" show-event="mouseenter" [popoverSettings]="{width: 405, padding: 40, height: 230}">How do we verify?</a>
+            </div>
+            <div class="contents">
+                    <div class="edutable" *ngIf="hasEducation">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="inedu" *ngFor="let degree of me.tutoring.degrees">
+                                    <h2>{{degree.university}}</h2>
+                                    <h4>{{degree.degree}}</h4>
+                                    <h5>{{degree.course}}</h5>
+                                    <div class="justify-div">
+                                            <div *ngIf="!degree.verified" class="status pending">
+                                                <mat-icon svgIcon="time"></mat-icon>
+                                                <div>In Review</div>
+                                            </div>
+                                            <div *ngIf="degree.verified" class="status approved">
+                                                <mat-icon svgIcon="tick"></mat-icon>
+                                                <div>Approved</div>
+                                            </div>
+                                            <a class="delete" (click)="removeDegree(degree)">Delete</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <table *ngIf="hasEducation" class="res-table">
+                    <thead>
+                    <tr>
+                        <th align="left" width="37%">Course</th>
+                        <th align="left" width="23%">School</th>
+                        <th align="left" width="20%">Degree</th>
+                        <th align="left" width="10%">Verification</th>
+                        <th width="10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let degree of me.tutoring?.degrees">
+                        <td>{{degree.course}}</td>
+                        <td>{{degree.university}}</td>
+                        <td>{{degree.degree}}</td>
+                        <td>
+                            <div *ngIf="!degree.verified" class="status pending">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <div>In Review</div>
+                            </div>
+                            <div *ngIf="degree.verified" class="status approved">
+                                <mat-icon svgIcon="tick"></mat-icon>
+                                <div>Approved</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="delete" (click)="removeDegree(degree)">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="no-results" *ngIf="!hasEducation">
+                    <span>You have no degrees added yet</span>
+                    <button mat-raised-button color="primary" (click)="addDegree()">Add Degree</button>
+                </div>
+            </div>
+        </learnt-account-box>
+        <!-- EDUCATION -->
+
+        <!-- SUBJECTS -->
+        <learnt-account-box *ngIf="me.isTutor()">
+            <div class="header">
+                <div class="title">Subjects</div>
+                <a class="add-subjects" (click)="addSubject()" *ngIf="me.isTutor()">Add Subjects</a>
+                <div flex></div>
+                <a *ngIf="!mobile" [learntPopoverTooltip]="howDoWeVerify"  show-event="mouseenter" [popoverSettings]="{width: 405, padding: 40, height: 230}">How do we verify?</a>
+            </div>
+            <div class="contents">
+                    <div class="edutable" *ngIf="hasSubjects">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="inedu" *ngFor="let subject of me.tutoring.subjects">
+                                    <h2>{{subject.subject.name}}</h2>
+                                    <div class="justify-div">
+                                        <div *ngIf="!subject.verified && !subject.certificate" class="status pending">
+                                            <a (click)="addCertificate(subject.subject)" *ngIf="me.isTutor()">Add Certificate</a>
+                                        </div>
+                                        <div *ngIf="!subject.verified && subject.certificate" class="status pending">
+                                            <mat-icon svgIcon="time"></mat-icon>
+                                            <div>In Review</div>
+                                        </div>
+                                        <div *ngIf="subject.verified" class="status approved">
+                                            <mat-icon svgIcon="tick"></mat-icon>
+                                            <div>Approved</div>
+                                        </div>
+                                        <a class="delete" (click)="removeSubject(subject)">Delete</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <table *ngIf="hasSubjects"  class="res-table">
+                    <thead>
+                    <tr>
+                        <th align="left" width="80%">Subject</th>
+                        <th align="left" width="10%">Verification</th>
+                        <th width="10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let subject of me.tutoring.subjects">
+                        <td>{{subject.subject.name}}</td>
+                        <td>
+                            <div *ngIf="!subject.verified && !subject.certificate" class="status pending">
+                                <a (click)="addCertificate(subject)" *ngIf="me.isTutor()">Add Certificate</a>
+                            </div>
+                            <div *ngIf="!subject.verified && subject.certificate" class="status pending">
+                                <mat-icon svgIcon="time"></mat-icon>
+                                <div>In Review</div>
+                            </div>
+                            <div *ngIf="subject.verified" class="status approved">
+                                <mat-icon svgIcon="tick"></mat-icon>
+                                <div>Approved</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="delete" (click)="removeSubject(subject)">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="no-results" *ngIf="!hasSubjects">
+                    <span>You have no subjects added yet</span>
+                    <button mat-raised-button color="primary" (click)="addSubject()">Add Subjects</button>
+                </div>
+            </div>
+        </learnt-account-box>
+        <!-- SUBJECTS -->
+
+        <learnt-account-box *ngIf="me.isTutor()">
+            <div class="header">
+                <div class="title">Recurring Availability</div>
+            </div>
+            <div class="contents">
+                <learnt-availability-settings></learnt-availability-settings>
+            </div>
+        </learnt-account-box>
+
+        <div layout="row" layout-align="center center" class="remove-account">
+            <a (click)="deleteAccount()" class="round-btn">
+                Delete {{ me.isTutor() ? 'Tutor' : 'Student' }} Profile Account
+            </a>
+        </div>
+</div>
+
+<div class="footer f-bbtn" *ngIf="!form.pristine" [style.top]="footerTop">
+    <div class="inner center gap-15" layout="row" layout-align="center center">
+        <button type="submit" mat-raised-button color="primary" (click)="save()">
+            <learnt-spinner *ngIf="saving" class="button-spinner" [size]="13" [thickness]="1" color="#ffffff"></learnt-spinner>
+            Save Changes
+        </button>
+        <button mat-raised-button (click)="revert()">Cancel</button>
+    </div>
+</div>

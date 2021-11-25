@@ -1,0 +1,125 @@
+@import "../../../../variables";
+
+:host {
+    display: block;
+    background: #F3F3F3;
+    height: 100%;
+    padding-bottom: 5px;
+
+    .top {
+        background: #fff;
+        margin-bottom: 50px;
+        padding-top: 8rem;
+        .inner {
+            justify-content: center;
+            margin: 0 auto;
+            height: 251px;
+            padding-top: 20px;
+            > img {
+                width: 182px;
+                height: 194px;
+                margin: 10px;
+            }
+            > div {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                h1 { font-size: 36px; }
+                p {
+                    font-size: 18px;
+                    margin: 15px 0 40px;
+                    color: #999999;
+                }
+                a {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+
+    .earnings {
+        .title {
+            font-size: 1.4em;
+        }
+        .amount {
+            font-size:3.6em;
+            color: #89C0CA;
+        }
+    }
+
+    .notifications {
+        margin-bottom: 20px;
+    }
+
+    .boxes {
+        margin: 0 30px 30px 30px;
+        > div { flex: 1; }
+    }
+
+    learnt-box {
+        margin-bottom: 20px;
+    }
+
+    .referrals {
+        font-weight: 300;
+        h1 {
+            font-size: 2.6em;
+            color: #444444;
+        }
+        p {
+            margin: 20px 0;
+            font-size: 1.4em;
+            color: #666666;
+        }
+
+        input {
+            color: #89C0CA;
+        }
+    }
+
+    ::ng-deep .lessons-listing {
+        margin-top: 20px;
+        min-height: 100px;
+        display: flex;
+    }
+
+    .threads {
+        margin-top: 20px;
+
+        .inbox-promote {
+            margin-top: 20px;
+        }
+    }
+
+    .earnings {
+        padding-top: 37px;
+        padding-bottom: 30px;
+    }
+
+    .social-button, .invite-link {
+        border-radius: 50%;
+        border: 0.5px solid #F37073;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .invite-link {
+        border-radius: 100px;
+        background: #fff;
+        width: auto;
+        padding: 0 20px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .inbox-promote > div {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .dashed-input {
+        padding: 0 5px;
+    }
+}

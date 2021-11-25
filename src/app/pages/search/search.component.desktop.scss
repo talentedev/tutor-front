@@ -1,0 +1,130 @@
+:host {
+    learnt-map {
+        position: fixed;
+        height: 100%;
+        top: 80px;
+        right: 0;
+
+        &.with-filters {
+            top: 140px;
+        }
+    }
+
+    .results-container {
+        width: 100%;
+        background: #F3F3F3;
+    }
+
+    .results .tutors-wrapper {
+        max-width: 1080px;
+    }
+
+    .searching-for-container {
+        line-height: 30px;
+        width: 1080px;
+        max-width: 100%;
+        padding-top: 30px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    :host {
+        learnt-map {
+            width: 200px;
+        }
+
+        .results-container {
+            margin: 0;
+            width: 100%;
+
+            .results {
+                &.map {
+                    padding: 20px 0;
+                }
+            }
+
+            &.map > div {
+                width: calc(100% - 200px);
+            }
+        }
+    }
+}
+
+@media (min-width: 1230px) {
+    :host {
+        learnt-map {
+            width: 300px;
+        }
+
+        .results-container.map > div {
+            width: calc(100% - 300px);
+        }
+    }
+}
+
+@media (min-width: 1330px) {
+    :host {
+        learnt-map {
+            width: 400px;
+        }
+
+        .results-container {
+            background: #F3F3F3;
+            overflow-y: auto;
+
+            &.map > div {
+                width: calc(100% - 400px);
+            }
+        }
+
+        .map-toggle {
+            transition: top 0.2s cubic-bezier(0,0,0,1);  
+        }
+    }
+}
+
+@media (min-width: 1440px) {
+    :host {
+        learnt-map {
+            width: 500px;
+        }
+
+        .results-container.map > div {
+            width: calc(100% - 500px);
+        }
+    }
+}
+
+@media (min-width: 1600px) {
+    :host {
+        learnt-map {
+            width: 600px;
+        }
+
+        .results-container {
+            width: 100%;
+            padding: 0px 30px;
+
+            &.map > div {
+                width: calc(100% - 600px);
+            }
+
+            .results {
+                .results-inner {
+                    width: 1060px;
+                    margin: 0 auto;
+                }
+    
+                &.map {
+                    .results-inner {
+                        width: auto;
+                    }
+                }
+    
+                .tutors-wrapper {
+                    width: 1080px;
+                }
+            }
+        }
+    }
+}

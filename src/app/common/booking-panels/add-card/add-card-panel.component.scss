@@ -1,0 +1,66 @@
+:host {
+    .content {
+        margin-top: 50px;
+        margin-bottom: 20px;
+
+        &.success, &.failed {
+            margin-top: 50%;
+
+            h1 {
+                font-size: 18px;
+                font-weight: 400;
+                color: #454545;
+            }
+
+            h3 {
+                font-size: 32px;
+                color: #89C0CA;
+                font-weight: 400;
+            }
+
+            .buttons {
+                margin: 50px 0;
+            }
+        }
+
+        .card-logos {
+            margin: 31px 0;
+            display: flex;
+
+            img {
+                margin-right: 21px;
+                opacity: 0.5;
+
+                &.active {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .expiration {
+            color: #666666;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            margin: 31px 0;
+
+            button {
+                &:first-of-type {
+                    width: 182px;
+                    margin-right: 5px;
+                }
+
+                &:last-of-type {
+                    width: 182px;
+                }
+            }
+        }
+
+        .powered {
+            text-align: center;
+        }
+    }
+
+}

@@ -1,0 +1,144 @@
+:host {
+    display: block;
+    background: transparent;
+
+    .xmessenger-create {
+        display: flex;
+        background: transparent;
+        position: relative;
+        align-items: center;
+
+        &.small {
+            margin: 0;
+            border-radius: 0;
+        }
+
+        .input-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            background: #FFFFFF;
+            border: 1px solid #F0E5E5;
+            box-sizing: border-box;
+            border-radius: 16px;
+            align-items: center;
+
+            &.disabled {
+                border: 0.5px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .input {
+                background: transparent;
+                border: none;
+                width: calc(100% - 118px);
+                height: 100%;
+                outline: none;
+                overflow: auto;
+                resize: none;
+                font-family: Quicksand;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                align-items: center;
+                color: #8F7677;
+                margin-left: 118px;
+                &:empty:before {
+                    content: attr(placeholder);
+                    display: block;
+                }
+            }
+
+            .features {
+                display: flex;
+                position: absolute;
+                padding: 10px 22px;
+                margin: 16px 0;
+                border-right: 1px solid #F0E5E5;
+                
+
+                button {
+                    padding: 1px;
+                    display: block;
+                    border-radius: 50%;
+                    text-align: center;
+                    border: none;
+                    &[disabled] {
+                        pointer-events: none;
+                        opacity: 0.5;
+                    }
+
+                    img {
+                        width: 22px;
+                        height: 22px;
+                    }
+
+                    svg {
+                        pointer-events: none;
+
+                        g {
+                            fill: #fff;
+                        }
+                    }
+
+                    &.file {
+                        position: relative;
+                        overflow: hidden;
+
+                        input[type="file"] {
+                            display: none;
+                        }
+                    }
+
+                    &.emoticons {
+                        position: relative;
+                        overflow: hidden;
+                        margin-left: 13px;
+                    }
+
+                    &:hover {
+                        background: rgba(230, 241, 244, 0.4);
+
+                        svg g {
+                            fill: rgba(255, 255, 255, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        .send-btn {
+            background: #FF676B;
+            box-shadow: 0px 18px 37px rgba(255, 103, 107, 0.3);
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            margin: 16px;
+        }
+    }
+
+    ::ng-deep learnt-popover-box {
+        transition: all .3s cubic-bezier(.35, 0, .25, 1);
+        left: 20px;
+        top: -14px;
+        width: 380px;
+        &.settings {
+            left: calc(100% - 40px);
+        }
+        learnt-view-stack {
+            height: 300px;
+        }
+    }
+
+    &:not(.mobile) .input {
+        max-height: 170px;
+    }
+
+    learnt-spinner {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        margin-top: -12px;
+    }
+}

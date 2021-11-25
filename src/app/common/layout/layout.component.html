@@ -1,0 +1,7 @@
+<learnt-header></learnt-header>
+
+<div class="contents" flex [class.noscroll]="noScroll">
+    <router-outlet></router-outlet>
+</div>
+
+<learnt-footer *ngIf="showFooterLinks"></learnt-footer>

@@ -1,0 +1,294 @@
+<div *ngIf="user != null && tutor != null" class="msgheader">
+    <div class="hcontent">
+        <div *ngIf="isTutor" class="profilecontent" show-event="mouseenter" [learntPopoverTooltip]="booknowPopover" [autoclose]="false" [arrow]="false" [popoverSettings]="{width: 270, padding: 20, class: 'popoverTooltip'}" (click)="openDialog()">
+            <learnt-user-avatar class="user-avatar" [user]="user"></learnt-user-avatar>
+            <span class="name">{{user.name}}</span>
+        </div>
+        <div *ngIf="!isTutor" class="profilecontent">
+            <learnt-user-avatar class="user-avatar" [user]="tutor"></learnt-user-avatar>
+            <span class="name">{{tutor.name}}</span>
+        </div>
+    </div>
+</div>
+
+<div class="popover-container">
+    <div #popover></div>
+</div>
+
+<!-- Popover inner content -->
+<ng-template #booknowPopover>
+    <div class="popoverTmp">
+        <div class="rating">
+            <span>{{tutor.tutoring.rating}}</span>
+            <learnt-rating [interactive]="hasUser && !alreadyReviewed" [rating]="tutor.tutoring.rating"></learnt-rating>
+        </div>
+        <p class="tutorDesp">
+            <span *ngFor="let degree of tutor.tutoring.degrees; let i = index;">{{degree.degree}} <span *ngIf="i != tutor.tutoring.degrees.length-1">&nbsp; / &nbsp;</span></span> 
+        </p>
+        <div class="location">
+            <img src="/assets/location-1.svg" alt="location">
+            <span>{{tutor.location.city}}, {{tutor.location.state}}</span>
+        </div>
+        <div class="rates">
+            ${{tutor.tutoring.rate}} / hour
+        </div>
+        <div class="buttonGP">
+            <div class="bookbtn" (click)="click($event)">Book Now</div>
+            <div class="instantbtn" (click)="instantSession()" [disabled]="!(tutor.tutoring.instant_session && tutor.online)" >
+                <img src="/assets/lighning.svg" alt="lighning">
+                Instant Seesion
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<!-- Popover inner content -->
+<ng-template #popoverview>
+    <div class="content" *ngIf="tutor !== null && !success">
+        <div class="book-header">
+            <div class="step-title">Step {{bookingFormStep+1}}/3</div>
+            <a (click)="hidePopover()" class="closeBtn">
+                <img src="/assets/book_close.svg" alt="close">
+            </a>
+        </div>
+        <ng-container [ngSwitch]="editing">
+            <p class="title" *ngSwitchCase="true">Edit your session with {{tutor.profile.first_name}}</p>
+            <p class="title" *ngSwitchDefault>Book a session with {{tutor.profile.first_name}}</p>
+        </ng-container>
+
+        <form [formGroup]="bookingForm" (submit)="book($event)" class="step-{{bookingFormStep}}">
+            <div class="form-body">
+                <ng-container *ngIf="bookingFormStep === 0">
+                    <div>
+                        <div class="select">
+                            <select #subject name="subject" formControlName="subject" (change)="subjectChanged($event)">
+                                <option *ngFor="let subject of tutor.tutoring.subjects" [value]="subject.subject._id">{{subject.subject.name}}</option>
+                            </select>
+
+                        </div>
+                        <div class="select">
+                            <select #meet name="meet" formControlName="meet" (change)="meetChanged($event.target.value)">
+                                <option [disabled]="!tutor.canMeetInPerson" [selected]="meetVal == locationOffline" [value]="locationOffline">
+                                    In Person
+                                </option>
+                                <option [value]="locationOnline" [selected]="meetVal == locationOnline">
+                                    Online
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <!-- <div class="location" [class.visible]="meetVal == locationOffline">
+                            <input required type="text" placeholder="Location" [value]="latestLocationAddress" name="search" id="search" #search />
+                        </div> -->
+                    </div>
+                    <div class="buttons">
+                        <button *ngIf="bookingFormStep === 0" mat-raised-button color="primary" type="button" (click)="bookAuth()">
+                            Next
+                        </button>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="bookingFormStep === 1">
+                    <div>
+                        <div class="month">
+                            <span>{{date.format('MMMM YYYY')}}</span>
+                            <div class="monthbtn">
+                                <a (click)="setDate(-1, 'months')" [ngClass]="{disabled: date.isSame(today, 'month')}">
+                                    <img src="/assets/up.svg" alt="prev">
+                                </a>
+
+                                <a (click)="setDate(1, 'months')">
+                                    <img src="/assets/down.svg" alt="next">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="day">
+                            <a (click)="setDate(-1, 'days')" [ngClass]="{hidden: prevDate.isBefore(today, 'day')}">
+                                <mat-icon svgIcon="arrow-left"></mat-icon>
+                            </a>
+
+                            <span>{{prevDate.format('ddd D ')}}</span>
+                            <span class="active">{{date.format('ddd D ')}}</span>
+                            <span>{{nextDate.format('ddd D ')}}</span>
+                            <span>{{afterNextDate.format('ddd D ')}}</span>
+
+                            <a (click)="setDate(1, 'days')">
+                                <mat-icon svgIcon="arrow-right"></mat-icon>
+                            </a>
+                        </div>
+
+                        <div class="when space-evenly">
+                            <div class="period">
+                                <mat-icon svgIcon="morning"></mat-icon>
+                                <p>Morning</p>
+                            </div>
+
+                            <div class="period">
+                                <mat-icon svgIcon="afternoon"></mat-icon>
+                                <p>Afternoon</p>
+                            </div>
+
+                            <div class="period">
+                                <mat-icon svgIcon="evening"></mat-icon>
+                                <p>Evening</p>
+                            </div>
+                        </div>
+
+                        <learnt-booking-calendar
+                            [availability]="availability"
+                            [full]="fullHours"
+                            [date]="date"
+                            [userLessons]="userLessons"
+                            (change)="onBookingSlotsSelect($event)"
+                        ></learnt-booking-calendar>
+
+                        <div class="text">
+                            <a (click)="changeTimezone()" class="timezone">
+                                <ng-container>{{me.timezone}}</ng-container>
+                            </a>
+                            
+                            <ng-template #empty><span></span></ng-template>
+
+                            <a *ngIf="!fullHours; else lessHours" (click)="setTypeofHours(true)" class="switch-type">Show all hours?</a>
+                            <ng-template #lessHours>
+                                <a (click)="setTypeofHours(false)" class="switch-type">Show less hours?</a>
+                            </ng-template>
+                        </div>
+
+                        <div class="timeText">
+                            <p *ngIf="calendarSelection; else empty">
+                                Time Select:
+                                <span>{{calendarSelection.from.format('h:mm a')}} - {{calendarSelection.to.format('h:mm a')}}</span>
+                            </p>
+                        </div>
+
+                        <div class="recurrent">
+                            <div style="float:left">
+                                <learnt-checkbox formControlName="recurrent" *ngIf="isAvailableRecurrent" (change)="isRecurring($event)">
+                                    Meet on this day and time each week?
+                                </learnt-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button mat-raised-button color="primary" type="submit" [disabled]="bookNowDisabled">
+                            <ng-container *ngIf="editing; else bookBtn">Update Class</ng-container>
+                            <ng-template #bookBtn>Book Now</ng-template>
+                            <learnt-spinner *ngIf="loading"></learnt-spinner>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+    </div>
+
+    <div class="content success" *ngIf="success && tutor !== null">
+        <div class="book-header">
+            <div class="step-title" *ngIf="!booked">Step 3/3</div>
+            <a (click)="hidePopover()" class="closeBtn">
+                <img src="/assets/book_close.svg" alt="close">
+            </a>
+        </div>
+        <p class="title" *ngIf="booked">You're all set!</p>
+        <p class="title" *ngIf="!booked">Review the {{ editing ? 'changes' : 'lesson'}}</p>
+
+        <p class="subtitle">
+            <!-- Your meeting with {{tutor.profile.first_name}} is scheduled for {{date.format('dddd, MMMM Do, YYYY')}} at
+            {{calendarSelection && calendarSelection.from.format('H:mm a')}}, -->
+            Your meeting with {{tutor.profile.first_name}} is scheduled
+            <span *ngIf="occurrence > 1; else one_occurrence">
+                every {{date.format('dddd')}} starting {{date.format('MMMM Do, YYYY')}} at {{calendarSelection && calendarSelection.from.format('h:mm a')}} for {{occurrence}} weeks,
+            </span>
+            <ng-template #one_occurrence>
+                for {{date.format('dddd, MMMM Do, YYYY')}} at {{calendarSelection && calendarSelection.from.format('h:mm a')}},
+            </ng-template>
+
+            <ng-container [ngSwitch]="meetVal">
+                <span *ngSwitchCase="locationOnline">online.</span>
+                <span *ngSwitchCase="locationOffline">in person, at {{latestLocationAddress}}</span>
+            </ng-container>
+
+            <span *ngIf="booked">
+                <ng-container *ngIf="editing">
+                    The lesson change proposal was successfully sent.
+                </ng-container>
+                <ng-template #bookedMsg>
+                    The lesson has been added to your <a routerLink="/main/account/calendar/">calendar</a>.
+                </ng-template>
+
+                You can <a (click)="messageTutor()">message {{tutor.profile.first_name}}</a> anytime to discuss topics you would like to review, etc.
+            </span>
+
+            Details of the session can be found below.
+        </p>
+
+        <h3>{{duration * occurrence}} {{(duration * occurrence) === 1 ? 'hour' : 'hours'}} of {{subjectName}} tutoring with {{tutor.profile.first_name}}</h3>
+
+        <div class="summary">
+            <div class="row">
+                <p>{{calendarSelection && calendarSelection.from.format('h:mm a')}} - {{calendarSelection && calendarSelection.to.format('h:mm a')}}</p>
+                <p>{{(tutor.tutoring.rate * duration * occurrence) | currency:'USD':'symbol'}}</p>
+            </div>
+
+            <div class="row">
+                <p>Learnt Fee</p>
+                <p>{{(3.50 * occurrence) | currency:'USD':'symbol'}}</p>
+            </div>
+
+            <div class="row">
+                <p>Taxes</p>
+                <p>{{(4.41 * occurrence) | currency:'USD':'symbol'}}</p>
+            </div>
+
+            <div class="row total">
+                <p>Total: {{((tutor.tutoring.rate * duration) + 3.50 + 4.41) * occurrence | currency:'USD':'symbol'}}</p>
+            </div>
+        </div>
+
+        <p class="subtitle" *ngIf="ccNum">Your card on file ending in {{ccNum}} will be charged 24 hours after the session ends.</p>
+
+        <p class="subtitle" *ngIf="bookingForm.get('recurrent').value === false && booked">
+            Want this same lesson every {{date.format('dddd')}}?
+            <a routerLink="/main/account/calendar/details/{{lesson._id}}" (click)="close()">Click&nbsp;here</a>.
+        </p>
+
+        <div class="buttons">
+            <div *ngIf="!booked" class="finalButtons">
+                <button mat-button (click)="backToEdit()" class="editBtn">Edit lesson</button>
+
+                <ng-container *ngIf="editing; else finalBtn">
+                    <button mat-button class="warn" (click)="editBooking()" [disabled]="loading">
+                        Send changes
+                        <learnt-spinner *ngIf="loading"></learnt-spinner>
+                    </button>
+                </ng-container>
+                <ng-template #finalBtn>
+                    <button mat-button class="warn" (click)="addBooking()" [disabled]="loading" [ngSwitch]="confirmed">
+                        <span *ngSwitchCase="true">Confirmed</span>
+                        <span *ngSwitchDefault>Confirm Lesson</span>
+                        <learnt-spinner *ngIf="loading && !confirmed"></learnt-spinner>
+                    </button>
+                </ng-template>
+            </div>
+
+            <button *ngIf="booked" mat-button color="primary" (click)="addAnotherLesson()">Add another lesson</button>
+        </div>
+        <div class="buttons calendar-links">
+            <ng-container *ngIf="booked && needToAcceptChanges && calendarLinks">
+                <a *ngIf="calendarLinks.googleLink" [href]="calendarLinks.googleLink" target="_blank">
+                    <mat-icon class="share-icon" style="margin-top: -16px;" svgIcon="google-g" color="learnt-yellow"></mat-icon>
+                    <span>Add to Google Cal</span>
+                </a>
+                <a *ngIf="calendarLinks.icalLink" [href]="calendarLinks.icalLink" target="_blank">
+                    <mat-icon class="share-icon" style="margin-top: -16px;" svgIcon="apple" color="learnt-yellow"></mat-icon>
+                    <span>Add to iCal</span>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+
+</ng-template>
+<!-- Popover inner content -->

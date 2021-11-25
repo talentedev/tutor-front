@@ -1,0 +1,87 @@
+<!-- <div class="arrow"></div> -->
+<div class="message" *ngIf="message.body !== null">
+    <ng-container [ngSwitch]="message.type">
+        <div class="body text" *ngSwitchCase="'text'" [innerHTML]="message.bodyFormatted(emojiService)|async"></div>
+        <div class="body notification" *ngSwitchCase="'notification'">
+            <ng-container *ngTemplateOutlet="notificationMessage;context:{message: message}"></ng-container>
+        </div>
+        <div class="body file" *ngSwitchCase="'file'">
+            <ng-container *ngTemplateOutlet="fileMessage;context:{message: message}"></ng-container>
+        </div>
+    </ng-container>
+</div>
+<div class="time">{{message.formattedTime}}</div>
+<!-- <div *ngIf=" message.body !== null">
+    <learnt-user-avatar class="user-avatar" *ngIf="message.sender._id !== ''; else noSender" [user]="message.sender"></learnt-user-avatar>
+    <ng-template #noSender>
+        <div class="user-avatar room-conversation-icon">
+            <mat-icon svgIcon="virtual-room" color="learnt-red"></mat-icon>
+        </div>
+    </ng-template>
+</div> -->
+
+<ng-template #notificationMessage let-message="message">
+    <ng-container [ngSwitch]="message.data.type">
+        <!-- Lesson reschedule notification -->
+        <ng-container *ngSwitchCase="1">
+            <!-- We need the message thread to get the other user-->
+            <ng-container *ngIf="thread">
+                <ng-container *ngIf="isMe; else notMe">
+                    <h3>Now you just have to wait</h3>
+                    <p>{{other.first_name}} now has to approve the changes to the class.</p>
+                </ng-container>
+
+                <ng-template #notMe>
+                    <div class="clickable" (click)="openRescheduler()" [class.loading]="loading">
+                        <h3>{{message.sender.first_name}} proposed some changes to a lesson</h3>
+                        <p>Click here to approve or decline the changes</p>
+                        <learnt-spinner *ngIf="loading"></learnt-spinner>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-template #fileMessage let-message="message">
+    <ng-container [ngSwitch]="message.body.mimeCategory">
+        <ng-container *ngSwitchCase="'image'">
+            <div>
+                <img [attr.src]="getFileUrl(message.body.url)" *ngIf="!isExpired">
+            </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'video'">
+            <div>
+                <video width="320" height="240" controls>
+                    <source [attr.src]="getFileUrl(message.body.url)" [attr.type]="message.body.mime">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </ng-container>
+
+        <div>
+            <a *ngIf="!isExpired" [href]="getFileUrl(message.body.url)" target="_blank">{{message.body.name}}</a>
+            <span class="file__name" *ngIf="isExpired">{{ message.body.name }}</span>
+        </div>
+        <div>
+            <em>({{message.body.humanSize}})</em>&nbsp;
+            <ng-container *ngIf="isExpired; else notExpired">
+                expired {{ expiry }}
+            </ng-container>
+            <ng-template #notExpired>
+                expires {{ expiry }}
+            </ng-template>
+            <button *ngIf="!isExpired && !isMe && !message.body.added_to_library" class="save-btn" mat-icon-button
+                    [matTooltip]="'Save file to library'"
+                    (click)="saveToLibrary()"
+            >
+                <learnt-spinner *ngIf="savingFile; else: icon"></learnt-spinner>
+                <ng-template #icon>
+                    <mat-icon>save</mat-icon>
+                </ng-template>
+            </button>
+        </div>
+
+    </ng-container>
+</ng-template>

@@ -1,0 +1,56 @@
+<div class="close">
+    <p (click)="close()">
+        Close
+
+        <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              
+            <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Buttons-/-Close" transform="translate(-46.000000, -6.000000)" fill="#F37073" stroke="#F37073" stroke-width="0.2">
+                    <path
+                        d="M51.8338441,10.9995852 L54.8274615,8.00670522 C55.0575128,7.7759165 55.0575128,7.40282034 54.8274615,7.17203161 C54.5966727,6.94271757 54.2235766,6.94271757 53.9935252,7.17203161 L50.9999078,10.165649 L48.0070278,7.17203161 C47.7762391,6.94271757 47.4031429,6.94271757 47.1730915,7.17203161 C46.9423028,7.40282034 46.9423028,7.7759165 47.1730915,8.00670522 L50.1659716,10.9995852 L47.1730915,13.9924653 C46.9423028,14.223254 46.9423028,14.5963501 47.1730915,14.8271389 C47.2881172,14.9421646 47.4385355,14.9996774 47.589691,14.9996774 C47.7408466,14.9996774 47.8912648,14.9421646 48.0070278,14.8271389 L50.9999078,11.8335215 L53.9935252,14.8271389 C54.1085509,14.9421646 54.2589691,14.9996774 54.4101247,14.9996774 C54.5612802,14.9996774 54.7116984,14.9421646 54.8274615,14.8271389 C55.0575128,14.5963501 55.0575128,14.223254 54.8274615,13.9924653 L51.8338441,10.9995852 Z"
+                        id="Fill-1"></path>
+                </g>
+            </g>
+        </svg>
+    </p>
+</div>
+
+<div class="body" *ngIf="lesson; else loadingTpl">
+    <ng-container *ngIf="!understood; else cancel">
+        <h3>Warning!</h3>
+        <p>
+            This lesson is set to begin within 24 hours.
+            Learnt investigates all cancellations that are made without 24 hours advanced notice. We understand
+            last-minute cancellations are sometimes inevitable, but repeated cancellations could result in account suspension.
+        </p>
+    </ng-container>
+
+    <ng-template #cancel>
+        <h3>Cancel Lesson</h3>
+        <p>
+            Please tell us why you need to cancel the lesson:
+        </p>
+        <div #reason contenteditable="true" placeholder="your message here..." class="reason" (click)="pristine = false" (blur)="pristine = false">
+            <ng-container *ngIf="pristine"></ng-container>
+        </div>
+    </ng-template>
+</div>
+
+<ng-template #loadingTpl>
+    <learnt-spinner></learnt-spinner>
+</ng-template>
+
+<div class="buttons">
+    <ng-container *ngIf="!understood; else cancelButtons">
+        <button mat-raised-button color="primary" (click)="understood = true">I understand</button>
+        <button mat-raised-button (click)="close()">Cancel</button>
+    </ng-container>
+
+    <ng-template #cancelButtons>
+        <button mat-raised-button color="primary" [disabled]="pristine || reason.nativeElement.innerText === '' || loading " (click)="cancel()">
+            Send
+            <learnt-spinner *ngIf="loading"></learnt-spinner>
+        </button>
+        <button mat-raised-button (click)="close()">Cancel</button>
+    </ng-template>
+</div>

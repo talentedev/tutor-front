@@ -1,0 +1,31 @@
+@import "src/variables";
+:host {
+    
+    display: block;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+
+    .back-btn {
+        max-width: 5rem;
+        margin-bottom: 1rem;
+    }
+    
+    mat-row {
+        &.loading {
+            opacity: 0.6;
+            cursor: progress;
+        }
+        &:hover {
+            background-color: lighten($red, 25%);
+        }
+    }
+    mat-footer-row {
+        &.hidden {
+            display: none;
+        }
+    }
+    mat-row:nth-child(odd) {
+        background-color: $lightest-accent;
+    }
+}

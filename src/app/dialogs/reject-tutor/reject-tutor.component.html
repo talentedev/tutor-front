@@ -1,0 +1,19 @@
+<div mat-dialog-title>
+    <h3>Reject Tutor</h3>
+</div>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Reason:</mat-label>
+        <mat-select placeholder="Choose reason" [formControl]="reason">
+            <mat-option *ngFor="let reason of reasons" [value]="reason">{{reason}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="reason.value === 'Other'">
+        <mat-label>Provide reason:</mat-label>
+        <input matInput type="text" placeholder="Enter reason:" [formControl]="otherReason">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" type="reset" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="confirm()" type="submit" [disabled]="reason.invalid">Confirm</button>
+</div>

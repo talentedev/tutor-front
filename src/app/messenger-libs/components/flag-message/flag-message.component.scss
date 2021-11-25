@@ -1,0 +1,47 @@
+:host {
+    height: 99.9%;
+    width: 99.9%;
+    margin: 0;
+    box-sizing: border-box;
+    display: block;
+    background: #fff;
+    flex-direction: column;
+    
+    h1 {
+        margin-bottom: 10px;
+    }
+    
+    p {
+        /* When you flag a mess: */
+        font-family: Helvetica;
+        font-size: 14px;
+        color: #444444;
+        line-height: 24px;
+    }
+    
+    .input-container {
+        margin: 20px -25px;
+        background:#F3F3F3;
+        height: 250px;
+        flex: 1;
+        textarea {
+            display: block;
+            resize: none;
+            color: #444444;
+            font-size: 14px;
+            background: transparent;
+            border: none;
+            width: 100%;
+            padding: 25px;
+            box-sizing: border-box;
+            height: 100%;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .buttons {
+        padding: 10px;
+    }
+}
